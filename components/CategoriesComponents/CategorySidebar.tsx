@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -28,13 +28,13 @@ type ExpandedCategories = {
   [key: string]: boolean;
 };
 
-const CategorySidebar = () => {
-  const [expandedCategories, setExpandedCategories] =
-    useState<ExpandedCategories>({});
+const CategorySidebar = memo(() => {
+  const [expandedCategories, setExpandedCategories] = useState<ExpandedCategories>({});
   const [categories, setCategories] = useState<Category[]>([]);
   const pathname = usePathname(); // Get the current pathname
+  const router = useRouter();
 
-  // Fetch categories and subcategories from the API
+  // Fetch categories and subcategories from the API (only once)
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -86,6 +86,18 @@ const CategorySidebar = () => {
     }));
   };
 
+  // Handle category link click
+  const handleCategoryClick = (e: React.MouseEvent, categoryId: number) => {
+    e.preventDefault();
+    router.push(`/category/${categoryId}`, { scroll: false }); // Prevent scroll to top
+  };
+
+  // Handle subcategory link click
+  const handleSubCategoryClick = (e: React.MouseEvent, categoryId: number, subCategoryId: number) => {
+    e.preventDefault();
+    router.push(`/category/${categoryId}/${subCategoryId}`, { scroll: false }); // Prevent scroll to top
+  };
+
   return (
     <div className="hidden w-[243px] pt-10 lg:flex flex-col gap-4 xlg:pt-0 xlg:w-[364.5px]">
       <p className="text-shadeBlack font-semibold text-[30px] xlg:text-[40px]">Products</p>
@@ -95,11 +107,12 @@ const CategorySidebar = () => {
             <div className="w-full py-2 flex items-center justify-between xlg:py-3">
               <Link
                 href={`/category/${category.categoryId}`} // Link to the category page
-                className={`text-categoryLink font-medium text-[15px] flex-1 xlg:text-[22px] ${
+                className={`text-categoryLink font-medium text-[15px] flex-1 xlg:text-[20px] ${
                   pathname === `/category/${category.categoryId}`
                     ? "text-shadeBlack font-bold xlg:text-[22px]"
                     : ""
                 }`}
+                onClick={(e) => handleCategoryClick(e, category.categoryId)}
               >
                 {category.categoryName}
               </Link>
@@ -130,12 +143,13 @@ const CategorySidebar = () => {
                   <Link
                     href={`/category/${category.categoryId}/${subCategory.subCategoryId}`} // Link to the subcategory page
                     key={subCategory.subCategoryId}
-                    className={`text-categoryLink text-[13px] hover:text-shadeBlack xlg:text-xl ${
+                    className={`text-categoryLink text-[13px] hover:text-shadeBlack xlg:text-lg ${
                       pathname ===
                       `/category/${category.categoryId}/${subCategory.subCategoryId}`
                         ? "text-shadeBlack font-bold xlg:text-[22px]"
                         : ""
                     }`}
+                    onClick={(e) => handleSubCategoryClick(e, category.categoryId, subCategory.subCategoryId)}
                   >
                     {subCategory.subCategoryName}
                   </Link>
@@ -147,6 +161,8 @@ const CategorySidebar = () => {
       </div>
     </div>
   );
-};
+});
+
+CategorySidebar.displayName = "CategorySidebar"; // Add display name for debugging
 
 export default CategorySidebar;

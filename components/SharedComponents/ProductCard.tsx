@@ -63,7 +63,7 @@ const ProductCard = ({
             alt={alt}
             width={213}
             height={205}
-            className="rounded-[3px] w-full h-[205px] xlg:h-[400px]"
+            className="rounded-[3px] w-full h-[205px] xlg:h-[319px]"
           />
         ) : (
           <div className="w-full h-[205px] bg-gray-200 animate-pulse rounded-[3px]"></div>
