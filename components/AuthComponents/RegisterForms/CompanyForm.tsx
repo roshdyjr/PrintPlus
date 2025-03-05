@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import SelectField from "@/components/SharedComponents/SelectField";
 import PhoneInput from "@/components/SharedComponents/IntlTelInputField";
 
-// تعريف إنترفيس الفورم واللي بيمتد من الحقول المشتركة (PhoneFields)
+// Interface defining the structure of the form data for company registration
 interface CompanyRegisterFormData {
   fullName: string;
   email: string;
@@ -26,13 +26,16 @@ interface CompanyRegisterFormData {
   vatAddress: string;
 }
 
+// Interface defining the structure of city options
 interface City {
   value: number;
   text: string;
 }
 
+// Base URL for API requests
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+// Default values for the form fields
 const defaultValues: CompanyRegisterFormData = {
   fullName: "",
   email: "",
@@ -49,10 +52,12 @@ const defaultValues: CompanyRegisterFormData = {
 };
 
 const CompanyForm = () => {
+  // State for loading indicator and city options
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState<City[]>([]);
   const router = useRouter();
 
+  // React Hook Form methods for form management
   const {
     register,
     handleSubmit,
@@ -62,14 +67,16 @@ const CompanyForm = () => {
     setValue,
     formState: { errors, isValid },
   } = useForm<CompanyRegisterFormData>({ defaultValues, mode: "onChange" });
-  
 
+  // Watch the companyName field to sync it with the fullName field
   const companyName = watch("companyName");
 
+  // Effect to sync the fullName field with the companyName field
   useEffect(() => {
     setValue("fullName", companyName);
   }, [companyName, setValue]);
 
+  // Effect to fetch cities from the API on component mount
   useEffect(() => {
     const fetchCities = async () => {
       try {
@@ -88,14 +95,17 @@ const CompanyForm = () => {
     fetchCities();
   }, [setValue, reset]);
 
+  // Form submission handler
   const onSubmit = async (data: CompanyRegisterFormData) => {
     try {
       setLoading(true);
+      // Remove confirmPassword from the data before sending the request
       const { confirmPassword, ...requestData } = {
         ...data,
         accountType: 2,
       };
 
+      // Send registration request to the API
       await axios.post(`${API_BASE_URL}/auth/register`, requestData);
       toast.success("Registration successful! Please check your email.");
       reset();
@@ -115,7 +125,9 @@ const CompanyForm = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex flex-col md:flex-row items-start gap-6 md:gap-[50px] lg:gap-[132px] w-full">
+        {/* Left Column */}
         <div className="flex flex-col gap-6 w-full">
+          {/* Company Name Input */}
           <InputField
             id="companyName"
             label="Full name*"
@@ -138,6 +150,8 @@ const CompanyForm = () => {
             })}
             error={errors.companyName?.message}
           />
+
+          {/* Email Input */}
           <InputField
             id="email"
             label="Email*"
@@ -151,6 +165,7 @@ const CompanyForm = () => {
             error={errors.email?.message}
           />
 
+          {/* Phone Number Input */}
           <PhoneInput<CompanyRegisterFormData>
             control={control}
             setValue={setValue}
@@ -158,6 +173,7 @@ const CompanyForm = () => {
             label="Mobile Number*"
           />
 
+          {/* Password Input */}
           <InputField
             id="password"
             label="Password*"
@@ -201,6 +217,7 @@ const CompanyForm = () => {
             error={errors.password?.message}
           />
 
+          {/* Confirm Password Input */}
           <InputField
             id="confirmPassword"
             label="Confirm Password*"
@@ -251,6 +268,7 @@ const CompanyForm = () => {
         </div>
       </div>
 
+      {/* Hidden fields for mobile code and ISO */}
       <input
         type="hidden"
         {...register("mobileCode", { required: "Country code is required" })}
