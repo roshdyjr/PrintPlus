@@ -82,13 +82,13 @@ const orders: Order[] = [
 
 const Page = () => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 xlg:gap-4">
       {/* Orders Header */}
-      <p className="text-2xl text-shadeBlack font-bold">Orders</p>
+      <p className="text-2xl text-shadeBlack font-semibold xlg:text-[32px]">Orders</p>
       {/* Conditional Rendering */}
       {orders.length === 0 ? (
         <div className="flex justify-center items-center">
-          <p className="text-shadeBlack">No previous order history</p>
+          <p className="text-shadeBlack xlg:text-[24px] xlg:mt-9">No previous order history</p>
         </div>
       ) : (
         <div className="flex flex-col gap-4">

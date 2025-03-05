@@ -32,8 +32,8 @@ const InputField: React.FC<InputFieldProps> = ({
   const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
-    <div className="flex flex-col justify-start items-start w-full gap-1">
-      <label htmlFor={id} className="font-bold text-shadeGray text-sm">
+    <div className="flex flex-col justify-start items-start w-full gap-1 xlg:gap-[6px]">
+      <label htmlFor={id} className="font-bold text-shadeGray text-sm xlg:text-[20px]">
         {label}
       </label>
       <div className="relative w-full">
@@ -70,7 +70,7 @@ const InputField: React.FC<InputFieldProps> = ({
               value={value}
               {...register}
               {...rest}
-              className="border border-borderColor h-[48px] md:h-[36px] rounded-lg focus:outline-none placeholder:text-[#525252] w-full py-2 ps-2"
+              className="border border-borderColor h-[48px] md:h-[36px] rounded-lg focus:outline-none placeholder:text-[#525252] w-full py-2 ps-2 xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px]"
             />
             {type === "password" && (
               <button

@@ -1,18 +1,17 @@
 "use client";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CustomButton from "@/components/SharedComponents/CustomButton";
 import InputField from "@/components/SharedComponents/InputField";
+import PhoneInput from "@/components/SharedComponents/IntlTelInputField";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails"; ; 
 
-interface IndividualRegisterFormData {
+interface IndividualRegisterFormData extends PhoneFields {
   fullName: string;
   email: string;
-  mobileNo: string;
-  mobileCode: string;
-  mobileIso: string;
   cityId: number;
   password: string;
   accountType: number;
@@ -21,7 +20,7 @@ interface IndividualRegisterFormData {
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const defaultValues = {
+const defaultValues: IndividualRegisterFormData = {
   fullName: "",
   email: "",
   mobileNo: "",
@@ -32,91 +31,29 @@ const defaultValues = {
   accountType: 1,
 };
 
-const commonPasswords = ["password", "123456", "12345678", "qwerty", "abc123"];
-
-const isCommonPassword = (password: string) => {
-  return commonPasswords.includes(password.toLowerCase());
-};
-
 const IndividualForm = () => {
   const {
     register,
     handleSubmit,
+    control,
+    setValue,
     watch,
     formState: { errors, isValid },
     reset,
   } = useForm<IndividualRegisterFormData>({ defaultValues, mode: "onChange" });
 
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const [mobileNo, setMobileNo] = useState(defaultValues.mobileNo);
-  const [mobileCode, setMobileCode] = useState(defaultValues.mobileCode);
-  const [mobileIso, setMobileIso] = useState(defaultValues.mobileIso);
-
-  const handlePhoneChange = (phone: string, country: any) => {
-    setMobileNo(phone);
-    setMobileCode(`+${country.dialCode}`);
-    setMobileIso(country.countryCode.toUpperCase());
-  };
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: IndividualRegisterFormData) => {
-    // Validate mobile code
-    if (!mobileCode) {
-      toast.error("Country code is required");
-      return;
-    }
-    if (!/^\+\d+$/.test(mobileCode)) {
-      toast.error("Invalid country code");
-      return;
-    }
-
-    // Validate mobile number
-    if (!mobileNo) {
-      toast.error("Mobile number is required");
-      return;
-    }
-    if (!/^\d{6,15}$/.test(mobileNo)) {
-      toast.error("Invalid mobile number format");
-      return;
-    }
-
-    // Validate mobile ISO code
-    if (!mobileIso) {
-      toast.error("Country ISO code is required");
-      return;
-    }
-    if (!/^[A-Za-z]{2}$/.test(mobileIso)) {
-      toast.error("Country ISO code must be exactly 2 letters");
-      return;
-    }
-
-    // Validate city and account type
-    if (!data.cityId) {
-      toast.error("City is required");
-      return;
-    }
-    if (data.accountType !== 1) {
-      toast.error("Account type must be individual");
-      return;
-    }
-
     try {
       setLoading(true);
-      const { confirmPassword, ...requestData } = {
-        ...data,
-        mobileNo,
-        mobileCode,
-        mobileIso,
-      };
-
-      // Submit registration data to the API
+      const { confirmPassword, ...requestData } = data;
       const response = await axios.post(`${API_BASE_URL}/auth/register`, requestData);
       toast.success("Registration successful! Please check your email.");
       reset();
       router.push("login");
     } catch (error: any) {
-      // Handle API errors
       if (error.response) {
         toast.error(error.response.data?.message || "An error occurred, please try again.");
       } else if (error.request) {
@@ -169,13 +106,20 @@ const IndividualForm = () => {
           error={errors.email?.message}
         />
 
-        {/* Mobile Number Input */}
-        <InputField
-          id="mobileNo"
-          isPhoneInput={true}
+        <PhoneInput<IndividualRegisterFormData>
+          control={control}
+          setValue={setValue}
+          name="mobileNo"
           label="Mobile Number*"
-          value={mobileNo}
-          onPhoneChange={handlePhoneChange}
+        />
+
+        <input type="hidden" {...register("mobileCode", { required: "Country code is required" })} />
+        <input
+          type="hidden"
+          {...register("mobileIso", {
+            required: "Country ISO code is required",
+            validate: (value) => value.length === 2 || "ISO code must be exactly 2 letters",
+          })}
         />
 
         {/* Password Input */}
@@ -199,7 +143,8 @@ const IndividualForm = () => {
               noWhitespace: (value) =>
                 !/\s/.test(value) || "Password must not contain spaces",
               notCommon: (value) =>
-                !isCommonPassword(value) || "Password is too common and easy to guess",
+                !["password", "123456", "12345678", "qwerty", "abc123"].includes(value.toLowerCase()) ||
+                "Password is too common and easy to guess",
             },
           })}
           error={errors.password?.message}
@@ -218,7 +163,6 @@ const IndividualForm = () => {
         />
       </div>
 
-      {/* Submit Button */}
       <CustomButton
         label={loading ? "Signing up..." : "Sign up"}
         type="submit"

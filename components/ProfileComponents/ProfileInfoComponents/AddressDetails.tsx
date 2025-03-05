@@ -53,11 +53,11 @@ const AddressDetails = () => {
   return (
     <div className="flex justify-between items-start">
       <div className="flex flex-col gap-4">
-        <p className="text-lg font-semibold">Address</p>
+        <p className="text-lg font-semibold xlg:text-[24px]">Address</p>
         {isLoading ? (
           <p>Loading...</p>
         ) : firstAddress ? (
-          <p>
+          <p className="xlg:text-[20px]">
             {firstAddress?.addressLine1}, {firstAddress?.addressLine2}
           </p>
         ) : (
@@ -66,7 +66,7 @@ const AddressDetails = () => {
       </div>
       <Link
         href={"/profile/info/address"}
-        className="text-sm text-[#475569] font-semibold"
+        className="text-sm text-[#475569] font-semibold xlg:text-[20px]"
       >
         Edit
       </Link>
