@@ -126,7 +126,8 @@ const UpdateAddressForm = () => {
     isValid && mobileNo && mobileCode && mobileIso && watch("cityId");
 
   return (
-    <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-6 xlg:gap-9" onSubmit={handleSubmit(onSubmit)}>
+      <p className="text-lg font-semibold xlg:text-[24px]">Address</p>
       {/* Full Name Field */}
       <InputField
         id="fullName"
@@ -179,7 +180,7 @@ const UpdateAddressForm = () => {
       {/* Save Button */}
       <CustomButton
         label="Save"
-        className="!h-[32px] !w-[113px]"
+        className="md:!h-[32px] md:!w-[113px] xlg:!w-[169.5px] xlg:!h-[48px]"
         type="submit"
         disabled={!isFormValid}
       />

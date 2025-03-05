@@ -103,7 +103,7 @@ const UpdateEmailForm = () => {
       {/* Save Button */}
       <CustomButton
         label="Save"
-        className="md:!h-[32px] md:!w-[113px]"
+        className="md:!h-[32px] md:!w-[113px] xlg:!w-[169.5px] xlg:!h-[48px]"
         type="submit"
         disabled={!isValid}
       />

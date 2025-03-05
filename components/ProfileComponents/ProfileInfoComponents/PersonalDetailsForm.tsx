@@ -97,8 +97,8 @@ const PersonalDetailsForm = () => {
   };
 
   return (
-    <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-      <p className="text-lg font-semibold">Personal Details</p>
+    <form className="flex flex-col gap-6 xlg:gap-9" onSubmit={handleSubmit(onSubmit)}>
+      <p className="text-lg font-semibold xlg:font-bold xlg:text-[24px]">Personal Details</p>
 
       {/* Full Name Input Field */}
       <InputField
@@ -145,7 +145,7 @@ const PersonalDetailsForm = () => {
 
       <CustomButton
         label={isSubmitting ? "Saving..." : "Save"}
-        className="md:!h-[32px] md:!w-[113px]"
+        className="md:!h-[32px] md:!w-[113px] xlg:!w-[169.5px] xlg:!h-[48px]"
         type="submit"
         disabled={!isValid || isSubmitting}
       />

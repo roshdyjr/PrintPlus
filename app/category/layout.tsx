@@ -83,7 +83,7 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex flex-col gap-10 mb-4 md:mb-0 md:gap-6 xlg:gap-9 max-w-[1920px] xlg:mx-auto">
+    <div className="flex flex-col gap-4 mb-4 md:mb-0 md:gap-6 xlg:gap-9 max-w-[1920px] xlg:mx-auto">
       {/* Breadcrumbs */}
       <div className="flex items-center justify-between w-full mt-4 lg:mt-0">
         <div className="px-4 flex items-center gap-2 lg:px-12 lg:pt-6">
@@ -117,6 +117,9 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
             </>
           )}
         </div>
+        <button className="size-[48px] flex items-center justify-center lg:hidden">
+          <Image src={"/categories/categorySidebar.svg"} alt="sidebar" width={24} height={24}/>
+        </button>
       </div>
 
       {/* Marketing Banner */}
@@ -151,7 +154,7 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
       </div>
 
       {/* Sidebar and Main Content */}
-      <div className="flex relative px-4 lg:gap-6 lg:mb-16 lg:px-[48.5px] w-full xlg:mt-6 xlg:gap-12 xlg:px-[72.75px]">
+      <div className="flex relative px-4 mt-[36px] md:mt-0 lg:gap-6 lg:mb-16 lg:px-[48.5px] w-full xlg:mt-6 xlg:gap-12 xlg:px-[72.75px]">
         {/* Sidebar */}
         <div className="sticky top-0 self-start">
           <CategorySidebar />

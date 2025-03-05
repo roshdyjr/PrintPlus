@@ -4,7 +4,6 @@ import IndividualForm from "@/components/AuthComponents/RegisterForms/Individual
 import Link from "next/link";
 import React, { useState } from "react";
 
-
 const RegisterPage = () => {
   // State to manage the active tab
   const [activeTab, setActiveTab] = useState("individual"); // Default to "individual"
@@ -69,7 +68,15 @@ const RegisterPage = () => {
           </div>
           <div>
             <p className="text-sm text-shadeGray">
-          By signing up, you agree to our <Link href={"/"} className="underline">Privacy Policy</Link> and <Link href={"/"} className="underline">Terms of Service</Link>.
+              By signing up, you agree to our{" "}
+              <Link href={"/"} className="underline">
+                Privacy Policy
+              </Link>{" "}
+              and{" "}
+              <Link href={"/"} className="underline">
+                Terms of Service
+              </Link>
+              .
             </p>
           </div>
         </div>

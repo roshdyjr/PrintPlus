@@ -91,21 +91,23 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="flex flex-col gap-12 text-shadeBlack me-0 xl:me-[148px]">
+    <div className="flex flex-col gap-12 text-shadeBlack me-0 xl:me-[148px] xlg:me-[222px] xlg:gap-[72px]">
       {/* Breadcrumb Navigation */}
       <div className="flex md:justify-between">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 xlg:gap-9">
           <div className="flex items-center gap-2">
-            <p className="text-sm">Orders</p>
-            <FaChevronRight className="size-[10px]" />
-            <p className="text-[#475569] text-sm">Order #{params.id}</p>
+            <p className="text-sm xlg:text-[20px]">Orders</p>
+            <FaChevronRight className="size-[10px] xlg:size-[16px]" />
+            <p className="text-[#475569] text-sm xlg:text-[20px]">
+              Order #{params.id}
+            </p>
           </div>
           {/* Display the actual delivery date or cancellation message */}
-          <div className="text-xl font-bold">
+          <div className="text-xl font-semibold xlg:text-[32px]">
             {order.status === "Cancelled" ? (
-              <div className="flex flex-col gap-3 max-w-[383px]">
-                <p className="font-bold text-3xl">Cancellation requested</p>
-                <p className="text-black">
+              <div className="flex flex-col gap-3 max-w-[383px] xlg:max-w-[575px]">
+                <p className="font-semibold text-3xl xlg:text-[32px]">Cancellation requested</p>
+                <p className="text-black font-normal text-base xlg:text-[20px] xlg:leading-[36px]">
                   We’ll do our best to cancel your order! You’ll get an email in
                   about 1-2 hours letting you know if the cancellation was
                   successful.
@@ -120,16 +122,24 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
         </div>
         {/* Cancel Order Button (only show if status is not "Delivered" or "Cancelled") */}
         {order.status !== "Delivered" && order.status !== "Cancelled" && (
-          <button className="hidden md:flex items-center gap-2 self-end">
-            <Image src={"/cancelRed.svg"} alt="cancel" width={20} height={20} />
-            <p className="font-bold text-[#BE123C] text-sm">Cancel order</p>
+          <button className="hidden md:flex items-center gap-2 self-end xlg:gap-3">
+            <Image
+              src={"/cancelRed.svg"}
+              alt="cancel"
+              width={20}
+              height={20}
+              className="xlg:w-[30px] xlg:h-[30px]"
+            />
+            <p className="font-semibold text-[#BE123C] text-sm xlg:text-[20px]">
+              Cancel order
+            </p>
           </button>
         )}
       </div>
 
       {/* Order Details */}
-      <div className="flex flex-col md:flex-row items-start gap-4">
-        <div className="flex flex-col gap-14">
+      <div className="flex flex-col md:flex-row items-start gap-4 xlg:gap-6">
+        <div className="flex flex-col gap-14 xlg:gap-[84px]">
           <div className="flex flex-col gap-6">
             {/* Replace OrderTimeline with OrderStatusTimeline */}
             <OrderStatusTimeline
@@ -137,13 +147,13 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
               deliveryDate={order.deliveryDate}
             />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 xlg:gap-6">
             <hr />
             {/* Shipping Address */}
-            <div className="flex flex-col gap-2">
-              <p className="font-bold">Shipping address</p>
-              <div className="flex flex-col gap-4">
-                <p>
+            <div className="flex flex-col gap-2 xlg:gap-3">
+              <p className="font-semibold xlg:text-[24px]">Shipping address</p>
+              <div className="flex flex-col gap-4 xlg:gap-6">
+                <p className="xlg:text-[20px] xlg:max-w-[576px]">
                   Aisha Al-Fahad, 78 Al-Masjid Road, Jeddah, 21442, Kingdom of
                   Saudi Arabia
                 </p>
@@ -151,22 +161,22 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
             {/* Payment Method */}
-            <div className="flex flex-col gap-2">
-              <p className="font-bold">Payment method</p>
-              <p>Mastercard ending in 4242</p>
+            <div className="flex flex-col gap-2 xlg:gap-3">
+              <p className="font-semibold xlg:text-[24px]">Payment method</p>
+              <p className="xlg:text-[20px]">Mastercard ending in 4242</p>
             </div>
             <hr />
           </div>
         </div>
-        <div className="md:min-w-[384px] border border-cardBorder rounded-lg px-6 py-[22px] flex flex-col gap-[10px]">
-          {/* Products List */}
-          <div className="flex flex-col gap-4">
+        {/* Products List */}
+        <div className="md:min-w-[384px] border border-cardBorder rounded-lg px-6 py-[22px] flex flex-col gap-[10px] xlg:gap-[15px] xlg:border-[1.5px] xlg:rounded-[12px] xlg:py-[33px] xlg:px-9 xlg:w-[576px]">
+          <div className="flex flex-col gap-4 xlg:gap-6">
             <div className="flex flex-col gap-6">
               {/* Product list header */}
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                  <p className="text-lg font-bold">Order #{params.id}</p>
-                  <p className="text-sm">Ordered {order.deliveryDate}</p>
+              <div className="flex flex-col gap-4 xlg:gap-6">
+                <div className="flex flex-col gap-2 xlg:gap-[6px]">
+                  <p className="text-lg font-semibold xlg:text-[24px] xlg:h-[42px]">Order #{params.id}</p>
+                  <p className="text-sm xlg:text-[20px]">Ordered {order.deliveryDate}</p>
                   {/* Cancel Order Button (only show if status is not "Delivered" or "Cancelled") */}
                   {order.status !== "Delivered" &&
                     order.status !== "Cancelled" && (
@@ -177,7 +187,7 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
                           width={20}
                           height={20}
                         />
-                        <p className="font-bold text-[#BE123C] text-sm">
+                        <p className="font-semibold text-[#BE123C] text-sm">
                           Cancel order
                         </p>
                       </button>
@@ -189,55 +199,50 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
               {order.products.map((product, index) => (
                 <React.Fragment key={index}>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-start gap-[10px]">
+                    <div className="flex items-start gap-[10px] xlg:gap-[15px]">
                       {/* Product Image */}
                       <Image
                         src={product.productImage}
                         alt="productImg"
                         width={70}
                         height={90}
-                        className={`self-center ${
+                        className={`self-center rounded-[6px] ${
                           product.status === "returned" ? "opacity-50" : ""
-                        }`}
+                        } xlg:w-[105px] xlg:h-[135px]`}
                       />
                       {/* Product Details */}
-                      <div className="flex flex-col gap-[2.67px]">
-                        <p className="text-nowrap">Gold business cards</p>
-                        <p className="text-[#475569] text-sm">
+                      <div className="flex flex-col gap-[2.67px] xlg:gap-1">
+                        <p className="text-nowrap xlg:text-[24px]">Gold business cards</p>
+                        <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
                           Qty: {product.quantity}
                         </p>
-                        <p className="text-[#475569] text-sm">
+                        <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
                           Size: {product.size}
                         </p>
-                        <p className="text-[#475569] text-sm">
+                        <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
                           Edges: {product.edges}
                         </p>
-                        <p className="text-[#475569] text-sm">
+                        <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
                           Foil Color: {product.color}
                         </p>
-                        {product.status === "returned" && (
-                          <div className="w-[66px] h-[24px] px-[6px] font-bold bg-[#F1F5F9] text-xs flex justify-center items-center">
-                            Returned
-                          </div>
-                        )}
                       </div>
                     </div>
-                    <p className="font-bold self-center">{product.price} SAR</p>
+                    <p className="font-semibold self-center xlg:text-[24px]">{product.price} SAR</p>
                   </div>
                   {/* Add <hr /> after each product except the last one */}
                   {index !== order.products.length - 1 && <hr />}
                 </React.Fragment>
               ))}
               {/* Bill details */}
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 xlg:gap-6">
                 <hr />
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-2 text-sm">
+                  <div className="flex flex-col gap-2 text-sm xlg:gap-3 xlg:text-[20px]">
                     <p>Subtotal</p>
                     <p>VAT</p>
                     <p>Delivery</p>
                   </div>
-                  <div className="flex flex-col gap-2 text-sm">
+                  <div className="flex flex-col gap-2 text-sm xlg:gap-3 xlg:text-[20px]">
                     <p>40 SAR</p>
                     <p>6 SAR</p>
                     <p>12 SAR</p>
@@ -247,8 +252,8 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
               </div>
               {/* Total Payment */}
               <div className="flex justify-between items-center">
-                <p>Total</p>
-                <p className="font-bold text-2xl">56.34 SAR</p>
+                <p className="xlg:text-[24px]">Total</p>
+                <p className="font-semibold text-2xl xlg:text-[32px]">56.34 SAR</p>
               </div>
             </div>
           </div>

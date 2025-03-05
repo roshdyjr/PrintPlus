@@ -18,15 +18,15 @@ const SelectField: React.FC<SelectFieldProps> = ({
   error,
 }) => {
   return (
-    <div className="flex flex-col justify-start items-start w-full gap-1 relative">
-      <label htmlFor={id} className="font-bold text-shadeGray text-sm">
+    <div className="flex flex-col justify-start items-start w-full gap-1 relative xlg:gap-[6px]">
+      <label htmlFor={id} className="font-bold text-shadeGray text-sm xlg:text-[20px]">
         {label}
       </label>
       <div className="relative w-full">
         <select
           id={id}
           {...register}
-          className="border border-borderColor h-[48px] md:h-[36px] rounded-lg text-sm focus:outline-none w-full py-2 ps-2 appearance-none"
+          className="border border-borderColor h-[48px] md:h-[36px] rounded-lg text-sm focus:outline-none w-full py-2 ps-2 appearance-none xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px]"
         >
           {options.map((option) => (
             <option key={option.value} value={option.value} className="text-gray-900">

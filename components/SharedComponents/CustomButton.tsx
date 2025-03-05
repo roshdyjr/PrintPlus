@@ -24,7 +24,7 @@ const CustomButton: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled || isLoading}
-      className={`w-full md:min-w-[96px] h-[56px] md:h-[36px] md:w-fit flex items-center justify-center gap-2 rounded-[32px] md:rounded-[20px] p-4 md:px-3 md:py-[6px] font-bold text-white text-sm transition-all 
+      className={`w-full md:min-w-[96px] h-[56px] md:h-[36px] md:w-fit flex items-center justify-center gap-2 rounded-[32px] md:rounded-[20px] p-4 md:px-3 md:py-[6px] xlg:py-[9px] xlg:px-[18px] xlg:text-[20px] xlg:rounded-[30px] font-bold text-white text-sm transition-all 
           ${
             disabled || isLoading ? "bg-[#E0E0E0] text-[#C9C9C9]" : "bg-shadeBlack"
           } 

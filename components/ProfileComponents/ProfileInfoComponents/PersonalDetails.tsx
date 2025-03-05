@@ -47,12 +47,12 @@ const PersonalDetails = () => {
 
   return (
     <div className="flex justify-between items-start">
-      <div className="flex flex-col gap-4">
-        <p className="font-semibold text-lg">Personal details</p>
+      <div className="flex flex-col gap-4 xlg:gap-6">
+        <p className="font-semibold text-lg xlg:text-[24px]">Personal details</p>
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <div className="flex flex-col">
+          <div className="flex flex-col xlg:text-[20px] xlg:leading-[36px]">
             <p>{personalDetails?.fullName},</p>
             <p>{personalDetails?.email}</p>
             <p>
@@ -63,7 +63,7 @@ const PersonalDetails = () => {
       </div>
       <Link
         href={"/profile/info/personaldetails"}
-        className="text-sm text-[#475569] font-semibold"
+        className="text-sm text-[#475569] font-semibold xlg:text-[20px]"
       >
         Edit
       </Link>

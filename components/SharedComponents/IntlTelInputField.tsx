@@ -1,9 +1,20 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { Controller, Control, UseFormSetValue, Path, useWatch } from "react-hook-form";
-import IntlTelInput from "intl-tel-input/reactWithUtils";
+import {
+  Controller,
+  Control,
+  UseFormSetValue,
+  Path,
+  useWatch,
+} from "react-hook-form";
+import dynamic from "next/dynamic";
 import "intl-tel-input/styles";
 import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails";
+
+// Dynamically import IntlTelInput with SSR disabled
+const IntlTelInput = dynamic(() => import("intl-tel-input/reactWithUtils"), {
+  ssr: false,
+});
 
 interface PhoneInputProps<T extends PhoneFields> {
   control: Control<T>;
@@ -34,7 +45,10 @@ const PhoneInput = <T extends PhoneFields>({
   const [isValidPhone, setIsValidPhone] = useState(false);
   const [errorCode, setErrorCode] = useState<number | null>(null);
 
-  const watchedMobileCode = useWatch({ control, name: "mobileCode" as Path<T> });
+  const watchedMobileCode = useWatch({
+    control,
+    name: "mobileCode" as Path<T>,
+  });
 
   return (
     <Controller
@@ -45,7 +59,9 @@ const PhoneInput = <T extends PhoneFields>({
         validate: () => {
           // Validation logic: Checks if the phone number is valid, otherwise returns an appropriate error message
           if (!isValidPhone) {
-            return errorCode !== null ? errorMap[errorCode] : "Invalid phone number format";
+            return errorCode !== null
+              ? errorMap[errorCode]
+              : "Invalid phone number format";
           }
           return true;
         },
@@ -58,69 +74,95 @@ const PhoneInput = <T extends PhoneFields>({
             const instance = telInputRef.current.getInstance();
             if (instance) {
               const dialCode = watchedMobileCode || "";
-              const fullNumber = dialCode ? `${dialCode}${field.value}` : field.value;
+              const fullNumber = dialCode
+                ? `${dialCode}${field.value}`
+                : field.value;
               instance.setNumber(fullNumber);
             }
           }
         }, [field.value, watchedMobileCode]);
 
-        const showError = touchedFields[name as unknown as Path<T>] && fieldState.error;
+        const showError =
+          touchedFields[name as unknown as Path<T>] && fieldState.error;
 
         return (
-          <div className="flex flex-col justify-start items-start w-full gap-1">
-            <label htmlFor="phone-input" className="font-bold text-shadeGray text-sm">
+          <div className="flex flex-col justify-start items-start w-full gap-1 xlg:gap-[6px]">
+            <label
+              htmlFor="phone-input"
+              className="font-bold text-shadeGray text-sm xlg:text-[20px]"
+            >
               {label}
             </label>
             <div className="relative w-full">
               <div
-                className={`flex flex-row border ${
+                className={`flex flex-row border xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px] ${
                   showError ? "border-[#FB7185]" : "border-borderColor"
                 } rounded-lg h-[40px]`}
               >
-                <IntlTelInput
-                  ref={telInputRef}
-                  initialValue={field.value}
-                  onChangeNumber={() => {
-                    // Handles phone number change: extracts country code and national number separately
-                    if (telInputRef.current) {
-                      const instance = telInputRef.current.getInstance();
-                      if (instance) {
-                        const countryData = instance.getSelectedCountryData();
-                        setValue("mobileCode" as unknown as Path<T>, `+${countryData.dialCode}` as any);
-                        setValue(
-                          "mobileIso" as unknown as Path<T>,
-                          countryData.iso2 ? countryData.iso2.toUpperCase() as any : ""
-                        );
-                        const fullNumber = instance.getNumber()?.replace(/\s+/g, "");
-                        const dialCode = `+${countryData.dialCode}`;
-                        let nationalNumber = fullNumber || "";
-                        if (fullNumber && fullNumber.startsWith(dialCode)) {
-                          nationalNumber = fullNumber.substring(dialCode.length);
+                {typeof window !== "undefined" && (
+                  <IntlTelInput
+                    ref={telInputRef}
+                    initialValue={field.value}
+                    onChangeNumber={() => {
+                      // Handles phone number change: extracts country code and national number separately
+                      if (telInputRef.current) {
+                        const instance = telInputRef.current.getInstance();
+                        if (instance) {
+                          const countryData = instance.getSelectedCountryData();
+                          setValue(
+                            "mobileCode" as unknown as Path<T>,
+                            `+${countryData.dialCode}` as any
+                          );
+                          setValue(
+                            "mobileIso" as unknown as Path<T>,
+                            countryData.iso2
+                              ? (countryData.iso2.toUpperCase() as any)
+                              : ""
+                          );
+                          const fullNumber = instance
+                            .getNumber()
+                            ?.replace(/\s+/g, "");
+                          const dialCode = `+${countryData.dialCode}`;
+                          let nationalNumber = fullNumber || "";
+                          if (fullNumber && fullNumber.startsWith(dialCode)) {
+                            nationalNumber = fullNumber.substring(
+                              dialCode.length
+                            );
+                          }
+                          field.onChange(nationalNumber);
                         }
-                        field.onChange(nationalNumber);
                       }
+                    }}
+                    onChangeValidity={(valid: boolean) =>
+                      setIsValidPhone(valid)
+                    } // Updates phone validation state
+                    onChangeErrorCode={(code: number | null) =>
+                      setErrorCode(code)
+                    } // Captures error code if validation fails
+                    initOptions={
+                      {
+                        initialCountry: initialCountry,
+                        separateDialCode: true,
+                        nationalMode: false,
+                        autoHideDialCode: false,
+                        autoInsertDialCode: true,
+                        formatOnDisplay: true,
+                        validationNumberType: [
+                          "MOBILE",
+                          "FIXED_LINE_OR_MOBILE",
+                        ], // Ensures only valid phone types are accepted
+                        utilsScript:
+                          "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+                      } as any
                     }
-                  }}
-                  onChangeValidity={(valid: boolean) => setIsValidPhone(valid)} // Updates phone validation state
-                  onChangeErrorCode={(code: number | null) => setErrorCode(code)} // Captures error code if validation fails
-                  initOptions={{
-                    initialCountry: initialCountry,
-                    separateDialCode: true, 
-                    nationalMode: false,
-                    autoHideDialCode: false,
-                    autoInsertDialCode: true,
-                    formatOnDisplay: true,
-                    validationNumberType: ["MOBILE", "FIXED_LINE_OR_MOBILE"], // Ensures only valid phone types are accepted
-                    utilsScript:
-                      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-                  } as any}
-                  inputProps={{
-                    id: "phone-input",
-                    onBlur: field.onBlur,
-                    className:
-                      "border-none h-[40px] text-left self-center ml-2 w-full focus:outline-none placeholder:text-[#525252] bg-transparent",
-                  }}
-                />
+                    inputProps={{
+                      id: "phone-input",
+                      onBlur: field.onBlur,
+                      className:
+                        "border-none h-[40px] text-left self-center ml-2 w-full focus:outline-none placeholder:text-[#525252] bg-transparent ",
+                    }}
+                  />
+                )}
               </div>
               {showError && (
                 <p className="error-message text-red-500 text-sm">
