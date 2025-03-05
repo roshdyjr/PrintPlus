@@ -1,6 +1,6 @@
-interface UpdatePersonalDetails {
-    fullName: string;
-    mobileNo: string;
-    mobileCode: string;
-    mobileIso: string;
-  }
+
+export interface PhoneFields {
+  mobileNo: string;
+  mobileCode: string;
+  mobileIso: string;
+}

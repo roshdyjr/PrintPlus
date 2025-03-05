@@ -7,17 +7,20 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import PhoneInput from "@/components/SharedComponents/IntlTelInputField";
-interface UpdatePersonalDetails {
+import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails"; 
+
+// Extend the PhoneFields interface to include fullName for the update details form.
+interface UpdatePersonalDetails extends PhoneFields {
   fullName: string;
-  mobileNo: string;
-  mobileCode: string;
-  mobileIso: string;
 }
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const PersonalDetailsForm = () => {
   const { data: session } = useSession();
+
+  // Initialize react-hook-form with default values. Using mode: "onChange" 
+  // to validate form fields as soon as they change.
   const {
     register,
     handleSubmit,
@@ -31,11 +34,14 @@ const PersonalDetailsForm = () => {
       fullName: "",
       mobileNo: "",
       mobileCode: "",
+      mobileIso: "",
     },
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // useEffect to fetch personal details from the API when the user is logged in.
+  // After fetching, we reset the form with the retrieved details.
   useEffect(() => {
     if (session?.user?.token) {
       const fetchPersonalDetails = async () => {
@@ -48,10 +54,12 @@ const PersonalDetailsForm = () => {
           });
           if (response.data.success) {
             const details = response.data.data;
+            // Reset the form with fetched details so that the fields are populated.
             reset({
               fullName: details.fullName,
               mobileNo: details.mobile,
               mobileCode: details.mobileCode,
+              mobileIso: details.mobileIso,
             });
           }
         } catch (error) {
@@ -63,21 +71,22 @@ const PersonalDetailsForm = () => {
     }
   }, [session?.user?.token, reset]);
 
+  // onSubmit handler to update personal details.
+  // This function sends the form data to the update-info endpoint.
   const onSubmit = async (data: UpdatePersonalDetails) => {
     try {
       setIsSubmitting(true);
+      // Ensure user token exists, otherwise throw an error.
       if (!session?.user?.token) {
         throw new Error("User token is missing. Please log in again.");
       }
-      const requestData = { ...data };
-
-      await axios.post(`${API_BASE_URL}/users/update-info`, requestData, {
+      // Send a POST request with the updated details.
+      await axios.post(`${API_BASE_URL}/users/update-info`, data, {
         headers: {
           "Accept-Language": "ar-SA",
           Authorization: `Bearer ${session.user.token}`,
         },
       });
-
       toast.success("تم تحديث البيانات بنجاح!");
       reset();
     } catch (error: any) {
@@ -91,6 +100,7 @@ const PersonalDetailsForm = () => {
     <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
       <p className="text-lg font-semibold">Personal Details</p>
 
+      {/* Full Name Input Field */}
       <InputField
         id="fullName"
         label="Full Name"
@@ -103,6 +113,7 @@ const PersonalDetailsForm = () => {
               "Full name must be in 'First Last' or 'First Middle Last' format and contain valid characters.",
           },
           validate: (value) => {
+            // Validate that each word in the full name has at least 2 characters.
             const words = value.trim().split(/\s+/);
             if (words.some((w) => w.length < 2)) {
               return "Each word must be at least two characters.";
@@ -113,22 +124,22 @@ const PersonalDetailsForm = () => {
         error={errors.fullName?.message}
       />
 
-      {/* Phone input */}
-      <PhoneInput control={control} setValue={setValue} />
-
-      {/* Hidden fields for mobileCode and mobileIso */}
-      <input
-        type="hidden"
-        {...register("mobileCode", { required: "Country code is required" })}
+      {/* PhoneInput component handles phone number input and splits the number from its dial code */}
+      <PhoneInput<UpdatePersonalDetails>
+        control={control}
+        setValue={setValue}
+        name="mobileNo"
+        label="Mobile Number*"
       />
+
+      {/* Hidden fields to store mobileCode and mobileIso separately.
+          These fields are needed so that the API receives the dial code and ISO code independently. */}
+      <input type="hidden" {...register("mobileCode", { required: "Country code is required" })} />
       <input
         type="hidden"
         {...register("mobileIso", {
-          required: "ISO code is required",
-          validate: {
-            length: (value) =>
-              value.length === 2 || "ISO code must be exactly two letters",
-          },
+          required: "Country ISO code is required",
+          validate: (value) => value.length === 2 || "ISO code must be exactly 2 letters",
         })}
       />
 

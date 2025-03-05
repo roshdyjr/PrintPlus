@@ -7,12 +7,9 @@ import CustomButton from "@/components/SharedComponents/CustomButton";
 import InputField from "@/components/SharedComponents/InputField";
 import { useRouter } from "next/navigation";
 import SelectField from "@/components/SharedComponents/SelectField";
+import PhoneInput from "@/components/SharedComponents/IntlTelInputField";
 
-interface City {
-  value: number;
-  text: string;
-}
-
+// تعريف إنترفيس الفورم واللي بيمتد من الحقول المشتركة (PhoneFields)
 interface CompanyRegisterFormData {
   fullName: string;
   email: string;
@@ -27,6 +24,11 @@ interface CompanyRegisterFormData {
   vatNumber: string;
   vatName: string;
   vatAddress: string;
+}
+
+interface City {
+  value: number;
+  text: string;
 }
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -50,27 +52,24 @@ const CompanyForm = () => {
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState<City[]>([]);
   const router = useRouter();
-  const [mobileNo, setMobileNo] = useState(defaultValues.mobileNo);
-  const [mobileCode, setMobileCode] = useState(defaultValues.mobileCode);
-  const [mobileIso, setMobileIso] = useState(defaultValues.mobileIso);
 
   const {
     register,
     handleSubmit,
+    control,
     watch,
     reset,
     setValue,
     formState: { errors, isValid },
   } = useForm<CompanyRegisterFormData>({ defaultValues, mode: "onChange" });
+  
 
   const companyName = watch("companyName");
 
-  // Update the fullName field to match the companyName
   useEffect(() => {
     setValue("fullName", companyName);
   }, [companyName, setValue]);
 
-  // Fetch cities from the API
   useEffect(() => {
     const fetchCities = async () => {
       try {
@@ -89,70 +88,19 @@ const CompanyForm = () => {
     fetchCities();
   }, [setValue, reset]);
 
-  const handlePhoneChange = (phone: string, country: any) => {
-    setMobileNo(phone);
-    setMobileCode(`+${country.dialCode}`);
-    setMobileIso(country.countryCode.toUpperCase());
-  };
-
   const onSubmit = async (data: CompanyRegisterFormData) => {
-    // Validate mobile code
-    if (!mobileCode) {
-      toast.error("Country code is required");
-      return;
-    }
-    if (!/^\+\d+$/.test(mobileCode)) {
-      toast.error("Invalid country code");
-      return;
-    }
-
-    // Validate mobile number
-    if (!mobileNo) {
-      toast.error("Mobile number is required");
-      return;
-    }
-    if (!/^\d{6,15}$/.test(mobileNo)) {
-      toast.error("Invalid mobile number format");
-      return;
-    }
-
-    // Validate mobile ISO code
-    if (!mobileIso) {
-      toast.error("Country ISO code is required");
-      return;
-    }
-    if (mobileIso.length !== 2) {
-      toast.error("Country ISO code must be exactly 2 characters");
-      return;
-    }
-    if (!/^[A-Za-z]{2}$/.test(mobileIso)) {
-      toast.error("Country ISO code must contain only English letters");
-      return;
-    }
-
-    // Validate city
-    if (!data.cityId) {
-      toast.error("City is required");
-      return;
-    }
-
     try {
       setLoading(true);
       const { confirmPassword, ...requestData } = {
         ...data,
-        mobileNo,
-        mobileCode,
-        mobileIso,
         accountType: 2,
       };
 
-      // Submit registration data to the API
       await axios.post(`${API_BASE_URL}/auth/register`, requestData);
       toast.success("Registration successful! Please check your email.");
       reset();
       router.push("/login");
     } catch (error: any) {
-      // Handle API errors
       toast.error(
         error.response?.data?.message || "An error occurred. Please try again."
       );
@@ -167,9 +115,7 @@ const CompanyForm = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex flex-col md:flex-row items-start gap-6 md:gap-[50px] lg:gap-[132px] w-full">
-        {/* Left Column */}
         <div className="flex flex-col gap-6 w-full">
-          {/* Company Name Input */}
           <InputField
             id="companyName"
             label="Full name*"
@@ -192,8 +138,6 @@ const CompanyForm = () => {
             })}
             error={errors.companyName?.message}
           />
-
-          {/* Email Input */}
           <InputField
             id="email"
             label="Email*"
@@ -207,16 +151,13 @@ const CompanyForm = () => {
             error={errors.email?.message}
           />
 
-          {/* Mobile Number Input */}
-          <InputField
-            id="mobileNo"
-            isPhoneInput={true}
+          <PhoneInput<CompanyRegisterFormData>
+            control={control}
+            setValue={setValue}
+            name="mobileNo"
             label="Mobile Number*"
-            value={mobileNo}
-            onPhoneChange={handlePhoneChange}
           />
 
-          {/* Password Input */}
           <InputField
             id="password"
             label="Password*"
@@ -260,7 +201,6 @@ const CompanyForm = () => {
             error={errors.password?.message}
           />
 
-          {/* Confirm Password Input */}
           <InputField
             id="confirmPassword"
             label="Confirm Password*"
@@ -310,6 +250,19 @@ const CompanyForm = () => {
           />
         </div>
       </div>
+
+      <input
+        type="hidden"
+        {...register("mobileCode", { required: "Country code is required" })}
+      />
+      <input
+        type="hidden"
+        {...register("mobileIso", {
+          required: "Country ISO code is required",
+          validate: (value) =>
+            value.length === 2 || "ISO code must be exactly 2 characters",
+        })}
+      />
 
       {/* Submit Button */}
       <div className="w-full">

@@ -1,64 +1,73 @@
-"use client"; 
+"use client";
+import React, { useState, useRef, useEffect } from "react";
+import { Controller, Control, UseFormSetValue, Path, useWatch } from "react-hook-form";
+import IntlTelInput from "intl-tel-input/reactWithUtils";
+import "intl-tel-input/styles";
+import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails";
 
-import React, { useState, useRef } from "react"; 
-import { Controller, Control } from "react-hook-form"; // Importing react-hook-form components
-import IntlTelInput from "intl-tel-input/reactWithUtils"; // Importing the phone input library
-import "intl-tel-input/styles"; // Importing styles for phone input
-import { UseFormSetValue } from "react-hook-form"; // Importing a type from react-hook-form
-
-// Error messages mapped to specific validation errors
-
-const errorMap = [
-    "Invalid number",
-    "Invalid country code",
-    "Too short",
-    "Too long",
-    "Invalid number",
-  ];
-
-interface PhoneInputProps {
-  control: Control<UpdatePersonalDetails>; // React Hook Form's control prop
-  name?: keyof UpdatePersonalDetails; // Field name (default is mobileNo)
-  setValue: UseFormSetValue<UpdatePersonalDetails>; // Function to update field values
-  rules?: any; // Validation rules for the input field
-  label?: string; // Label for the input field
+interface PhoneInputProps<T extends PhoneFields> {
+  control: Control<T>;
+  name?: keyof T;
+  setValue: UseFormSetValue<T>;
+  rules?: any;
+  label?: string;
 }
 
-const initialCountry = "sa"; // Default country code (Saudi Arabia)
+const errorMap = [
+  "Invalid number",
+  "Invalid country code",
+  "Too short",
+  "Too long",
+  "Invalid number",
+];
 
-const PhoneInput: React.FC<PhoneInputProps> = ({
+const initialCountry = "sa";
+
+const PhoneInput = <T extends PhoneFields>({
   control,
-  name = "mobileNo", // Default field name
+  name = "mobileNo" as keyof T,
   setValue,
   rules,
-  label = "Phon number ", // Default label
-}) => {
-  const telInputRef = useRef<any>(null); // Ref for accessing the phone input instance
-  const [isValidPhone, setIsValidPhone] = useState(false); // State for phone number validity
-  const [errorCode, setErrorCode] = useState<number | null>(null); // State for storing validation error codes
+  label = "Phone number",
+}: PhoneInputProps<T>) => {
+  const telInputRef = useRef<any>(null);
+  const [isValidPhone, setIsValidPhone] = useState(false);
+  const [errorCode, setErrorCode] = useState<number | null>(null);
+
+  const watchedMobileCode = useWatch({ control, name: "mobileCode" as Path<T> });
 
   return (
     <Controller
-      name={name} // Field name
-      control={control} // Form control prop
+      name={name as unknown as Path<T>}
+      control={control}
       rules={{
-        required: " Phon number is required ", // Required field validation message
+        required: "Phone number is required",
         validate: () => {
+          // Validation logic: Checks if the phone number is valid, otherwise returns an appropriate error message
           if (!isValidPhone) {
-            return errorCode !== null
-              ? errorMap[errorCode] // Display appropriate error message
-              : "Invalid phone number format"; // Default error message
+            return errorCode !== null ? errorMap[errorCode] : "Invalid phone number format";
           }
-          return true; // Valid input
+          return true;
         },
-        ...rules, // Additional validation rules
+        ...rules,
       }}
       render={({ field, fieldState, formState: { touchedFields } }) => {
-        const showError = touchedFields[name] && fieldState.error; // Determine if an error should be shown
+        useEffect(() => {
+          // Ensures that when the field value changes, the intl-tel-input instance updates accordingly
+          if (telInputRef.current && field.value) {
+            const instance = telInputRef.current.getInstance();
+            if (instance) {
+              const dialCode = watchedMobileCode || "";
+              const fullNumber = dialCode ? `${dialCode}${field.value}` : field.value;
+              instance.setNumber(fullNumber);
+            }
+          }
+        }, [field.value, watchedMobileCode]);
+
+        const showError = touchedFields[name as unknown as Path<T>] && fieldState.error;
 
         return (
           <div className="flex flex-col justify-start items-start w-full gap-1">
-            {/* Input label */}
             <label htmlFor="phone-input" className="font-bold text-shadeGray text-sm">
               {label}
             </label>
@@ -69,45 +78,50 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
                 } rounded-lg h-[40px]`}
               >
                 <IntlTelInput
-                  ref={telInputRef} // Assigning ref to access component functions
-                  initialValue={field.value} // Initial input value
-                  onChangeNumber={(num: string) => {
-                    field.onChange(num); // Update field value in form
+                  ref={telInputRef}
+                  initialValue={field.value}
+                  onChangeNumber={() => {
+                    // Handles phone number change: extracts country code and national number separately
                     if (telInputRef.current) {
                       const instance = telInputRef.current.getInstance();
                       if (instance) {
                         const countryData = instance.getSelectedCountryData();
-                        // Set country dial code and ISO code
-                        setValue("mobileCode", `+${countryData.dialCode}`);
+                        setValue("mobileCode" as unknown as Path<T>, `+${countryData.dialCode}` as any);
                         setValue(
-                          "mobileIso",
-                          countryData.iso2 ? countryData.iso2.toUpperCase() : ""
+                          "mobileIso" as unknown as Path<T>,
+                          countryData.iso2 ? countryData.iso2.toUpperCase() as any : ""
                         );
+                        const fullNumber = instance.getNumber()?.replace(/\s+/g, "");
+                        const dialCode = `+${countryData.dialCode}`;
+                        let nationalNumber = fullNumber || "";
+                        if (fullNumber && fullNumber.startsWith(dialCode)) {
+                          nationalNumber = fullNumber.substring(dialCode.length);
+                        }
+                        field.onChange(nationalNumber);
                       }
                     }
                   }}
-                  onChangeValidity={(valid: boolean) => setIsValidPhone(valid)} // Update validity state
-                  onChangeErrorCode={(code: number | null) => setErrorCode(code)} // Update error code state
+                  onChangeValidity={(valid: boolean) => setIsValidPhone(valid)} // Updates phone validation state
+                  onChangeErrorCode={(code: number | null) => setErrorCode(code)} // Captures error code if validation fails
                   initOptions={{
-                    initialCountry: initialCountry, // Default country
-                    autoInsertDialCode: true, // Automatically insert country dial code
-                    separateDialCode: false, // Keep the country code in the input field
-                    nationalMode: false, // Use full international number format
-                    autoHideDialCode: false, // Always show country code
-                    formatOnDisplay: true, // Format number as user types
-                    validationNumberType: ["MOBILE", "FIXED_LINE_OR_MOBILE"], // Validate for mobile or fixed-line numbers
+                    initialCountry: initialCountry,
+                    separateDialCode: true, 
+                    nationalMode: false,
+                    autoHideDialCode: false,
+                    autoInsertDialCode: true,
+                    formatOnDisplay: true,
+                    validationNumberType: ["MOBILE", "FIXED_LINE_OR_MOBILE"], // Ensures only valid phone types are accepted
                     utilsScript:
-                      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js", // Utility script for additional formatting
+                      "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
                   } as any}
                   inputProps={{
                     id: "phone-input",
-                    onBlur: field.onBlur, // Handle input blur event
+                    onBlur: field.onBlur,
                     className:
                       "border-none h-[40px] text-left self-center ml-2 w-full focus:outline-none placeholder:text-[#525252] bg-transparent",
                   }}
                 />
               </div>
-              {/* Display error message if validation fails */}
               {showError && (
                 <p className="error-message text-red-500 text-sm">
                   {fieldState.error?.message}
