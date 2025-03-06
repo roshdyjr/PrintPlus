@@ -95,7 +95,7 @@ const PhoneInput = <T extends PhoneFields>({
             </label>
             <div className="relative w-full">
               <div
-                className={`flex flex-row border xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px] ${
+                className={`flex flex-row items-center border xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px] ${
                   showError ? "border-[#FB7185]" : "border-borderColor"
                 } rounded-lg h-[40px]`}
               >

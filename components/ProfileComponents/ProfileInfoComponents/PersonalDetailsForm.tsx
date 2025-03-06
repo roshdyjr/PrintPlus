@@ -76,11 +76,9 @@ const PersonalDetailsForm = () => {
   const onSubmit = async (data: UpdatePersonalDetails) => {
     try {
       setIsSubmitting(true);
-      // Ensure user token exists, otherwise throw an error.
       if (!session?.user?.token) {
         throw new Error("User token is missing. Please log in again.");
       }
-      // Send a POST request with the updated details.
       await axios.post(`${API_BASE_URL}/users/update-info`, data, {
         headers: {
           "Accept-Language": "ar-SA",
@@ -88,13 +86,30 @@ const PersonalDetailsForm = () => {
         },
       });
       toast.success("تم تحديث البيانات بنجاح!");
-      reset();
+  
+      // بعد التحديث بنجلب البيانات من جديد
+      const response = await axios.get(`${API_BASE_URL}/users/get`, {
+        headers: {
+          "Accept-Language": "ar-SA",
+          Authorization: `Bearer ${session.user.token}`,
+        },
+      });
+      if (response.data.success) {
+        const details = response.data.data;
+        reset({
+          fullName: details.fullName,
+          mobileNo: details.mobile,
+          mobileCode: details.mobileCode,
+          mobileIso: details.mobileIso,
+        });
+      }
     } catch (error: any) {
       toast.error(error.message || "حدث خطأ غير متوقع، حاول مرة أخرى.");
     } finally {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <form className="flex flex-col gap-6 xlg:gap-9" onSubmit={handleSubmit(onSubmit)}>
