@@ -7,7 +7,9 @@ import { useSession } from "next-auth/react";
 import CustomButton from "@/components/SharedComponents/CustomButton";
 import InputField from "@/components/SharedComponents/InputField";
 import SelectField from "@/components/SharedComponents/SelectField";
+import PhoneInput from "@/components/SharedComponents/IntlTelInputField"; 
 
+// Interface for the form data structure
 interface UpdateAddressFormData {
   fullName: string;
   addressLine1: string;
@@ -19,6 +21,7 @@ interface UpdateAddressFormData {
   mobileIso: string;
 }
 
+// Interface for city options in the dropdown
 interface City {
   value: number;
   text: string;
@@ -27,21 +30,28 @@ interface City {
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const UpdateAddressForm = () => {
-  const { data: session, status } = useSession(); // Get the session and its status
-  const [cities, setCities] = useState<City[]>([]); // State to store cities
-  const [mobileNo, setMobileNo] = useState("");
-  const [mobileCode, setMobileCode] = useState("");
-  const [mobileIso, setMobileIso] = useState("");
+  const { data: session, status } = useSession();
+  const [cities, setCities] = useState<City[]>([]);
 
+  // React Hook Form setup
   const {
     register,
     handleSubmit,
+    control,
+    setValue,
     watch,
     formState: { errors, isValid },
     reset,
-  } = useForm<UpdateAddressFormData>();
+  } = useForm<UpdateAddressFormData>({
+    mode: "onChange",
+    defaultValues: {
+      mobileNo: "",
+      mobileCode: "",
+      mobileIso: "",
+    },
+  });
 
-  // Fetch cities when the session token is available
+  // Fetch cities when the component mounts or session changes
   useEffect(() => {
     if (status === "authenticated" && session?.user?.token) {
       const fetchCities = async () => {
@@ -55,84 +65,59 @@ const UpdateAddressForm = () => {
 
           if (response.data.success) {
             setCities(response.data.data);
-            // Set the default value for cityId
-            reset({ cityId: response.data.data[0]?.value });
+            reset((prev) => ({
+              ...prev,
+              cityId: response.data.data[0]?.value,
+            }));
           }
         } catch (error) {
           console.error("Failed to fetch cities:", error);
-          toast.error("فشل في تحميل قائمة المدن. يرجى المحاولة مرة أخرى.");
+          toast.error("Failed to load the list of cities. Please try again.");
         }
       };
 
       fetchCities();
     }
-  }, [session?.user?.token, status, reset]); // Add status as a dependency
+  }, [session?.user?.token, status, reset]);
 
-  // Function to handle phone input change
-  const handlePhoneChange = (phone: string, country: any) => {
-    setMobileNo(phone);
-    setMobileCode(`+${country.dialCode}`);
-    setMobileIso(country.countryCode.toUpperCase());
-  };
-
+  // Handle form submission
   const onSubmit = async (data: UpdateAddressFormData) => {
     try {
       if (!session?.user?.token) {
         throw new Error("User token is missing. Please log in again.");
       }
 
-      // Validate phone input
-      if (!mobileNo || !mobileCode || !mobileIso) {
-        throw new Error("يرجى إدخال رقم الهاتف بشكل صحيح.");
-      }
-
-      const requestData = {
-        ...data,
-        mobileNo,
-        mobileCode,
-        mobileIso,
-      };
-
-      const response = await axios.post(
-        `${API_BASE_URL}/addresses`,
-        requestData,
-        {
-          headers: {
-            "Accept-Language": "ar-SA",
-            Authorization: `Bearer ${session.user.token}`,
-          },
-        }
-      );
+      const response = await axios.post(`${API_BASE_URL}/addresses`, data, {
+        headers: {
+          "Accept-Language": "ar-SA",
+          Authorization: `Bearer ${session.user.token}`,
+        },
+      });
 
       console.log("Success:", response.data);
-      toast.success("تم تحديث العنوان بنجاح!");
+      toast.success("Address updated successfully!");
       reset();
     } catch (error: any) {
       console.error("Error:", error);
-
       if (error.response) {
-        toast.error(error.response.data?.message || "حدث خطأ، حاول مرة أخرى");
+        toast.error(error.response.data?.message || "An error occurred, please try again.");
       } else if (error.request) {
-        toast.error(
-          "لم يتم استلام استجابة من السيرفر، تحقق من اتصالك بالإنترنت."
-        );
+        toast.error("No response received from the server. Please check your internet connection.");
       } else {
-        toast.error(error.message || "حدث خطأ غير متوقع، حاول مرة أخرى.");
+        toast.error(error.message || "An unexpected error occurred. Please try again.");
       }
     }
   };
 
-  const isFormValid =
-    isValid && mobileNo && mobileCode && mobileIso && watch("cityId");
-
   return (
     <form className="flex flex-col gap-6 xlg:gap-9" onSubmit={handleSubmit(onSubmit)}>
       <p className="text-lg font-semibold xlg:text-[24px]">Address</p>
+      
       {/* Full Name Field */}
       <InputField
         id="fullName"
         label="Full name"
-        {...register("fullName", { required: "هذا الحقل مطلوب" })}
+        {...register("fullName", { required: "This field is required" })}
         error={errors.fullName?.message}
       />
 
@@ -140,49 +125,48 @@ const UpdateAddressForm = () => {
       <InputField
         id="addressLine1"
         label="Address"
-        {...register("addressLine1", { required: "هذا الحقل مطلوب" })}
+        {...register("addressLine1", { required: "This field is required" })}
         error={errors.addressLine1?.message}
       />
 
-      {/* Mobile Number Field */}
-      <InputField
-        id="mobileNo"
-        isPhoneInput={true}
+      {/* Phone Number Field */}
+      <PhoneInput<UpdateAddressFormData>
+        control={control}
+        setValue={setValue}
+        name="mobileNo"
         label="Mobile Number"
-        value={mobileNo}
-        onPhoneChange={handlePhoneChange}
       />
 
-      {/* Address Line 2 Field */}
+      {/* Address Line 2 Field (Optional) */}
       <InputField
         id="addressLine2"
         label="Additional information (optional)"
         {...register("addressLine2")}
       />
 
-      {/* Postcode and City Fields */}
+      {/* Zip Code and City Fields */}
       <div className="flex items-center gap-2">
         <InputField
           id="zipCode"
           label="Postcode"
-          {...register("zipCode", { required: "هذا الحقل مطلوب" })}
+          {...register("zipCode", { required: "This field is required" })}
           error={errors.zipCode?.message}
         />
         <SelectField
           id="cityId"
           label="City"
           options={cities}
-          {...register("cityId", { required: "هذا الحقل مطلوب" })}
+          {...register("cityId", { required: "This field is required" })}
           error={errors.cityId?.message}
         />
       </div>
 
-      {/* Save Button */}
+      {/* Submit Button */}
       <CustomButton
         label="Save"
         className="md:!h-[32px] md:!w-[113px] xlg:!w-[169.5px] xlg:!h-[48px]"
         type="submit"
-        disabled={!isFormValid}
+        disabled={!isValid}
       />
     </form>
   );

@@ -7,7 +7,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import PhoneInput from "@/components/SharedComponents/IntlTelInputField";
-import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails"; 
+import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails";
 
 // Extend the PhoneFields interface to include fullName for the update details form.
 interface UpdatePersonalDetails extends PhoneFields {
@@ -19,7 +19,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const PersonalDetailsForm = () => {
   const { data: session } = useSession();
 
-  // Initialize react-hook-form with default values. Using mode: "onChange" 
+  // Initialize react-hook-form with default values. Using mode: "onChange"
   // to validate form fields as soon as they change.
   const {
     register,
@@ -76,29 +76,48 @@ const PersonalDetailsForm = () => {
   const onSubmit = async (data: UpdatePersonalDetails) => {
     try {
       setIsSubmitting(true);
-      // Ensure user token exists, otherwise throw an error.
       if (!session?.user?.token) {
         throw new Error("User token is missing. Please log in again.");
       }
-      // Send a POST request with the updated details.
       await axios.post(`${API_BASE_URL}/users/update-info`, data, {
         headers: {
           "Accept-Language": "ar-SA",
           Authorization: `Bearer ${session.user.token}`,
         },
       });
-      toast.success("تم تحديث البيانات بنجاح!");
-      reset();
+      toast.success("Personal details updated successfully!");
+
+      // Fetch New Data After Submitting
+      const response = await axios.get(`${API_BASE_URL}/users/get`, {
+        headers: {
+          "Accept-Language": "ar-SA",
+          Authorization: `Bearer ${session.user.token}`,
+        },
+      });
+      if (response.data.success) {
+        const details = response.data.data;
+        reset({
+          fullName: details.fullName,
+          mobileNo: details.mobile,
+          mobileCode: details.mobileCode,
+          mobileIso: details.mobileIso,
+        });
+      }
     } catch (error: any) {
-      toast.error(error.message || "حدث خطأ غير متوقع، حاول مرة أخرى.");
+      toast.error(error.message || "An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <form className="flex flex-col gap-6 xlg:gap-9" onSubmit={handleSubmit(onSubmit)}>
-      <p className="text-lg font-semibold xlg:font-bold xlg:text-[24px]">Personal Details</p>
+    <form
+      className="flex flex-col gap-6 xlg:gap-9"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <p className="text-lg font-semibold xlg:font-bold xlg:text-[24px]">
+        Personal Details
+      </p>
 
       {/* Full Name Input Field */}
       <InputField
@@ -134,15 +153,20 @@ const PersonalDetailsForm = () => {
 
       {/* Hidden fields to store mobileCode and mobileIso separately.
           These fields are needed so that the API receives the dial code and ISO code independently. */}
-      <input type="hidden" {...register("mobileCode", { required: "Country code is required" })} />
+      <input
+        type="hidden"
+        {...register("mobileCode", { required: "Country code is required" })}
+      />
       <input
         type="hidden"
         {...register("mobileIso", {
           required: "Country ISO code is required",
-          validate: (value) => value.length === 2 || "ISO code must be exactly 2 letters",
+          validate: (value) =>
+            value.length === 2 || "ISO code must be exactly 2 letters",
         })}
       />
 
+      {/* Submit Button */}
       <CustomButton
         label={isSubmitting ? "Saving..." : "Save"}
         className="md:!h-[32px] md:!w-[113px] xlg:!w-[169.5px] xlg:!h-[48px]"
