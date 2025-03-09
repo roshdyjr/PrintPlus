@@ -1,9 +1,10 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/NavigationComponents/Navbar";
-import Providers from "@/Providers/Providers";
 import MainFooter from "@/components/Footer/MainFooter";
 import MobileNavbar from "@/components/NavigationComponents/MobileNavbar";
+import Providers from "@/Providers/Providers";
 
 export const metadata: Metadata = {
   title: "Print Plus",

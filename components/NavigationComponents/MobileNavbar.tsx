@@ -2,8 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { fetchCategories } from "@/utils/fetchCategories";
 import { Category } from "@/types/Category";
+import { fetchCategories } from "@/utils/fetchCategories";
 
 const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);

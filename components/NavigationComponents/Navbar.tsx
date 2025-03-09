@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SearchBar from "../SharedComponents/SearchBar";
-import { fetchCategories } from "./../../utils/fetchCategories";
 import { Category } from "@/types/Category";
+import { fetchCategories } from "@/utils/fetchCategories";
 
 const Navbar = () => {
   const [categories, setCategories] = useState<Category[]>([]);

@@ -1,3 +1,4 @@
+// app/auth/[...nextauth]/route.ts
 import NextAuth, {
   NextAuthOptions,
   User,
@@ -6,10 +7,11 @@ import NextAuth, {
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import { refreshAccessToken } from "@/utils/refreshToken";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// 🔹 Extend types to include `id`, `token`, and `refreshToken`
+// Extend types to include `id`, `token`, and `refreshToken`
 declare module "next-auth" {
   interface Session {
     user: {
@@ -18,6 +20,7 @@ declare module "next-auth" {
       token: string;
       refreshToken: string;
     } & DefaultSession["user"];
+    error?: string; // Add the `error` property
   }
 
   interface User {
@@ -32,6 +35,8 @@ declare module "next-auth" {
     email: string;
     accessToken: string;
     refreshToken: string;
+    accessTokenExpires: number;
+    error?: string; // Add the `error` property
   }
 }
 
@@ -85,13 +90,36 @@ const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
+      // Initial sign-in
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.accessToken = user.token;
         token.refreshToken = user.refreshToken;
+        token.accessTokenExpires = Date.now() + 60 * 60 * 1000; // 1 hour
       }
-      return token;
+
+      // Check if the access token has expired
+      if (Date.now() < (token.accessTokenExpires as number)) {
+        return token; // Token is still valid
+      }
+
+      // Token has expired, refresh it
+      try {
+        const refreshedTokens = await refreshAccessToken(
+          token.refreshToken as string
+        ); // Ensure `token.refreshToken` is a string
+
+        return {
+          ...token,
+          accessToken: refreshedTokens.accessToken,
+          refreshToken: refreshedTokens.refreshToken,
+          accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour
+        };
+      } catch (error) {
+        console.error("Failed to refresh token:", error);
+        return { ...token, error: "RefreshAccessTokenError" }; // Indicate an error
+      }
     },
     async session({ session, token }) {
       session.user = session.user || ({} as Session["user"]);
@@ -103,12 +131,11 @@ const authOptions: NextAuthOptions = {
         session.user.refreshToken = (token.refreshToken as string) ?? "";
       }
 
+      if (token.error) {
+        session.error = token.error as string; // Pass token refresh errors to the session
+      }
+
       return session;
-    },
-    async redirect({ url, baseUrl }) {
-      // 👇 Ensure the callbackUrl is respected
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      return url;
     },
   },
 };
