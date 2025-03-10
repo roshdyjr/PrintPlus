@@ -41,7 +41,7 @@ const page = () => {
   ];
 
   return (
-    <div className="flex flex-col text-shadeBlack max-w-[784px] xlg:gap-6 xlg:max-w-[1176px]">
+    <div className="flex flex-col text-shadeBlack max-w-[784px] gap-6 xlg:max-w-[1176px] xlg:gap-9">
       {/* Navigation Title */}
       <div className="hidden md:flex items-center gap-2 xlg:gap-3">
         <p className="text-sm xlg:text-[20px]">profile</p>
@@ -49,13 +49,13 @@ const page = () => {
         <p className="text-[#475569] text-sm xlg:text-[20px]">Address Book</p>
       </div>
 
-      <p className="text-3xl font-semibold xl:text-[25px] md:my-8 px-2 md:px-0">
+      <p className="text-3xl font-semibold xl:text-[25px] px-2 md:px-0">
         <span className="md:hidden">Profile</span>
         <span className="hidden md:inline">Address Book</span>
       </p>
 
       {/* Add Address Button */}
-      <div className="flex flex-col-reverse md:flex-col px-2 md:px-0">
+      <div className="flex flex-col-reverse md:flex-col gap-6 px-2 md:px-0 xlg:gap-9">
         <CustomButton
           label="+ Add Address "
           className="md:!h-[32px] md:!w-[113px] xl:!w-[170px] xl:!h-[38px] !xl:text-[17px] font-medium  xlg:!w-[216px] xlg:!h-[48px] xlg:!px-9 text-nowrap"
@@ -63,7 +63,7 @@ const page = () => {
         />
 
         {/* Grid of Addresses */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {addresses.map((item, index) => (
             <AddressCard
               key={index}
