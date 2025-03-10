@@ -29,9 +29,6 @@ function SessionErrorHandler({ children }: { children: React.ReactNode }) {
     if (session?.error === "RefreshAccessTokenError" && pathname !== "/login") {
       // Notify the user
       toast.error("Your session has expired. Please log in again.");
-
-      // Redirect to login
-      router.push("/login");
     }
   }, [session, pathname, router]);
 

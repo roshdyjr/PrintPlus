@@ -41,7 +41,7 @@ const UpdateEmailForm = () => {
         },
         {
           headers: {
-            "Accept-Language": "ar-SA",
+            "Accept-Language": "en-US",
             Authorization: `Bearer ${session.user.token}`, // Include the token in the header
           },
         }

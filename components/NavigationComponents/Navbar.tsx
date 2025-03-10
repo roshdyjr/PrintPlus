@@ -5,9 +5,22 @@ import Link from "next/link";
 import SearchBar from "../SharedComponents/SearchBar";
 import { Category } from "@/types/Category";
 import { fetchCategories } from "@/utils/fetchCategories";
+import { useSession, signOut } from "next-auth/react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import NavbarDropDown from "./NavbarDropDown";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const Navbar = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [userData, setUserData] = useState<{
+    fullName: string;
+    balance: number;
+  } | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     const getCategories = async () => {
@@ -17,6 +30,44 @@ const Navbar = () => {
 
     getCategories();
   }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (session?.user?.token) {
+        try {
+          const response = await axios.get(`${API_BASE_URL}/users/get`, {
+            headers: {
+              Authorization: `Bearer ${session.user.token}`,
+              "Accept-Language": "en-US",
+            },
+          });
+
+          if (response.data.success) {
+            setUserData({
+              fullName: response.data.data.fullName,
+              balance: response.data.data.balance,
+            });
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [session]);
+
+  const toggleDropdown = () => {
+    if (!session) {
+      router.push("/login"); // Redirect to login if not logged in
+    } else {
+      setIsDropdownOpen(!isDropdownOpen);
+    }
+  };
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/login" });
+  };
 
   return (
     <header className="hidden lg:flex flex-col gap-4">
@@ -42,10 +93,24 @@ const Navbar = () => {
             <SearchBar />
             <div className="flex items-center gap-1 text-shadeBlack">
               {/* Profile Button */}
-              <button className="px-3 py-[10px] rounded-lg flex items-center justify-center gap-2">
-                <Image src={"/user.svg"} alt="user" width={20} height={20} />
-                <p className="font-medium text-sm text-nowrap">Log in</p>
-              </button>
+              <div className="relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="px-3 py-[10px] rounded-lg flex items-center justify-center gap-2"
+                >
+                  <Image src={"/user.svg"} alt="user" width={20} height={20} />
+                  <p className="font-medium text-sm text-nowrap">
+                    {session ? userData?.fullName || "Profile" : "Log in"}
+                  </p>
+                </button>
+                {/* Dropdown Menu */}
+                {isDropdownOpen && session && (
+                  <NavbarDropDown
+                    userData={userData}
+                    handleLogout={handleLogout}
+                  />
+                )}
+              </div>
               {/* Language Button */}
               <button className="px-3 py-[10px] rounded-lg flex justify-center items-center">
                 <p className="font-semibold text-base">ع</p>

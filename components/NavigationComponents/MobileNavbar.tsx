@@ -4,10 +4,18 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Category } from "@/types/Category";
 import { fetchCategories } from "@/utils/fetchCategories";
+import { useSession, signOut } from "next-auth/react";
+import AccountOverlay from "./AccountOverlay";
+import axios from "axios";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAccountOverlayOpen, setIsAccountOverlayOpen] = useState(false); // State for AccountOverlay
   const [categories, setCategories] = useState<Category[]>([]); // Define the type for categories
+  const [userData, setUserData] = useState<{ fullName: string; balance: number } | null>(null); // State for user data
+  const { data: session } = useSession(); // Get the session
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -19,12 +27,56 @@ const MobileNavbar = () => {
     getCategories();
   }, []);
 
+  // Fetch user data when session changes
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (session?.user?.token) {
+        try {
+          const response = await axios.get(
+            `${API_BASE_URL}/users/get`,
+            {
+              headers: {
+                Authorization: `Bearer ${session.user.token}`,
+                "Accept-Language": "en-US",
+              },
+            }
+          );
+
+          if (response.data.success) {
+            setUserData({
+              fullName: response.data.data.fullName,
+              balance: response.data.data.balance,
+            });
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [session]);
+
   const handleNavToggler = () => {
     setIsOpen(!isOpen);
   };
 
   const handleClose = () => {
     setIsOpen(false);
+    setIsAccountOverlayOpen(false); // Close both overlays
+  };
+
+  const handleAccountClick = () => {
+    setIsAccountOverlayOpen(true); // Open the AccountOverlay
+  };
+
+  const handleReturn = () => {
+    setIsAccountOverlayOpen(false); // Hide only the AccountOverlay
+  };
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/login" }); // Handle logout
+    handleClose(); // Close both overlays
   };
 
   return (
@@ -114,6 +166,7 @@ const MobileNavbar = () => {
                 <Link
                   href={`/category/${category.categoryId}`} // Link to the category page
                   className="font-semibold text-shadeBlack"
+                  onClick={handleClose} // Close the navbar on link click
                 >
                   {category.categoryName}
                 </Link>
@@ -124,10 +177,15 @@ const MobileNavbar = () => {
               <hr />
             </div>
             {/* Profile */}
-            <div className="p-4 flex items-center gap-2">
+            <button
+              onClick={handleAccountClick} // Open the AccountOverlay
+              className="p-4 flex items-center gap-2 w-full"
+            >
               <Image src={"/user.svg"} alt="user" width={24} height={24} />
-              <p className="font-semibold text-shadeBlack">Log in</p>
-            </div>
+              <p className="font-semibold text-shadeBlack">
+                {session ? userData?.fullName || "Profile" : "Log in"}
+              </p>
+            </button>
             {/* Language Section */}
             <div className="px-4 pt-4 pb-1">
               <p className="text-sm text-[#64748B] font-semibold">Language</p>
@@ -147,18 +205,27 @@ const MobileNavbar = () => {
             </div>
             {/* Track order and help */}
             <div className="px-4 py-3">
-              <Link href={"/"} className="text-shadeBlack">
+              <Link href={"/"} className="text-shadeBlack" onClick={handleClose}>
                 Track order
               </Link>
             </div>
             <div className="px-4 py-3">
-              <Link href={"/"} className="text-shadeBlack">
+              <Link href={"/"} className="text-shadeBlack" onClick={handleClose}>
                 Help
               </Link>
             </div>
           </ul>
         </div>
       </div>
+
+      {/* Account Overlay */}
+      {isAccountOverlayOpen && (
+        <AccountOverlay
+          onClose={handleClose} // Close both overlays
+          onReturn={handleReturn} // Hide only the AccountOverlay
+          handleLogout={handleLogout} // Handle logout
+        />
+      )}
     </header>
   );
 };

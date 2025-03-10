@@ -15,7 +15,7 @@ interface Balance {
 const links = [
   { href: "/profile/orders", label: "Orders" },
   { href: "/profile/info", label: "Profile" },
-  { href: "/profile/addressbook", label :"Address Book"}
+  { href: "/profile/addressbook", label: "Address Book" },
 ];
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -50,7 +50,7 @@ const ProfileSideBar = () => {
       };
       getBalance();
     }
-  }, [session?.user?.token, status]); 
+  }, [session?.user?.token, status]);
 
   return (
     <div className="hidden lg:flex lg:w-[217px] h-[350px] max-w-[217px] xlg:w-[276px] xlg:max-w-[276px]">
@@ -75,12 +75,20 @@ const ProfileSideBar = () => {
           })}
           <hr />
           {/* Balance Amount */}
-          <div className="h-[36px] flex items-center gap-2 rounded-lg py-[9px] lg:ps-4 pe-5 xlg:h-[54px]">
-            <Image src={"/dollar.svg"} alt="dollar" width={24} height={24} className="xlg:w-9 xlg:h-9" />
-            <p className="font-semibold text-shadeBlack text-nowrap text-xs lg:text-base xlg:text-xl">
-              Balance: {isLoading ? "Loading..." : `${balance?.balance} SAR`}
-            </p>
-          </div>
+          {balance?.balance !== undefined && balance.balance > 0 && (
+            <div className="h-[36px] flex items-center gap-2 rounded-lg py-[9px] lg:ps-4 pe-5 xlg:h-[54px]">
+              <Image
+                src={"/dollar.svg"}
+                alt="dollar"
+                width={24}
+                height={24}
+                className="xlg:w-9 xlg:h-9"
+              />
+              <p className="font-semibold text-shadeBlack text-nowrap text-xs lg:text-base xlg:text-xl">
+                Balance: {isLoading ? "Loading..." : `${balance.balance} SAR`}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
