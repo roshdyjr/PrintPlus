@@ -7,6 +7,7 @@ import { fetchCategories } from "@/utils/fetchCategories";
 import { useSession, signOut } from "next-auth/react";
 import AccountOverlay from "./AccountOverlay";
 import axios from "axios";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -14,8 +15,12 @@ const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAccountOverlayOpen, setIsAccountOverlayOpen] = useState(false); // State for AccountOverlay
   const [categories, setCategories] = useState<Category[]>([]); // Define the type for categories
-  const [userData, setUserData] = useState<{ fullName: string; balance: number } | null>(null); // State for user data
+  const [userData, setUserData] = useState<{
+    fullName: string;
+    balance: number;
+  } | null>(null); // State for user data
   const { data: session } = useSession(); // Get the session
+  const router = useRouter(); // Initialize useRouter
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -32,15 +37,12 @@ const MobileNavbar = () => {
     const fetchUserData = async () => {
       if (session?.user?.token) {
         try {
-          const response = await axios.get(
-            `${API_BASE_URL}/users/get`,
-            {
-              headers: {
-                Authorization: `Bearer ${session.user.token}`,
-                "Accept-Language": "en-US",
-              },
-            }
-          );
+          const response = await axios.get(`${API_BASE_URL}/users/get`, {
+            headers: {
+              Authorization: `Bearer ${session.user.token}`,
+              "Accept-Language": "en-US",
+            },
+          });
 
           if (response.data.success) {
             setUserData({
@@ -67,7 +69,12 @@ const MobileNavbar = () => {
   };
 
   const handleAccountClick = () => {
-    setIsAccountOverlayOpen(true); // Open the AccountOverlay
+    if (session) {
+      setIsAccountOverlayOpen(true); // Open the AccountOverlay if logged in
+    } else {
+      handleClose(); // Close the navbar overlay
+      router.push("/login"); // Redirect to login page if not logged in
+    }
   };
 
   const handleReturn = () => {
@@ -178,7 +185,7 @@ const MobileNavbar = () => {
             </div>
             {/* Profile */}
             <button
-              onClick={handleAccountClick} // Open the AccountOverlay
+              onClick={handleAccountClick} // Open the AccountOverlay or redirect to login
               className="p-4 flex items-center gap-2 w-full"
             >
               <Image src={"/user.svg"} alt="user" width={24} height={24} />
@@ -186,6 +193,10 @@ const MobileNavbar = () => {
                 {session ? userData?.fullName || "Profile" : "Log in"}
               </p>
             </button>
+            {/* Divider */}
+            <div className="px-4 py-3">
+              <hr />
+            </div>
             {/* Language Section */}
             <div className="px-4 pt-4 pb-1">
               <p className="text-sm text-[#64748B] font-semibold">Language</p>
@@ -203,14 +214,61 @@ const MobileNavbar = () => {
             <div className="px-4 py-3">
               <hr />
             </div>
+            {/* City Section */}
+            <div className="px-4 pt-4 pb-1">
+              <p className="text-sm text-[#64748B] font-semibold">City</p>
+            </div>
+            <div className="flex items-center justify-between py-[14px] px-4">
+              <p className="text-shadeBlack">Riyadh</p>
+              <Image
+                src={"/cheveron-right.svg"}
+                alt="chevron"
+                width={24}
+                height={24}
+              />
+            </div>
+            {/* Divider */}
+            <div className="px-4 py-3">
+              <hr />
+            </div>
+            {/* Balance Section */}
+            {userData?.balance !== undefined && userData.balance > 0 && (
+              <>
+                <div className="px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src={"/dollar.svg"}
+                      alt="dollar"
+                      width={24}
+                      height={24}
+                    />
+                    <p className="font-semibold text-shadeBlack">
+                      Balance: {userData.balance} SAR
+                    </p>
+                  </div>
+                </div>
+                {/* Divider */}
+                <div className="px-4 py-3">
+                  <hr />
+                </div>
+              </>
+            )}
             {/* Track order and help */}
             <div className="px-4 py-3">
-              <Link href={"/"} className="text-shadeBlack" onClick={handleClose}>
+              <Link
+                href={"/"}
+                className="text-shadeBlack"
+                onClick={handleClose}
+              >
                 Track order
               </Link>
             </div>
             <div className="px-4 py-3">
-              <Link href={"/"} className="text-shadeBlack" onClick={handleClose}>
+              <Link
+                href={"/"}
+                className="text-shadeBlack"
+                onClick={handleClose}
+              >
                 Help
               </Link>
             </div>

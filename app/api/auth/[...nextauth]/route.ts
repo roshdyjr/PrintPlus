@@ -1,4 +1,3 @@
-// app/auth/[...nextauth]/route.ts
 import NextAuth, {
   NextAuthOptions,
   User,
@@ -11,7 +10,6 @@ import { refreshAccessToken } from "@/utils/refreshToken";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// Extend types to include `id`, `token`, and `refreshToken`
 declare module "next-auth" {
   interface Session {
     user: {
@@ -87,7 +85,7 @@ const authOptions: NextAuthOptions = {
     signIn: "/login",
     error: "/login",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       // Initial sign-in
@@ -96,7 +94,7 @@ const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.accessToken = user.token;
         token.refreshToken = user.refreshToken;
-        token.accessTokenExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+        token.accessTokenExpires = Date.now() + 5 * 1000; // 5 seconds for testing
       }
 
       // Check if the access token has expired
@@ -107,18 +105,19 @@ const authOptions: NextAuthOptions = {
       // Token has expired, refresh it
       try {
         const refreshedTokens = await refreshAccessToken(
-          token.refreshToken as string
-        ); // Ensure `token.refreshToken` is a string
+          token.accessToken as string, // Pass the access token
+          token.refreshToken as string // Pass the refresh token
+        );
 
         return {
           ...token,
           accessToken: refreshedTokens.accessToken,
           refreshToken: refreshedTokens.refreshToken,
-          accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour
+          accessTokenExpires: Date.now() + 5 * 1000, // 5 seconds for testing
         };
       } catch (error) {
         console.error("Failed to refresh token:", error);
-        return { ...token, error: "RefreshAccessTokenError" }; // Indicate an error
+        return { ...token, error: "RefreshAccessTokenError" }; // Mark the token as invalid
       }
     },
     async session({ session, token }) {

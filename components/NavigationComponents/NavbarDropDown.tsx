@@ -14,13 +14,16 @@ interface NavbarDropDownProps {
     balance: number;
   } | null;
   handleLogout: () => void;
+  closeDropdown: () => void; // Add this line
 }
 
 const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
   userData,
   handleLogout,
+  closeDropdown, // Add this line
 }) => {
   const { data: session, status } = useSession(); // Get the session and its status
+
   const handleLogoutClick = async () => {
     try {
       // Call the logout API
@@ -47,6 +50,7 @@ const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
     } finally {
       // Call the handleLogout function to clear the session
       handleLogout();
+      closeDropdown(); // Close the dropdown after logout
     }
   };
 
@@ -57,6 +61,7 @@ const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
         <Link
           href="/profile/orders"
           className="h-9 py-[9px] ps-[15px] pe-5 rounded-lg flex items-center text-shadeBlack font-normal text-sm hover:bg-gray-100 transition-colors duration-200"
+          onClick={closeDropdown} // Add this line
         >
           Orders
         </Link>
@@ -64,6 +69,7 @@ const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
         <Link
           href="/profile/info"
           className="h-9 py-[9px] ps-[15px] pe-5 rounded-lg flex items-center text-shadeBlack font-normal text-sm hover:bg-gray-100 transition-colors duration-200"
+          onClick={closeDropdown} // Add this line
         >
           Profile
         </Link>
