@@ -8,6 +8,8 @@ import { useCategoryData } from "@/hooks/useCategoryData";
 import { useBannerImage } from "@/hooks/useBannerImage";
 import { useSubCategoryData } from "@/hooks/useSubCategoryData";
 import ToTopButton from "@/components/SharedComponents/ToTopButton";
+import ContainerProdectSidebar from "@/components/CategoriesComponents/ContainerProdectSidebar";
+
 
 export default function CategoryLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -50,8 +52,9 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
       : activeCategory?.categoryMobileBannerFileId
   );
 
-  // State to track screen size
   const [isMobile, setIsMobile] = useState(false);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -60,11 +63,9 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
 
     handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handle category or banner fetch errors
   if (
     categoryError ||
     mainBannerError ||
@@ -117,10 +118,25 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
             </>
           )}
         </div>
-        <button className="size-[48px] flex items-center justify-center lg:hidden">
-          <Image src={"/categories/categorySidebar.svg"} alt="sidebar" width={24} height={24}/>
+
+      
+        <button
+          className="size-[48px] flex items-center justify-center lg:hidden"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <Image
+            src={"/categories/categorySidebar.svg"}
+            alt="sidebar"
+            width={24}
+            height={24}
+          />
         </button>
       </div>
+
+      <ContainerProdectSidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
 
       {/* Marketing Banner */}
       <div className="h-[323px] flex items-center justify-between overflow-hidden xlg:h-[351px]">
@@ -155,12 +171,11 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
 
       {/* Sidebar and Main Content */}
       <div className="flex relative px-4 mt-[36px] md:mt-0 lg:gap-6 lg:mb-16 lg:px-[48.5px] w-full xlg:mt-6 xlg:gap-12 xlg:px-[72.75px]">
-        {/* Sidebar */}
-        <div className="sticky top-0 self-start">
+        <div className="sticky top-0 self-start hidden lg:block">
           <CategorySidebar />
         </div>
 
-        {/* Main Content (Grid) */}
+        {/* Main Content */}
         <div className="flex-1 px-0 w-full md:pt-10 md:w-fit md:px-2 xlg:pt-0">
           {children}
         </div>
