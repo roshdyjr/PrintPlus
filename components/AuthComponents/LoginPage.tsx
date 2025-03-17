@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import CustomButton from "@/components/SharedComponents/CustomButton";
 import InputField from "@/components/SharedComponents/InputField";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface LoginFormData {
   email: string;
@@ -15,6 +16,8 @@ interface LoginFormData {
 }
 
 const LoginPage = () => {
+  const t = useTranslations("Login"); //Login page translations object
+
   const {
     register,
     handleSubmit,
@@ -58,14 +61,14 @@ const LoginPage = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         {/* Title and subtitle */}
-        <h2 className="text-3xl text-shadeBlack font-bold">Sign in</h2>
+        <h2 className="text-3xl text-shadeBlack font-bold">{t("signin")}</h2>
         {/* Email Section */}
         <div className="w-full ">
           {/* Error Message */}
           {error && <p className="text-red-500 pb-2">{error}</p>}
           <InputField
             id="email"
-            label="Email*"
+            label={t("email")}
             type="email"
             {...register("email", {
               required: "Email is required",
@@ -82,7 +85,7 @@ const LoginPage = () => {
         <div className="w-full flex flex-col gap-2">
           <InputField
             id="password"
-            label="Password*"
+            label={t("password")}
             type="password"
             {...register("password", {
               required: "Password is required",
@@ -102,22 +105,22 @@ const LoginPage = () => {
             href={"/forgetpassword"}
             className="text-xs text-shadeBlack self-end"
           >
-            Forgot password?
+            {t("forgotpassword")}
           </Link>
         </div>
 
         {/* Submit Button*/}
         <CustomButton
           type="submit"
-          label={isSubmitting ? "Loging in..." : "Log in "}
+          label={isSubmitting ? t("submitting") : t("login")}
           disabled={isSubmitting}
         />
 
         {/* Register Redirect Section */}
         <div className="w-full flex justify-center items-center gap-2 mt-2">
-          <p className="text-shadeBlack">Don’t have an account?</p>
+          <p className="text-shadeBlack">{t("unregisterd")}</p>
           <Link href="/register" className="font-bold text-shadeBlack">
-            Sign up
+            {t("signup")}
           </Link>
         </div>
       </form>

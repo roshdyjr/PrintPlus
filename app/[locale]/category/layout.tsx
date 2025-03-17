@@ -8,6 +8,7 @@ import { useCategoryData } from "@/hooks/useCategoryData";
 import { useBannerImage } from "@/hooks/useBannerImage";
 import { useSubCategoryData } from "@/hooks/useSubCategoryData";
 import ToTopButton from "@/components/SharedComponents/ToTopButton";
+import ContainerProductSidebar from "@/components/CategoriesComponents/ContainerProductSidebar";
 
 export default function CategoryLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -52,6 +53,7 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
 
   // State to track screen size
   const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -117,10 +119,22 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
             </>
           )}
         </div>
-        <button className="size-[48px] flex items-center justify-center lg:hidden">
-          <Image src={"/categories/categorySidebar.svg"} alt="sidebar" width={24} height={24}/>
+        <button
+          className="size-[48px] flex items-center justify-center lg:hidden"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <Image
+            src={"/categories/categorySidebar.svg"}
+            alt="sidebar"
+            width={24}
+            height={24}
+          />
         </button>
       </div>
+      <ContainerProductSidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
 
       {/* Marketing Banner */}
       <div className="h-[323px] flex items-center justify-between overflow-hidden xlg:h-[351px]">

@@ -1,5 +1,63 @@
 {
-  "Home": {
-    "title": "مرحبًا بكم في Print Plus"
+  "Navbar": {
+    "freeShipping": "شحن مجاني للطلبات فوق 50 ريال",
+    "profile": "الملف الشخصي",
+    "login": "تسجيل الدخول",
+    "city": "الرياض",
+    "mobileLanguage": "اللغة",
+    "mobileCity": "المدينة",
+    "trackOrder": "تتبع الطلب",
+    "help": "مساعدة"
+  },
+  "SearchBar": {
+    "placeholder": "بحث"
+  },
+  "Login": {
+    "signin": "تسجيل الدخول",
+    "email": "البريد الالكتروني*",
+    "password": "كلمة المرور*",
+    "forgotpassword": "نسيت كلمة المرور؟",
+    "login": "تسجيل الدخول",
+    "submitting": "يتم تسجيل الدخول...",
+    "unregisterd": "ليس لديك حساب؟",
+    "signup": "اشتراك"
+  },
+  "Register": {
+    "signup": "اشتراك",
+    "individual": "فرد",
+    "company": "شركة",
+    "fullName": "الاسم الكامل*",
+    "email": "البريد الإلكتروني*",
+    "mobileNumber": "رقم الجوال*",
+    "password": "كلمة المرور*",
+    "confirmPassword": "تأكيد كلمة المرور*",
+    "city": "المدينة*",
+    "taxNumber": "الرقم الضريبي",
+    "taxName": "الاسم الضريبي",
+    "taxAddress": "العنوان الضريبي",
+    "alreadyRegisterd": "لديك حساب بالفعل؟",
+    "login": "تسجيل الدخول",
+    "registerFooter": "بالتسجيل، فإنك توافق على ",
+    "privacyPolicy": "سياسة الخصوصية",
+    "and": "و",
+    "terms": "شروط الخدمة",
+    "submitting": "يتم الاشتراك..."
+  },
+
+  "Footer": {
+    "address": "مركز السدحان، شارع موسى بن نصير، حي السليمانية، الرياض.",
+    "phone": "+٩٦٦ ٥٩ ٩١٣ ٩٣١٨",
+    "email": "support@print.sa",
+    "help": "مساعدة",
+    "trackOrder": "تتبع الطلب",
+    "shipping": "الشحن",
+    "returns": "المرتجعات",
+    "about": "عنّا",
+    "aboutUs": "عنّا",
+    "faq": "الأسئلة الشائعة",
+    "contact": "اتصل بنا",
+    "copyRight": "برينت بلس ٢٠٢٥ ©",
+    "privacyPolicy": "سياسة الخصوصية",
+    "terms": "الشروط والأحكام"
   }
 }

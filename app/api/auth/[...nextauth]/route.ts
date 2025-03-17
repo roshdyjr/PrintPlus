@@ -63,6 +63,11 @@ const authOptions: NextAuthOptions = {
             throw new Error("Invalid login response: Missing token");
           }
 
+          console.log("Login Successful. Tokens Received:", {
+            accessToken: data.token,
+            refreshToken: data.refreshToken,
+          });
+
           return {
             id: data.id || "",
             email: credentials?.email || "",
@@ -90,33 +95,51 @@ const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       // Initial sign-in
       if (user) {
+        console.log("Initial Sign-In. Tokens Set:", {
+          accessToken: user.token,
+          refreshToken: user.refreshToken,
+          expiresIn: "1 minute", // For testing
+        });
+
         token.id = user.id;
         token.email = user.email;
         token.accessToken = user.token;
         token.refreshToken = user.refreshToken;
-        token.accessTokenExpires = Date.now() + 60 * 60 * 1000; // 1 hour for production
+        token.accessTokenExpires = Date.now() + 60 * 1000; // 1 minute for testing
       }
 
       // Check if the access token has expired
       if (Date.now() < (token.accessTokenExpires as number)) {
+        console.log("Access Token Still Valid:", {
+          accessToken: token.accessToken,
+          expiresAt: new Date(token.accessTokenExpires as number).toISOString(),
+        });
         return token; // Token is still valid
       }
 
       // Token has expired, refresh it
       try {
+        console.log("Access Token Expired. Refreshing Tokens...");
+
         const refreshedTokens = await refreshAccessToken(
           token.accessToken as string, // Pass the access token
           token.refreshToken as string // Pass the refresh token
         );
 
+        console.log("Tokens Refreshed Successfully:", {
+          newAccessToken: refreshedTokens.accessToken,
+          newRefreshToken: refreshedTokens.refreshToken,
+          expiresIn: "1 minute", // For testing
+        });
+
         return {
           ...token,
           accessToken: refreshedTokens.accessToken,
           refreshToken: refreshedTokens.refreshToken,
-          accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour for production
+          accessTokenExpires: Date.now() + 60 * 1000, // 1 minute for testing
         };
       } catch (error) {
-        console.error("Failed to refresh token:", error);
+        console.error("Failed to Refresh Tokens:", error);
         return { ...token, error: "RefreshAccessTokenError" }; // Mark the token as invalid
       }
     },
@@ -124,6 +147,12 @@ const authOptions: NextAuthOptions = {
       session.user = session.user || ({} as Session["user"]);
 
       if (token) {
+        console.log("Session Updated. Tokens:", {
+          accessToken: token.accessToken,
+          refreshToken: token.refreshToken,
+          expiresAt: new Date(token.accessTokenExpires as number).toISOString(), // Fix applied here
+        });
+
         session.user.id = (token.id as string) ?? "unknown";
         session.user.email = (token.email as string) ?? "";
         session.user.token = (token.accessToken as string) ?? "";
@@ -131,6 +160,7 @@ const authOptions: NextAuthOptions = {
       }
 
       if (token.error) {
+        console.error("Session Error:", token.error);
         session.error = token.error as string; // Pass token refresh errors to the session
       }
 

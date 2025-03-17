@@ -7,8 +7,9 @@ import InputField from "@/components/SharedComponents/InputField";
 import PhoneInput from "@/components/SharedComponents/IntlTelInputField";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails"; ; 
-
+import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails";
+import { useLocale } from "next-intl";
+import { useTranslations } from "use-intl";
 interface IndividualRegisterFormData extends PhoneFields {
   fullName: string;
   email: string;
@@ -44,20 +45,29 @@ const IndividualForm = () => {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const locale = useLocale();
+  const t = useTranslations("Register");
 
   const onSubmit = async (data: IndividualRegisterFormData) => {
     try {
       setLoading(true);
       const { confirmPassword, ...requestData } = data;
-      const response = await axios.post(`${API_BASE_URL}/auth/register`, requestData);
+      const response = await axios.post(
+        `${API_BASE_URL}/auth/register`,
+        requestData
+      );
       toast.success("Registration successful! Please check your email.");
       reset();
       router.push("login");
     } catch (error: any) {
       if (error.response) {
-        toast.error(error.response.data?.message || "An error occurred, please try again.");
+        toast.error(
+          error.response.data?.message || "An error occurred, please try again."
+        );
       } else if (error.request) {
-        toast.error("No response received from the server. Please check your internet connection.");
+        toast.error(
+          "No response received from the server. Please check your internet connection."
+        );
       } else {
         toast.error("An unexpected error occurred. Please try again.");
       }
@@ -67,12 +77,15 @@ const IndividualForm = () => {
   };
 
   return (
-    <form className="flex flex-col gap-6 w-full md:w-[485px]" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col gap-6 w-full md:w-[485px]"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="flex flex-col gap-6 w-full">
         {/* Full Name Input */}
         <InputField
           id="fullName"
-          label="Full name*"
+          label={t("fullName")}
           {...register("fullName", {
             required: "Full name is required.",
             validate: (value) => {
@@ -81,7 +94,8 @@ const IndividualForm = () => {
                 return 'Full name must be in the format "First Last" or "First Middle Last" and contain valid characters.';
               }
               for (let word of words) {
-                if (word.length < 2) return "Each word in the full name must be at least 2 characters long.";
+                if (word.length < 2)
+                  return "Each word in the full name must be at least 2 characters long.";
                 if (!/^[A-Za-z\u0600-\u06FF]+$/.test(word)) {
                   return 'Full name must be in the format "First Last" or "First Middle Last" and contain valid characters.';
                 }
@@ -95,7 +109,7 @@ const IndividualForm = () => {
         {/* Email Input */}
         <InputField
           id="email"
-          label="Email*"
+          label={t("email")}
           {...register("email", {
             required: "Email is required",
             pattern: {
@@ -110,40 +124,59 @@ const IndividualForm = () => {
           control={control}
           setValue={setValue}
           name="mobileNo"
-          label="Mobile Number*"
+          label={t("mobileNumber")}
         />
 
-        <input type="hidden" {...register("mobileCode", { required: "Country code is required" })} />
+        <input
+          type="hidden"
+          {...register("mobileCode", { required: "Country code is required" })}
+        />
         <input
           type="hidden"
           {...register("mobileIso", {
             required: "Country ISO code is required",
-            validate: (value) => value.length === 2 || "ISO code must be exactly 2 letters",
+            validate: (value) =>
+              value.length === 2 || "ISO code must be exactly 2 letters",
           })}
         />
 
         {/* Password Input */}
         <InputField
           id="password"
-          label="Password*"
+          label={t("password")}
           type="password"
           {...register("password", {
             required: "Password is required",
-            minLength: { value: 8, message: "Password must be at least 8 characters long" },
-            maxLength: { value: 64, message: "Password must not exceed 64 characters" },
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters long",
+            },
+            maxLength: {
+              value: 64,
+              message: "Password must not exceed 64 characters",
+            },
             validate: {
               hasUppercase: (value) =>
-                /[A-Z]/.test(value) || "Password must contain at least one uppercase letter",
+                /[A-Z]/.test(value) ||
+                "Password must contain at least one uppercase letter",
               hasLowercase: (value) =>
-                /[a-z]/.test(value) || "Password must contain at least one lowercase letter",
+                /[a-z]/.test(value) ||
+                "Password must contain at least one lowercase letter",
               hasDigit: (value) =>
                 /\d/.test(value) || "Password must contain at least one digit",
               hasSpecial: (value) =>
-                /[!@#$%^&*(),.?":{}|<>]/.test(value) || "Password must contain at least one special character",
+                /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
+                "Password must contain at least one special character",
               noWhitespace: (value) =>
                 !/\s/.test(value) || "Password must not contain spaces",
               notCommon: (value) =>
-                !["password", "123456", "12345678", "qwerty", "abc123"].includes(value.toLowerCase()) ||
+                ![
+                  "password",
+                  "123456",
+                  "12345678",
+                  "qwerty",
+                  "abc123",
+                ].includes(value.toLowerCase()) ||
                 "Password is too common and easy to guess",
             },
           })}
@@ -153,18 +186,19 @@ const IndividualForm = () => {
         {/* Confirm Password Input */}
         <InputField
           id="confirmpassword"
-          label="Confirm Password*"
+          label={t("confirmPassword")}
           type="password"
           {...register("confirmPassword", {
             required: "This field is required",
-            validate: (value) => value === watch("password") || "Passwords do not match",
+            validate: (value) =>
+              value === watch("password") || "Passwords do not match",
           })}
           error={errors.confirmPassword?.message}
         />
       </div>
 
       <CustomButton
-        label={loading ? "Signing up..." : "Sign up"}
+        label={loading ? t("submitting") : t("signup")}
         type="submit"
         className="mt-6"
         disabled={!isValid || loading}

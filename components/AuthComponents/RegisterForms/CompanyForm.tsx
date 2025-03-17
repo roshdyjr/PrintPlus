@@ -8,6 +8,8 @@ import InputField from "@/components/SharedComponents/InputField";
 import { useRouter } from "next/navigation";
 import SelectField from "@/components/SharedComponents/SelectField";
 import PhoneInput from "@/components/SharedComponents/IntlTelInputField";
+import { useLocale } from "next-intl";
+import { useTranslations } from "use-intl";
 
 // Interface defining the structure of the form data for company registration
 interface CompanyRegisterFormData {
@@ -56,6 +58,8 @@ const CompanyForm = () => {
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState<City[]>([]);
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations("Register");
 
   // React Hook Form methods for form management
   const {
@@ -130,7 +134,7 @@ const CompanyForm = () => {
           {/* Company Name Input */}
           <InputField
             id="companyName"
-            label="Full name*"
+            label={t("fullName")}
             {...register("companyName", {
               required: "Full name is required.",
               validate: (value) => {
@@ -154,7 +158,7 @@ const CompanyForm = () => {
           {/* Email Input */}
           <InputField
             id="email"
-            label="Email*"
+            label={t("email")}
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -170,13 +174,13 @@ const CompanyForm = () => {
             control={control}
             setValue={setValue}
             name="mobileNo"
-            label="Mobile Number*"
+            label={t("mobileNumber")}
           />
 
           {/* Password Input */}
           <InputField
             id="password"
-            label="Password*"
+            label={t("password")}
             type="password"
             {...register("password", {
               required: "Password is required",
@@ -220,7 +224,7 @@ const CompanyForm = () => {
           {/* Confirm Password Input */}
           <InputField
             id="confirmPassword"
-            label="Confirm Password*"
+            label={t("confirmPassword")}
             type="password"
             {...register("confirmPassword", {
               required: "This field is required",
@@ -236,7 +240,7 @@ const CompanyForm = () => {
           {/* City Select Field */}
           <SelectField
             id="cityId"
-            label="City*"
+            label={t("city")}
             options={cities}
             register={register("cityId", { required: "City is required" })}
             error={errors.cityId?.message}
@@ -245,7 +249,7 @@ const CompanyForm = () => {
           {/* Tax Number Input */}
           <InputField
             id="vatNumber"
-            label="Tax Number*"
+            label={t("taxNumber")}
             {...register("vatNumber", { required: "This field is required" })}
             error={errors.vatNumber?.message}
           />
@@ -253,7 +257,7 @@ const CompanyForm = () => {
           {/* Tax Name Input */}
           <InputField
             id="vatName"
-            label="Tax Name*"
+            label={t("taxName")}
             {...register("vatName", { required: "This field is required" })}
             error={errors.vatName?.message}
           />
@@ -261,7 +265,7 @@ const CompanyForm = () => {
           {/* Tax Address Input */}
           <InputField
             id="vatAddress"
-            label="Tax Address*"
+            label={t("taxAddress")}
             {...register("vatAddress", { required: "This field is required" })}
             error={errors.vatAddress?.message}
           />
@@ -285,7 +289,7 @@ const CompanyForm = () => {
       {/* Submit Button */}
       <div className="w-full">
         <CustomButton
-          label={loading ? "Signing up..." : "Sign up"}
+          label={loading ? t("submitting") : t("signup")}
           type="submit"
           className="mt-6"
           disabled={!isValid || loading}

@@ -1,14 +1,13 @@
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaYoutube,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const MainFooter = () => {
+  const t = useTranslations("Footer");
+  const locale = useLocale();
   return (
     <footer className="flex flex-col justify-start items-center px-12 pt-12 pb-6 bg-[#F8FAFC] gap-1 w-full text-shadeBlack xlg:px-[72px] xlg:pt-[72px] xlg:pb-9">
       <hr />
@@ -20,36 +19,41 @@ const MainFooter = () => {
           <div className="flex flex-col gap-[11px] xlg:gap-[16.5px]">
             {/* Logo div */}
             <Link href={"/"}>
-              <Image src={"/logo.svg"} alt="logo" width={84} height={50} className="xlg:w-[127px] xlg:h-[75.5px]" />
+              <Image
+                src={"/logo.svg"}
+                alt="logo"
+                width={84}
+                height={50}
+                className="xlg:w-[127px] xlg:h-[75.5px]"
+              />
             </Link>
             {/* Footer logo section card */}
             <p className="text-[15px] max-w-[280px] xlg:max-w-[420px] xlg:text-[20px]">
-              Al-Sadhan Center, Mousa Bin Nasser Street, Al-Sulaimaniya
-              District, Riyadh.
+              {t("address")}
             </p>
             <div className="flex flex-col gap-1 font-medium text-black text-[13px] xlg:gap-[6px] xlg:font-medium xlg:text-[20px]">
-              <p>+966 59 913 9318</p>
-              <p>support@print.sa</p>
+              <p>{t("phone")}</p>
+              <p>{t("email")}</p>
             </div>
           </div>
           {/* Links and Sponsers Section */}
           <div className="flex flex-col justify-between items-start flex-1 lg:flex-row">
             {/* Help Section Content large screen */}
             <div className="hidden lg:flex flex-col gap-4">
-              <p className="font-semibold xlg:text-[20px]">Help</p>
+              <p className="font-semibold xlg:text-[20px]">{t("help")}</p>
               <div className="flex flex-col gap-1 xlg:gap-[6px] xlg:text-[20px]">
-                <Link href={"/"}>Track order</Link>
-                <Link href={"/"}>Shipping</Link>
-                <Link href={"/"}>Returns</Link>
+                <Link href={"/"}>{t("trackOrder")}</Link>
+                <Link href={"/"}>{t("shipping")}</Link>
+                <Link href={"/"}>{t("returns")}</Link>
               </div>
             </div>
             {/* About us Section Content large screen */}
             <div className="hidden lg:flex flex-col gap-4">
-              <p className="font-semibold xlg:text-[20px]">About us</p>
+              <p className="font-semibold xlg:text-[20px]">{t("about")}</p>
               <div className="flex flex-col gap-1 xlg:gap-[6px] xlg:text-[20px]">
-                <Link href={"/"}>About Us</Link>
-                <Link href={"/"}>FAQs</Link>
-                <Link href={"/"}>Contact Us</Link>
+                <Link href={"/"}>{t("aboutUs")}</Link>
+                <Link href={"/"}>{t("faq")}</Link>
+                <Link href={"/"}>{t("contact")}</Link>
               </div>
             </div>
             {/* Help and About us Small screen */}
@@ -63,17 +67,23 @@ const MainFooter = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-4 text-nowrap">
-                <p className="font-semibold">About us</p>
+                <p className="font-semibold">{t("aboutUs")}</p>
                 <div className="flex flex-col gap-1">
-                  <Link href={"/"}>About Us</Link>
-                  <Link href={"/"}>FAQs</Link>
-                  <Link href={"/"}>Contact Us</Link>
+                  <Link href={"/"}>{t("aboutUs")}</Link>
+                  <Link href={"/"}>{t("faq")}</Link>
+                  <Link href={"/"}>{t("contact")}</Link>
                 </div>
               </div>
             </div>
             {/* Sponsers and Social Links Section */}
             <div className="flex flex-col gap-6 xlg:gap-9">
-              <Image src={"/Footer6.svg"} alt="vat" width={42} height={50} className="xlg:w-[62.5px] xlg:h-[75.23px]" />
+              <Image
+                src={"/Footer6.svg"}
+                alt="vat"
+                width={42}
+                height={50}
+                className="xlg:w-[62.5px] xlg:h-[75.23px]"
+              />
               <div className="flex items-center gap-2 xlg:gap-3">
                 <Image
                   src={"/Footer3.svg"}
@@ -133,10 +143,16 @@ const MainFooter = () => {
       <div className="flex flex-col w-full pt-3 gap-8 2xl:max-w-[1440px] text-nowrap xlg:max-w-[1920px] xlg:pt-[18px] xlg:gap-12 xlg:justify-start">
         <hr className="w-full" />
         <div className="flex flex-col items-center justify-between lg:flex-row">
-          <p className="text-sm order-2 lg:order-1 xlg:text-[21px]">© 2025 print plus</p>
+          <p className="text-sm order-2 lg:order-1 xlg:text-[21px]">
+            {t("copyRight")}
+          </p>
           <div className="flex items-center gap-4 mb-8 order-1 lg:order-2 lg:mb-0 xlg:gap-6">
-            <button className="underline text-sm xlg:text-[21px]">Privacy Policy</button>
-            <button className="underline text-sm xlg:text-[21px]">Terms & Conditions</button>
+            <button className="underline text-sm xlg:text-[21px]">
+              {t("privacyPolicy")}
+            </button>
+            <button className="underline text-sm xlg:text-[21px]">
+              {t("terms")}
+            </button>
           </div>
         </div>
       </div>

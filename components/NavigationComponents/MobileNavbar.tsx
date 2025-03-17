@@ -7,30 +7,36 @@ import { fetchCategories } from "@/utils/fetchCategories";
 import { useSession, signOut } from "next-auth/react";
 import AccountOverlay from "./AccountOverlay";
 import axios from "axios";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAccountOverlayOpen, setIsAccountOverlayOpen] = useState(false); // State for AccountOverlay
-  const [categories, setCategories] = useState<Category[]>([]); // Define the type for categories
+  const [isAccountOverlayOpen, setIsAccountOverlayOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [userData, setUserData] = useState<{
     fullName: string;
     balance: number;
-  } | null>(null); // State for user data
-  const { data: session } = useSession(); // Get the session
-  const router = useRouter(); // Initialize useRouter
+  } | null>(null);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  // Get the current locale and translations
+  const locale = useLocale();
+  const t = useTranslations("Navbar");
 
   // Fetch categories on component mount
   useEffect(() => {
     const getCategories = async () => {
-      const categories = await fetchCategories();
+      const categories = await fetchCategories(locale);
       setCategories(categories);
     };
 
     getCategories();
-  }, []);
+  }, [locale]);
 
   // Fetch user data when session changes
   useEffect(() => {
@@ -40,7 +46,7 @@ const MobileNavbar = () => {
           const response = await axios.get(`${API_BASE_URL}/users/get`, {
             headers: {
               Authorization: `Bearer ${session.user.token}`,
-              "Accept-Language": "en-US",
+              "Accept-Language": locale === "en" ? "en-US" : "ar-SA",
             },
           });
 
@@ -57,7 +63,7 @@ const MobileNavbar = () => {
     };
 
     fetchUserData();
-  }, [session]);
+  }, [session, locale]);
 
   const handleNavToggler = () => {
     setIsOpen(!isOpen);
@@ -65,25 +71,40 @@ const MobileNavbar = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    setIsAccountOverlayOpen(false); // Close both overlays
+    setIsAccountOverlayOpen(false);
   };
 
   const handleAccountClick = () => {
     if (session) {
-      setIsAccountOverlayOpen(true); // Open the AccountOverlay if logged in
+      setIsAccountOverlayOpen(true);
     } else {
-      handleClose(); // Close the navbar overlay
-      router.push("/login"); // Redirect to login page if not logged in
+      handleClose();
+      router.push("/login");
     }
   };
 
   const handleReturn = () => {
-    setIsAccountOverlayOpen(false); // Hide only the AccountOverlay
+    setIsAccountOverlayOpen(false);
   };
 
   const handleLogout = () => {
-    signOut({ callbackUrl: "/login" }); // Handle logout
-    handleClose(); // Close both overlays
+    signOut({ callbackUrl: "/login" });
+    handleClose();
+  };
+
+  // Language toggler function
+  const handleLanguageSwitch = () => {
+    const newLocale = locale === "en" ? "ar" : "en"; // Toggle between "en" and "ar"
+
+    // Get the current path without the locale segment
+    const currentPath = window.location.pathname; // e.g., "/en/category/1"
+    const pathWithoutLocale = currentPath.split("/").slice(2).join("/"); // e.g., "category/1"
+
+    // Construct the new URL with the updated locale
+    const newPath = `/${newLocale}/${pathWithoutLocale}`; // e.g., "/ar/category/1"
+
+    // Redirect to the new URL
+    router.push(newPath);
   };
 
   return (
@@ -94,9 +115,7 @@ const MobileNavbar = () => {
         <div className="bg-[#F1F5F9] flex justify-center items-center h-[32px]">
           <div className="flex items-center gap-2">
             <Image src={"/truck.svg"} alt="delivery" width={16} height={16} />
-            <p className="text-xs text-[#334155]">
-              Free shipping for orders over 50SAR
-            </p>
+            <p className="text-xs text-[#334155]">{t("freeShipping")}</p>
           </div>
         </div>
         {/* Mobile Navbar Items */}
@@ -171,9 +190,9 @@ const MobileNavbar = () => {
             {categories.map((category) => (
               <li key={category.categoryId} className="px-4 py-[14px]">
                 <Link
-                  href={`/category/${category.categoryId}`} // Link to the category page
+                  href={`/${locale}/category/${category.categoryId}`}
                   className="font-semibold text-shadeBlack"
-                  onClick={handleClose} // Close the navbar on link click
+                  onClick={handleClose}
                 >
                   {category.categoryName}
                 </Link>
@@ -185,12 +204,12 @@ const MobileNavbar = () => {
             </div>
             {/* Profile */}
             <button
-              onClick={handleAccountClick} // Open the AccountOverlay or redirect to login
+              onClick={handleAccountClick}
               className="p-4 flex items-center gap-2 w-full"
             >
               <Image src={"/user.svg"} alt="user" width={24} height={24} />
               <p className="font-semibold text-shadeBlack">
-                {session ? userData?.fullName || "Profile" : "Log in"}
+                {session ? userData?.fullName || t("profile") : t("login")}
               </p>
             </button>
             {/* Divider */}
@@ -199,33 +218,32 @@ const MobileNavbar = () => {
             </div>
             {/* Language Section */}
             <div className="px-4 pt-4 pb-1">
-              <p className="text-sm text-[#64748B] font-semibold">Language</p>
+              <p className="text-sm text-[#64748B] font-semibold">
+                {t("mobileLanguage")}
+              </p>
             </div>
-            <div className="flex items-center justify-between py-[14px] px-4">
-              <p className="text-shadeBlack">English</p>
-              <Image
-                src={"/cheveron-right.svg"}
-                alt="chevron"
-                width={24}
-                height={24}
-              />
-            </div>
+            <button
+              onClick={handleLanguageSwitch}
+              className="flex items-center justify-between py-[14px] px-4 w-full"
+            >
+              <p className="text-shadeBlack">
+                {locale === "ar" ? "English" : "العربية"}
+              </p>
+              {locale === "ar" ? <FaChevronLeft /> : <FaChevronRight />}
+            </button>
             {/* Divider */}
             <div className="px-4 py-3">
               <hr />
             </div>
             {/* City Section */}
             <div className="px-4 pt-4 pb-1">
-              <p className="text-sm text-[#64748B] font-semibold">City</p>
+              <p className="text-sm text-[#64748B] font-semibold">
+                {t("mobileCity")}
+              </p>
             </div>
             <div className="flex items-center justify-between py-[14px] px-4">
-              <p className="text-shadeBlack">Riyadh</p>
-              <Image
-                src={"/cheveron-right.svg"}
-                alt="chevron"
-                width={24}
-                height={24}
-              />
+              <p className="text-shadeBlack">{t("city")}</p>
+              {locale === "ar" ? <FaChevronLeft /> : <FaChevronRight />}
             </div>
             {/* Divider */}
             <div className="px-4 py-3">
@@ -260,7 +278,7 @@ const MobileNavbar = () => {
                 className="text-shadeBlack"
                 onClick={handleClose}
               >
-                Track order
+                {t("trackOrder")}
               </Link>
             </div>
             <div className="px-4 py-3">
@@ -269,7 +287,7 @@ const MobileNavbar = () => {
                 className="text-shadeBlack"
                 onClick={handleClose}
               >
-                Help
+                {t("help")}
               </Link>
             </div>
           </ul>
@@ -279,9 +297,9 @@ const MobileNavbar = () => {
       {/* Account Overlay */}
       {isAccountOverlayOpen && (
         <AccountOverlay
-          onClose={handleClose} // Close both overlays
-          onReturn={handleReturn} // Hide only the AccountOverlay
-          handleLogout={handleLogout} // Handle logout
+          onClose={handleClose}
+          onReturn={handleReturn}
+          handleLogout={handleLogout}
         />
       )}
     </header>

@@ -1,4 +1,5 @@
 "use client";
+import { useLocale } from "next-intl";
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import PhoneInput from "react-phone-input-2";
@@ -30,10 +31,14 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const locale = useLocale();
 
   return (
     <div className="flex flex-col justify-start items-start w-full gap-1 xlg:gap-[6px]">
-      <label htmlFor={id} className="font-bold text-shadeGray text-sm xlg:text-[20px]">
+      <label
+        htmlFor={id}
+        className="font-bold text-shadeGray text-sm xlg:text-[20px]"
+      >
         {label}
       </label>
       <div className="relative w-full">
@@ -76,7 +81,9 @@ const InputField: React.FC<InputFieldProps> = ({
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className={`absolute right-3 flex items-center text-gray-500 ${error ? "top-2" : "inset-y-0"}`}
+                className={`absolute flex items-center text-gray-500 ${
+                  error ? "top-2" : "inset-y-0"
+                } ${locale === "ar" ? "left-3" : "right-3"}`}
               >
                 {showPassword ? (
                   <AiOutlineEyeInvisible size={22} />

@@ -1,5 +1,66 @@
 {
-  "Home": {
-    "title": "Welcome to Print Plus"
+  "Navbar": {
+    "freeShipping": "Free shipping for orders over 50SAR",
+    "profile": "Profile",
+    "login": "Log in",
+    "city": "Riyadh",
+    "mobileLanguage": "Language",
+    "mobileCity": "City",
+    "trackOrder": "Track order",
+    "help": "Help"
+  },
+
+  "SearchBar": {
+    "placeholder": "Search"
+  },
+
+  "Login": {
+    "signin": "Sign in",
+    "email": "Email*",
+    "password": "Password*",
+    "forgotpassword": "Forgot password?",
+    "login": "Log in",
+    "submitting": "Logging in...",
+    "unregisterd": "Don't have an account",
+    "signup": "Sign up"
+  },
+
+  "Register": {
+    "signup": "Sign up",
+    "individual": "Individual",
+    "company": "Company",
+    "fullName": "Full name*",
+    "email": "Email*",
+    "mobileNumber": "Mobile Number*",
+    "password": "Password*",
+    "confirmPassword": "Confirm Password*",
+    "city": "City*",
+    "taxNumber": "Tax Number",
+    "taxName": "Tax Name",
+    "taxAddress": "Tax Address",
+    "alreadyRegisterd": "Already have an account?",
+    "login": "Log in",
+    "registerFooter": "By signing up, you agree to our ",
+    "privacyPolicy": "Privacy Policy",
+    "and": "and",
+    "terms": "Terms of Service",
+    "submitting": "Signing up..."
+  },
+
+  "Footer": {
+    "address": "Al-Sadhan Center, Mousa Bin Nasser Street, Al-Sulaimaniya District, Riyadh.",
+    "phone": "+966 59 913 9318",
+    "email": "support@print.sa",
+    "help": "Help",
+    "trackOrder": "Track order",
+    "shipping": "Shipping",
+    "returns": "Returns",
+    "about": "About us",
+    "aboutUs": "About Us",
+    "faq": "FAQs",
+    "contact": "Contact Us",
+    "copyRight": "© 2025 print plus",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms & Conditions"
   }
 }

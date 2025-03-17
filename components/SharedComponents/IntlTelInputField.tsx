@@ -10,6 +10,7 @@ import {
 import dynamic from "next/dynamic";
 import "intl-tel-input/styles";
 import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails";
+import { useLocale } from "next-intl";
 
 // Dynamically import IntlTelInput with SSR disabled
 const IntlTelInput = dynamic(() => import("intl-tel-input/reactWithUtils"), {
@@ -49,6 +50,8 @@ const PhoneInput = <T extends PhoneFields>({
     control,
     name: "mobileCode" as Path<T>,
   });
+
+  const locale = useLocale();
 
   return (
     <Controller
@@ -95,9 +98,11 @@ const PhoneInput = <T extends PhoneFields>({
             </label>
             <div className="relative w-full">
               <div
-                className={`flex flex-row items-center border xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px] ${
+                className={`flex items-center border xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px] ${
                   showError ? "border-[#FB7185]" : "border-borderColor"
-                } rounded-lg h-[40px]`}
+                } rounded-lg h-[40px] ${
+                  locale === "ar" ? "flex-row" : "flex-row"
+                }`}
               >
                 {typeof window !== "undefined" && (
                   <IntlTelInput
@@ -158,8 +163,9 @@ const PhoneInput = <T extends PhoneFields>({
                     inputProps={{
                       id: "phone-input",
                       onBlur: field.onBlur,
-                      className:
-                        "border-none h-[40px] text-left self-center ml-2 w-full focus:outline-none placeholder:text-[#525252] bg-transparent ",
+                      className: `border-none h-[40px] self-center ms-2 w-full focus:outline-none placeholder:text-[#525252] bg-transparent ${
+                        locale === "ar" ? "text-right" : "text-left"
+                      }`,
                     }}
                   />
                 )}

@@ -1,3 +1,4 @@
+import { useLocale } from "next-intl";
 import React, { useState, useRef, useEffect } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { FaChevronDown } from "react-icons/fa";
@@ -23,6 +24,8 @@ const SelectField: React.FC<SelectFieldProps> = ({
     text: string;
   } | null>(options[0] || null); // Set the first option as the default selected option
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const locale = useLocale();
 
   // Handle clicks outside the dropdown to close it
   useEffect(() => {
@@ -68,9 +71,9 @@ const SelectField: React.FC<SelectFieldProps> = ({
           onClick={() => setIsOpen(!isOpen)}
         >
           <span>
-            {selectedOption ? selectedOption.text : "Select an option"}
+            {selectedOption ? selectedOption.text : locale === "ar" ? "اختر من القائمة": "Select an option"}
           </span>
-          <FaChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
+          <FaChevronDown className={`absolute top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none ${locale === "ar" ? "left-4" : "right-4"}`} />
         </div>
 
         {/* Custom Dropdown Options */}
