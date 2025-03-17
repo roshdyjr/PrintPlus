@@ -94,7 +94,7 @@ const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.accessToken = user.token;
         token.refreshToken = user.refreshToken;
-        token.accessTokenExpires = Date.now() + 5 * 1000; // 5 seconds for testing
+        token.accessTokenExpires = Date.now() + 60 * 60 * 1000; // 1 hour for production
       }
 
       // Check if the access token has expired
@@ -113,7 +113,7 @@ const authOptions: NextAuthOptions = {
           ...token,
           accessToken: refreshedTokens.accessToken,
           refreshToken: refreshedTokens.refreshToken,
-          accessTokenExpires: Date.now() + 5 * 1000, // 5 seconds for testing
+          accessTokenExpires: Date.now() + 60 * 60 * 1000, // 1 hour for production
         };
       } catch (error) {
         console.error("Failed to refresh token:", error);
