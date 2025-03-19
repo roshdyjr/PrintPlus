@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -16,6 +17,7 @@ const AddressDetails = () => {
   const { data: session, status } = useSession(); // Get the session and its status
   const [address, setAddress] = useState<ProfileAddressDetails[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations("ProfileInfo");
 
   useEffect(() => {
     // Only fetch data if the user is authenticated, the token is available, and address is not already set
@@ -53,7 +55,7 @@ const AddressDetails = () => {
   return (
     <div className="flex justify-between items-start">
       <div className="flex flex-col gap-4">
-        <p className="text-lg font-semibold xlg:text-[24px]">Address</p>
+        <p className="text-lg font-semibold xlg:text-[24px]">{t("address")}</p>
         {isLoading ? (
           <p>Loading...</p>
         ) : firstAddress ? (
@@ -68,7 +70,7 @@ const AddressDetails = () => {
         href={"/profile/info/address"}
         className="text-sm text-[#475569] font-semibold xlg:text-[20px]"
       >
-        Edit
+        {t("edit")}
       </Link>
     </div>
   );

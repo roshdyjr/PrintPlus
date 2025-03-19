@@ -34,7 +34,7 @@ export default function ContainerProductSidebar({
       )}
 
       <div
-        className={`fixed top-0 left-0 h-full w-full bg-white z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-full bg-white z-50 transform transition-transform duration-300 overflow-y-scroll ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

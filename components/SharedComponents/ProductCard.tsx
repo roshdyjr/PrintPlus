@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -22,6 +23,7 @@ const ProductCard = ({
   saleAmount,
 }: ProductCardProps) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const t = useTranslations("CategoriesList");
 
   // Fetch the product thumbnail image
   useEffect(() => {
@@ -84,8 +86,8 @@ const ProductCard = ({
       <div className="flex flex-col">
         <p className="font-semibold text-black text-sm xlg:text-[22px]">{title}</p>
         <p className="text-sm xlg:text-lg">
-          starts from{" "}
-          <span className="font-semibold text-[#6366F1] xlg:text-[21px]">{price}</span> SAR
+          {t("startPrice")}{" "}
+          <span className="font-semibold text-[#6366F1] xlg:text-[21px]">{price}</span> {t("currency")}
         </p>
       </div>
     </div>

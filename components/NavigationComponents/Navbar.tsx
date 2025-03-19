@@ -9,7 +9,7 @@ import { useSession, signOut } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import NavbarDropDown from "./NavbarDropDown";
-import { useLocale, useTranslations } from "next-intl"; // Import next-intl hooks
+import { useLocale, useTranslations } from "next-intl";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -161,12 +161,21 @@ const Navbar = () => {
               {/* Language Button */}
               <button
                 onClick={handleLanguageSwitch}
-                className="px-3 py-[10px] rounded-lg flex justify-center items-center xlg:px-[18px] xlg:py-[15px]"
+                className="px-3 py-[10px] flex justify-center items-center xlg:px-[18px] xlg:py-[15px]"
               >
-                <p className="font-semibold text-base xlg:text-[20px]">
-                  {locale === "en" ? "ع" : "E"}{" "}
-                  {/* Toggle between "ع" and "E" */}
-                </p>
+                <div className="px-3 py-[10px] border-[1.5px] border-[#94A3B8] flex justify-center items-center gap-2 w-[60px] h-[42px] xlg:py-6 xlg:gap-3 rounded-[30px] xlg:w-[95px] xlg:h-[54px]">
+                  <Image
+                    src={"/globe.svg"}
+                    alt="globe"
+                    width={24}
+                    height={24}
+                    className= "w- h-4 xlg:w-6 xlg:h-6"
+                  />
+                  <p className="font-semibold text-base xlg:text-[20px]">
+                    {locale === "en" ? "ع" : "E"}{" "}
+                    {/* Toggle between "ع" and "E" */}
+                  </p>
+                </div>
               </button>
               {/* City Selection Button */}
               <button className="w-[120px] h-[48px] xlg:w-[156px] xlg:h-[54px]">

@@ -7,11 +7,13 @@ import ProductCard from "@/components/SharedComponents/ProductCard";
 import { useSubCategoryData } from "@/hooks/useSubCategoryData";
 import { useProducts } from "@/hooks/useProducts";
 import ProductsSkeleton from "@/components/SharedComponents/ProductsSkeleton";
+import { useTranslations } from "use-intl";
 
 const SubCategoryPage = () => {
   const params = useParams();
   const categoryId = params.id as string;
   const subCategoryId = params.subcategoryId as string;
+  const t = useTranslations("CategoriesList")
 
   // Fetch subcategory data (cached)
   const {
@@ -58,7 +60,7 @@ const SubCategoryPage = () => {
         ) : (
           // Display a message if no products are available
           <p className="text-shadeGray text-sm xlg:text-2xl">
-            No products available in this subcategory.
+            {t("noProducts")}
           </p>
         )}
       </div>

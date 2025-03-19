@@ -60,6 +60,7 @@ const CompanyForm = () => {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("Register");
+  const v = useTranslations("AuthValidationMessages");
 
   // React Hook Form methods for form management
   const {
@@ -111,7 +112,9 @@ const CompanyForm = () => {
 
       // Send registration request to the API
       await axios.post(`${API_BASE_URL}/auth/register`, requestData);
-      toast.success("Registration successful! Please check your email.");
+      locale === "ar"
+        ? toast.success("تم الاشتراك بنجاح! برجاء تفقد بريدك الالكتروني.")
+        : toast.success("Registration successful! Please check your email.");
       reset();
       router.push("/login");
     } catch (error: any) {
@@ -136,17 +139,16 @@ const CompanyForm = () => {
             id="companyName"
             label={t("fullName")}
             {...register("companyName", {
-              required: "Full name is required.",
+              required: v("fullNameRequired"),
               validate: (value) => {
                 const words = value.trim().split(/\s+/);
                 if (!(words.length === 2 || words.length === 3)) {
-                  return 'Full name must be in the format "First Last" or "First Middle Last" and contain valid characters.';
+                  return v("fullNameValid");
                 }
                 for (let word of words) {
-                  if (word.length < 2)
-                    return "Each word in the full name must be at least 2 characters long.";
+                  if (word.length < 2) return v("fullNameMinLength");
                   if (!/^[A-Za-z\u0600-\u06FF]+$/.test(word)) {
-                    return 'Full name must be in the format "First Last" or "First Middle Last" and contain valid characters.';
+                    return v("fullNameValid");
                   }
                 }
                 return true;
@@ -160,10 +162,10 @@ const CompanyForm = () => {
             id="email"
             label={t("email")}
             {...register("email", {
-              required: "Email is required",
+              required: v("requiredEmail"),
               pattern: {
                 value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
-                message: "Invalid email format",
+                message: v("invalidEmailFormat"),
               },
             })}
             error={errors.email?.message}
@@ -183,30 +185,26 @@ const CompanyForm = () => {
             label={t("password")}
             type="password"
             {...register("password", {
-              required: "Password is required",
+              required: v("requiredPassword"),
               minLength: {
                 value: 8,
-                message: "Password must be at least 8 characters long",
+                message: v("minLengthPassword"),
               },
               maxLength: {
                 value: 64,
-                message: "Password must not exceed 64 characters",
+                message: v("maxLengthPassword"),
               },
               validate: {
                 hasUpperCase: (value) =>
-                  /[A-Z]/.test(value) ||
-                  "Password must contain at least one uppercase letter",
+                  /[A-Z]/.test(value) || v("passwordUpperCase"),
                 hasLowerCase: (value) =>
-                  /[a-z]/.test(value) ||
-                  "Password must contain at least one lowercase letter",
-                hasDigit: (value) =>
-                  /\d/.test(value) ||
-                  "Password must contain at least one digit",
+                  /[a-z]/.test(value) || v("passwordLowerCase"),
+                hasDigit: (value) => /\d/.test(value) || v("passwordDigit"),
                 hasSpecialChar: (value) =>
                   /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
-                  "Password must contain at least one special character",
+                  v("passwordSpecialChar"),
                 noWhiteSpace: (value) =>
-                  !/\s/.test(value) || "Password must not contain spaces",
+                  !/\s/.test(value) || v("passwordSpace"),
                 notCommon: (value) =>
                   ![
                     "password",
@@ -214,8 +212,7 @@ const CompanyForm = () => {
                     "12345678",
                     "qwerty",
                     "abc123",
-                  ].includes(value.toLowerCase()) ||
-                  "Password is too common and easy to guess",
+                  ].includes(value.toLowerCase()) || v("passwordCommon"),
               },
             })}
             error={errors.password?.message}
@@ -227,9 +224,9 @@ const CompanyForm = () => {
             label={t("confirmPassword")}
             type="password"
             {...register("confirmPassword", {
-              required: "This field is required",
+              required: v("confirmPasswordRequired"),
               validate: (value) =>
-                value === watch("password") || "Passwords do not match",
+                value === watch("password") || v("confirmPasswordMatch"),
             })}
             error={errors.confirmPassword?.message}
           />
@@ -242,7 +239,7 @@ const CompanyForm = () => {
             id="cityId"
             label={t("city")}
             options={cities}
-            register={register("cityId", { required: "City is required" })}
+            register={register("cityId", { required: v("cityRequired") })}
             error={errors.cityId?.message}
           />
 
@@ -250,7 +247,7 @@ const CompanyForm = () => {
           <InputField
             id="vatNumber"
             label={t("taxNumber")}
-            {...register("vatNumber", { required: "This field is required" })}
+            {...register("vatNumber", { required: v("vatNumberRequired") })}
             error={errors.vatNumber?.message}
           />
 
@@ -258,7 +255,7 @@ const CompanyForm = () => {
           <InputField
             id="vatName"
             label={t("taxName")}
-            {...register("vatName", { required: "This field is required" })}
+            {...register("vatName", { required: v("vatNameRequired") })}
             error={errors.vatName?.message}
           />
 
@@ -266,7 +263,7 @@ const CompanyForm = () => {
           <InputField
             id="vatAddress"
             label={t("taxAddress")}
-            {...register("vatAddress", { required: "This field is required" })}
+            {...register("vatAddress", { required: v("vatAddressRequired") })}
             error={errors.vatAddress?.message}
           />
         </div>

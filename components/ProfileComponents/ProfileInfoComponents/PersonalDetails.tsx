@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -16,12 +17,19 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const PersonalDetails = () => {
   const { data: session, status } = useSession(); // Get the session and its status
-  const [personalDetails, setPersonalDetails] = useState<ProfilePersonalDetails | null>(null);
+  const [personalDetails, setPersonalDetails] =
+    useState<ProfilePersonalDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations("ProfileInfo");
+  const locale = useLocale();
 
   useEffect(() => {
     // Only fetch data if the user is authenticated, the token is available, and personalDetails is not already set
-    if (status === "authenticated" && session?.user?.token && !personalDetails) {
+    if (
+      status === "authenticated" &&
+      session?.user?.token &&
+      !personalDetails
+    ) {
       const fetchPersonalDetails = async () => {
         setIsLoading(true);
         try {
@@ -48,7 +56,9 @@ const PersonalDetails = () => {
   return (
     <div className="flex justify-between items-start">
       <div className="flex flex-col gap-4 xlg:gap-6">
-        <p className="font-semibold text-lg xlg:text-[24px]">Personal details</p>
+        <p className="font-semibold text-lg xlg:text-[24px]">
+          {t("personalDetails")}
+        </p>
         {isLoading ? (
           <p>Loading...</p>
         ) : (
@@ -65,7 +75,7 @@ const PersonalDetails = () => {
         href={"/profile/info/personaldetails"}
         className="text-sm text-[#475569] font-semibold xlg:text-[20px]"
       >
-        Edit
+        {t("edit")}
       </Link>
     </div>
   );

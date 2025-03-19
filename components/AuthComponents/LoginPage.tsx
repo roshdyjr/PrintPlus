@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import CustomButton from "@/components/SharedComponents/CustomButton";
 import InputField from "@/components/SharedComponents/InputField";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface LoginFormData {
   email: string;
@@ -17,6 +17,8 @@ interface LoginFormData {
 
 const LoginPage = () => {
   const t = useTranslations("Login"); //Login page translations object
+  const v = useTranslations("AuthValidationMessages");
+  const locale = useLocale();
 
   const {
     register,
@@ -47,7 +49,10 @@ const LoginPage = () => {
 
     // ✅ Successful login
     console.log("Redirect URL:", result?.url); // Debugging
-    toast.success("تم تسجيل الدخول بنجاح!", { autoClose: 1000 }); // 👈 Toast appears for 1 second
+    locale === "ar"
+      ? toast.success("تم تسجيل الدخول بنجاح!", { autoClose: 1000 })
+      : toast.success("Successful Login!", { autoClose: 1000 });
+    // 👈 Toast appears for 1 second
 
     setTimeout(() => {
       window.location.href = "/";
@@ -71,10 +76,10 @@ const LoginPage = () => {
             label={t("email")}
             type="email"
             {...register("email", {
-              required: "Email is required",
+              required: v("requiredEmail"),
               pattern: {
                 value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                message: "Invalid email format",
+                message: v("invalidEmailFormat"),
               },
             })}
             error={errors.email?.message}
@@ -88,14 +93,14 @@ const LoginPage = () => {
             label={t("password")}
             type="password"
             {...register("password", {
-              required: "Password is required",
+              required: v("requiredPassword"),
               minLength: {
                 value: 8,
-                message: "Password must be at least 8 characters.",
+                message: v("minLengthPassword"),
               },
               maxLength: {
                 value: 64,
-                message: "Password must be at most 64 characters.",
+                message: v("maxLengthPassword"),
               },
             })}
             error={errors.password?.message}

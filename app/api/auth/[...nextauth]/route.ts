@@ -1,6 +1,5 @@
 import NextAuth, {
   NextAuthOptions,
-  User,
   DefaultSession,
   Session,
 } from "next-auth";
@@ -33,7 +32,7 @@ declare module "next-auth" {
     email: string;
     accessToken: string;
     refreshToken: string;
-    accessTokenExpires: number;
+    accessTokenExpires?: number;
     error?: string; // Add the `error` property
   }
 }
@@ -48,6 +47,8 @@ const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
+          console.log("Attempting to authorize with credentials:", credentials);
+
           const response = await axios.post(`${API_BASE_URL}/auth/login`, {
             email: credentials?.email,
             password: credentials?.password,
@@ -56,10 +57,12 @@ const authOptions: NextAuthOptions = {
           const { success, message, data } = response.data;
 
           if (!success) {
+            console.error("Login failed with message:", message);
             throw new Error(message || "Login failed");
           }
 
           if (!data.token || !data.refreshToken) {
+            console.error("Invalid login response: Missing token");
             throw new Error("Invalid login response: Missing token");
           }
 
@@ -73,6 +76,7 @@ const authOptions: NextAuthOptions = {
             email: credentials?.email || "",
             token: data.token,
             refreshToken: data.refreshToken,
+            accessTokenExpires: Date.now() + 1000 * 60 * 60, // Assuming token expires in 1 hour
           };
         } catch (error: any) {
           console.error(
@@ -93,77 +97,78 @@ const authOptions: NextAuthOptions = {
   secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
+      console.log("JWT Callback Triggered:", { token, user });
+    
       // Initial sign-in
       if (user) {
         console.log("Initial Sign-In. Tokens Set:", {
           accessToken: user.token,
           refreshToken: user.refreshToken,
-          expiresIn: "1 minute", // For testing
         });
-
-        token.id = user.id;
-        token.email = user.email;
-        token.accessToken = user.token;
-        token.refreshToken = user.refreshToken;
-        token.accessTokenExpires = Date.now() + 60 * 1000; // 1 minute for testing
-      }
-
-      // Check if the access token has expired
-      if (Date.now() < (token.accessTokenExpires as number)) {
-        console.log("Access Token Still Valid:", {
-          accessToken: token.accessToken,
-          expiresAt: new Date(token.accessTokenExpires as number).toISOString(),
-        });
-        return token; // Token is still valid
-      }
-
-      // Token has expired, refresh it
-      try {
-        console.log("Access Token Expired. Refreshing Tokens...");
-
-        const refreshedTokens = await refreshAccessToken(
-          token.accessToken as string, // Pass the access token
-          token.refreshToken as string // Pass the refresh token
-        );
-
-        console.log("Tokens Refreshed Successfully:", {
-          newAccessToken: refreshedTokens.accessToken,
-          newRefreshToken: refreshedTokens.refreshToken,
-          expiresIn: "1 minute", // For testing
-        });
-
+    
         return {
           ...token,
-          accessToken: refreshedTokens.accessToken,
-          refreshToken: refreshedTokens.refreshToken,
-          accessTokenExpires: Date.now() + 60 * 1000, // 1 minute for testing
+          id: user.id,
+          email: user.email,
+          accessToken: user.token,
+          refreshToken: user.refreshToken,
+          accessTokenExpires: Date.now() + 1000 * 60 * 60, // 1 hour expiry
         };
-      } catch (error) {
-        console.error("Failed to Refresh Tokens:", error);
-        return { ...token, error: "RefreshAccessTokenError" }; // Mark the token as invalid
       }
+    
+      // If token is expired, try to refresh it
+      if (Date.now() > (token.accessTokenExpires as number)) {
+        console.log("Access token expired. Refreshing...");
+    
+        try {
+          const refreshedTokens = await refreshAccessToken(
+            token.accessToken as string,
+            token.refreshToken as string
+          );
+    
+          console.log("Tokens Refreshed Successfully:", refreshedTokens);
+    
+          return {
+            ...token,
+            accessToken: refreshedTokens.accessToken,
+            refreshToken: refreshedTokens.refreshToken,
+            accessTokenExpires: Date.now() + 1000 * 60 * 60, // 1 hour expiry
+          };
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+    
+          return {
+            ...token,
+            error: "RefreshAccessTokenError",
+          };
+        }
+      }
+    
+      console.log("Token still valid. Returning existing token.");
+      return token;
     },
     async session({ session, token }) {
+      console.log("Session Callback Triggered:", { session, token });
+    
       session.user = session.user || ({} as Session["user"]);
-
+    
       if (token) {
         console.log("Session Updated. Tokens:", {
           accessToken: token.accessToken,
           refreshToken: token.refreshToken,
-          expiresAt: new Date(token.accessTokenExpires as number).toISOString(), // Fix applied here
         });
-
+    
         session.user.id = (token.id as string) ?? "unknown";
         session.user.email = (token.email as string) ?? "";
         session.user.token = (token.accessToken as string) ?? "";
         session.user.refreshToken = (token.refreshToken as string) ?? "";
       }
-
+    
       if (token.error) {
         console.error("Session Error:", token.error);
-        session.error = token.error as string; // Pass token refresh errors to the session
+        session.error = token.error as string;
       }
-
+    
       return session;
     },
   },

@@ -1,3 +1,4 @@
+// components/SessionErrorHandler.tsx
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
@@ -16,18 +17,25 @@ export default function SessionErrorHandler({
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (session?.error === "RefreshAccessTokenError" && pathname !== "/login") {
-      // Show the modal instead of automatically redirecting
+    console.log("Session Status:", status);
+    console.log("Session Data:", session);
+
+    if (
+      (session?.error === "RefreshAccessTokenError" ||
+        session?.error === "RefreshTokenExpiredError") &&
+      pathname !== "/login"
+    ) {
+      console.log("Session error detected. Showing modal.");
       setShowModal(true);
-      signOut({ redirect: false }); // Prevent automatic redirect
+      signOut({ redirect: false });
     }
   }, [session, pathname]);
 
   const handleLoginRedirect = async () => {
-    // Clear the invalid NextAuth token by signing out
-    await signOut({ redirect: false }); // Prevent automatic redirect
-    setShowModal(false); // Close the modal
-    router.push("/login"); // Redirect to the login page
+    console.log("Redirecting to login page.");
+    await signOut({ redirect: false });
+    setShowModal(false);
+    router.push("/login");
   };
 
   return (

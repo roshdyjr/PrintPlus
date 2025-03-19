@@ -1,8 +1,9 @@
 import Image from "next/image";
 import React from "react";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Order } from "@/types/Orders";
 import OrderStatusTimeline from "@/components/ProfileComponents/OrderStatusTimeline";
+import { useLocale, useTranslations } from "next-intl";
 
 // Metadata Page Title
 export const metadata = {
@@ -85,9 +86,11 @@ const orders: Order[] = [
 const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
   // Find the order by ID
   const order = orders.find((order) => order.id === params.id);
+  const t = useTranslations("ProfileOrderDetails");
+  const locale = useLocale();
 
   if (!order) {
-    return <div>Order not found</div>;
+    return <div>{t("noOrder")}</div>;
   }
 
   return (
@@ -96,25 +99,29 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
       <div className="flex md:justify-between">
         <div className="flex flex-col gap-6 xlg:gap-9">
           <div className="flex items-center gap-2">
-            <p className="text-sm xlg:text-[20px]">Orders</p>
-            <FaChevronRight className="size-[10px] xlg:size-[16px]" />
+            <p className="text-sm xlg:text-[20px]">{t("orders")}</p>
+            {locale === "ar" ? (
+              <FaChevronLeft className="size-[10px] xlg:size-[16px]" />
+            ) : (
+              <FaChevronRight className="size-[10px] xlg:size-[16px]" />
+            )}
             <p className="text-[#475569] text-sm xlg:text-[20px]">
-              Order #{params.id}
+              {t("order")} #{params.id}
             </p>
           </div>
           {/* Display the actual delivery date or cancellation message */}
           <div className="text-xl font-semibold xlg:text-[32px]">
             {order.status === "Cancelled" ? (
               <div className="flex flex-col gap-3 max-w-[383px] xlg:max-w-[575px]">
-                <p className="font-semibold text-3xl xlg:text-[32px]">Cancellation requested</p>
+                <p className="font-semibold text-3xl xlg:text-[32px]">
+                  {t("cancellationRequest")}
+                </p>
                 <p className="text-black font-normal text-base xlg:text-[20px] xlg:leading-[36px]">
-                  We’ll do our best to cancel your order! You’ll get an email in
-                  about 1-2 hours letting you know if the cancellation was
-                  successful.
+                  {t("cancellationMessage")}
                 </p>
               </div>
             ) : order.status === "Delivered" ? (
-              `Delivered on ${order.deliveryDate}`
+              `${t("delivered")} ${order.deliveryDate}`
             ) : (
               `Estimated delivery: ${order.deliveryDate}`
             )}
@@ -131,7 +138,7 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
               className="xlg:w-[30px] xlg:h-[30px]"
             />
             <p className="font-semibold text-[#BE123C] text-sm xlg:text-[20px]">
-              Cancel order
+              {t("cancelOrder")}
             </p>
           </button>
         )}
@@ -151,7 +158,7 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
             <hr />
             {/* Shipping Address */}
             <div className="flex flex-col gap-2 xlg:gap-3">
-              <p className="font-semibold xlg:text-[24px]">Shipping address</p>
+              <p className="font-semibold xlg:text-[24px]">{t("shippingAddress")}</p>
               <div className="flex flex-col gap-4 xlg:gap-6">
                 <p className="xlg:text-[20px] xlg:max-w-[576px]">
                   Aisha Al-Fahad, 78 Al-Masjid Road, Jeddah, 21442, Kingdom of
@@ -162,7 +169,7 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
             </div>
             {/* Payment Method */}
             <div className="flex flex-col gap-2 xlg:gap-3">
-              <p className="font-semibold xlg:text-[24px]">Payment method</p>
+              <p className="font-semibold xlg:text-[24px]">{t("paymentMethod")}</p>
               <p className="xlg:text-[20px]">Mastercard ending in 4242</p>
             </div>
             <hr />
@@ -175,8 +182,12 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
               {/* Product list header */}
               <div className="flex flex-col gap-4 xlg:gap-6">
                 <div className="flex flex-col gap-2 xlg:gap-[6px]">
-                  <p className="text-lg font-semibold xlg:text-[24px] xlg:h-[42px]">Order #{params.id}</p>
-                  <p className="text-sm xlg:text-[20px]">Ordered {order.deliveryDate}</p>
+                  <p className="text-lg font-semibold xlg:text-[24px] xlg:h-[42px]">
+                    {t("order")} #{params.id}
+                  </p>
+                  <p className="text-sm xlg:text-[20px]">
+                    {t("ordered")} {order.deliveryDate}
+                  </p>
                   {/* Cancel Order Button (only show if status is not "Delivered" or "Cancelled") */}
                   {order.status !== "Delivered" &&
                     order.status !== "Cancelled" && (
@@ -188,7 +199,7 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
                           height={20}
                         />
                         <p className="font-semibold text-[#BE123C] text-sm">
-                          Cancel order
+                          {t("cancelOrder")}
                         </p>
                       </button>
                     )}
@@ -212,22 +223,26 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
                       />
                       {/* Product Details */}
                       <div className="flex flex-col gap-[2.67px] xlg:gap-1">
-                        <p className="text-nowrap xlg:text-[24px]">Gold business cards</p>
-                        <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
-                          Qty: {product.quantity}
+                        <p className="text-nowrap xlg:text-[24px]">
+                          Gold business cards
                         </p>
                         <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
-                          Size: {product.size}
+                          {t("quantity")}: {product.quantity}
                         </p>
                         <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
-                          Edges: {product.edges}
+                          {t("size")}: {product.size}
                         </p>
                         <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
-                          Foil Color: {product.color}
+                          {t("edges")}: {product.edges}
+                        </p>
+                        <p className="text-[#475569] text-sm xlg:text-[20px] xlg:h-[30px] flex items-center">
+                          {t("foilColor")}: {product.color}
                         </p>
                       </div>
                     </div>
-                    <p className="font-semibold self-center xlg:text-[24px]">{product.price} SAR</p>
+                    <p className="font-semibold self-center xlg:text-[24px]">
+                      {product.price} {t("currency")}
+                    </p>
                   </div>
                   {/* Add <hr /> after each product except the last one */}
                   {index !== order.products.length - 1 && <hr />}
@@ -238,22 +253,24 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
                 <hr />
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-2 text-sm xlg:gap-3 xlg:text-[20px]">
-                    <p>Subtotal</p>
-                    <p>VAT</p>
-                    <p>Delivery</p>
+                    <p>{t("subtotal")}</p>
+                    <p>{t("vat")}</p>
+                    <p>{t("delivery")}</p>
                   </div>
                   <div className="flex flex-col gap-2 text-sm xlg:gap-3 xlg:text-[20px]">
-                    <p>40 SAR</p>
-                    <p>6 SAR</p>
-                    <p>12 SAR</p>
+                    <p>40 {t("currency")}</p>
+                    <p>6 {t("currency")}</p>
+                    <p>12 {t("currency")}</p>
                   </div>
                 </div>
                 <hr />
               </div>
               {/* Total Payment */}
               <div className="flex justify-between items-center">
-                <p className="xlg:text-[24px]">Total</p>
-                <p className="font-semibold text-2xl xlg:text-[32px]">56.34 SAR</p>
+                <p className="xlg:text-[24px]">{t("total")}</p>
+                <p className="font-semibold text-2xl xlg:text-[32px]">
+                  56.34 {t("currency")}
+                </p>
               </div>
             </div>
           </div>

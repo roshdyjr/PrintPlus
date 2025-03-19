@@ -1,7 +1,8 @@
 import Link from "next/link";
 import React from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import ProductCard from "../SharedComponents/ProductCard";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Product {
   productId: number;
@@ -24,6 +25,9 @@ const SubCategoryGrid = ({
   categoryId,
   products,
 }: SubCategoryGridProps) => {
+  const locale = useLocale();
+  const t = useTranslations("CategoriesList");
+
   return (
     <div className="flex flex-col gap-4 xlg:gap-6">
       <div className="flex items-center justify-between">
@@ -35,8 +39,8 @@ const SubCategoryGrid = ({
           href={`/category/${categoryId}/${subCategoryId}`} // Dynamic route
           className="flex items-center gap-2"
         >
-          <p className="text-sm font-bold xlg:text-[21px]">View More</p>
-          <FaArrowRightLong />
+          <p className="text-sm font-bold xlg:text-[21px]">{t("viewMore")}</p>
+          {locale === "ar" ? <FaArrowLeftLong /> : <FaArrowRightLong />}
         </Link>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xlg:gap-6">

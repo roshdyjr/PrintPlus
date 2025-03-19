@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import PhoneInput from "@/components/SharedComponents/IntlTelInputField";
 import { PhoneFields } from "@/constants/Interfaces/UpdatePersonalDetails";
+import { useTranslations } from "next-intl";
 
 // Extend the PhoneFields interface to include fullName for the update details form.
 interface UpdatePersonalDetails extends PhoneFields {
@@ -18,6 +19,8 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const PersonalDetailsForm = () => {
   const { data: session } = useSession();
+  const t = useTranslations("ProfilePersonalDetails");
+  const v = useTranslations("AuthValidationMessages")
 
   // Initialize react-hook-form with default values. Using mode: "onChange"
   // to validate form fields as soon as they change.
@@ -39,6 +42,7 @@ const PersonalDetailsForm = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
 
   // useEffect to fetch personal details from the API when the user is logged in.
   // After fetching, we reset the form with the retrieved details.
@@ -104,7 +108,9 @@ const PersonalDetailsForm = () => {
         });
       }
     } catch (error: any) {
-      toast.error(error.message || "An unexpected error occurred. Please try again.");
+      toast.error(
+        error.message || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -116,26 +122,26 @@ const PersonalDetailsForm = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <p className="text-lg font-semibold xlg:font-bold xlg:text-[24px]">
-        Personal Details
+        {t("personalDetailsLg")}
       </p>
 
       {/* Full Name Input Field */}
       <InputField
         id="fullName"
-        label="Full Name"
+        label={t("fullName")}
         {...register("fullName", {
-          required: "Full Name is required",
+          required: v("fullNameRequired"),
           pattern: {
             value:
               /^(([A-Za-z\u0621-\u064A]{2,})\s+([A-Za-z\u0621-\u064A]{2,})(\s+([A-Za-z\u0621-\u064A]{2,}))?)$/,
             message:
-              "Full name must be in 'First Last' or 'First Middle Last' format and contain valid characters.",
+              v("fullNameValid"),
           },
           validate: (value) => {
             // Validate that each word in the full name has at least 2 characters.
             const words = value.trim().split(/\s+/);
             if (words.some((w) => w.length < 2)) {
-              return "Each word must be at least two characters.";
+              return v("fullNameMinLength");
             }
             return true;
           },
@@ -148,7 +154,7 @@ const PersonalDetailsForm = () => {
         control={control}
         setValue={setValue}
         name="mobileNo"
-        label="Mobile Number*"
+        label={t("mobileNumber")}
       />
 
       {/* Hidden fields to store mobileCode and mobileIso separately.
@@ -168,7 +174,7 @@ const PersonalDetailsForm = () => {
 
       {/* Submit Button */}
       <CustomButton
-        label={isSubmitting ? "Saving..." : "Save"}
+        label={isSubmitting ? t("submitting") : t("save")}
         className="md:!h-[32px] md:!w-[113px] xlg:!w-[169.5px] xlg:!h-[48px]"
         type="submit"
         disabled={!isValid || isSubmitting}

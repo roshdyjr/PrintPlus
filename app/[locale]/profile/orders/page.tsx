@@ -1,5 +1,6 @@
 import OrderCard from "@/components/ProfileComponents/OrderCard";
 import { Order } from "@/types/Orders";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 // Metadata Page Title
@@ -81,14 +82,15 @@ const orders: Order[] = [
 ];
 
 const Page = () => {
+  const t = useTranslations("ProfileOrders")
   return (
     <div className="flex flex-col gap-6 xlg:gap-4">
       {/* Orders Header */}
-      <p className="text-2xl text-shadeBlack font-semibold xlg:text-[32px]">Orders</p>
+      <p className="text-2xl text-shadeBlack font-semibold xlg:text-[32px]">{t("orders")}</p>
       {/* Conditional Rendering */}
       {orders.length === 0 ? (
         <div className="flex justify-center items-center">
-          <p className="text-shadeBlack xlg:text-[24px] xlg:mt-9">No previous order history</p>
+          <p className="text-shadeBlack xlg:text-[24px] xlg:mt-9">{t("emptyOrders")}</p>
         </div>
       ) : (
         <div className="flex flex-col gap-4">

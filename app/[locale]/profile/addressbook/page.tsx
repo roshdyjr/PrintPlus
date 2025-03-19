@@ -1,7 +1,8 @@
 import React from "react";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import CustomButton from "@/components/SharedComponents/CustomButton";
 import AddressCard from "@/components/ProfileComponents/AddressCard";
+import { useLocale, useTranslations } from "next-intl";
 
 // Metadata Page Title
 export const metadata = {
@@ -9,6 +10,8 @@ export const metadata = {
 };
 
 const page = () => {
+  const t = useTranslations("ProfileAddressBook");
+  const locale = useLocale();
   const addresses = [
     {
       name: "Fahad Al-Salem",
@@ -44,20 +47,26 @@ const page = () => {
     <div className="flex flex-col text-shadeBlack max-w-[784px] gap-6 xlg:max-w-[1176px] xlg:gap-9">
       {/* Navigation Title */}
       <div className="hidden md:flex items-center gap-2 xlg:gap-3">
-        <p className="text-sm xlg:text-[20px]">profile</p>
-        <FaChevronRight className="size-[10px] xlg:size-[16px]" />
-        <p className="text-[#475569] text-sm xlg:text-[20px]">Address Book</p>
+        <p className="text-sm xlg:text-[20px]">{t("profile")}</p>
+        {locale === "ar" ? (
+          <FaChevronLeft className="size-[10px] xlg:size-[16px]" />
+        ) : (
+          <FaChevronRight className="size-[10px] xlg:size-[16px]" />
+        )}
+        <p className="text-[#475569] text-sm xlg:text-[20px]">
+          {t("addressBook")}
+        </p>
       </div>
 
       <p className="text-3xl font-semibold xl:text-[25px] px-2 md:px-0">
-        <span className="md:hidden">Profile</span>
-        <span className="hidden md:inline">Address Book</span>
+        <span className="md:hidden">{t("profile")}</span>
+        <span className="hidden md:inline">{t("addressBook")}</span>
       </p>
 
       {/* Add Address Button */}
       <div className="flex flex-col-reverse md:flex-col gap-6 px-2 md:px-0 xlg:gap-9">
         <CustomButton
-          label="+ Add Address "
+          label={t("addAddress")}
           className="md:!h-[32px] md:!w-[113px] xl:!w-[170px] xl:!h-[38px] !xl:text-[17px] font-medium  xlg:!w-[216px] xlg:!h-[48px] xlg:!px-9 text-nowrap"
           type="button"
         />

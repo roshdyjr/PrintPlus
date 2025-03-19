@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocale } from "next-intl";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -18,6 +19,7 @@ export const useSubCategories = (categoryId: number | undefined) => {
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const locale = useLocale(); // Get the current locale
 
   useEffect(() => {
     const fetchSubCategories = async () => {
@@ -29,7 +31,7 @@ export const useSubCategories = (categoryId: number | undefined) => {
           {
             headers: {
               accept: "*/*",
-              "Accept-Language": "en-US",
+              "Accept-Language": locale === "ar" ? "ar-SA" : "en-US", // Set Accept-Language based on locale
             },
           }
         );
@@ -48,7 +50,7 @@ export const useSubCategories = (categoryId: number | undefined) => {
     };
 
     fetchSubCategories();
-  }, [categoryId]);
+  }, [categoryId, locale]); // Add locale to the dependency array
 
   return { subCategories, loading, error };
 };

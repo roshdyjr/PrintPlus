@@ -5,10 +5,12 @@ import SubCategoryGrid from "@/components/CategoriesComponents/SubCategoryGrid";
 import { useCategoryData } from "@/hooks/useCategoryData";
 import { useSubCategories } from "@/hooks/useSubCategories";
 import ProductsSkeleton from "@/components/SharedComponents/ProductsSkeleton";
+import { useTranslations } from "next-intl";
 
 const Page = () => {
   const pathname = usePathname();
   const categoryId = pathname.split("/")[3];
+  const t = useTranslations("CategoriesList");
 
   // Fetch active category data (cached)
   const {
@@ -34,7 +36,7 @@ const Page = () => {
           ))
         ) : subCategoriesError ? (
           <p className="text-shadeGray text-sm">
-            Unable to load subcategories. Please try again later.
+            {t("subCategoriesError")}
           </p>
         ) : subCategories.length > 0 ? (
           subCategories.map((subCategory) => (
@@ -48,7 +50,7 @@ const Page = () => {
           ))
         ) : (
           <p className="text-shadeGray text-sm md:text-base xlg:text-2xl">
-            No subcategories available in this category.
+            {t("noSubCategories")}
           </p>
         )}
       </div>

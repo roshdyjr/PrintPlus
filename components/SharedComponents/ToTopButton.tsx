@@ -1,4 +1,5 @@
-"use client"
+"use client";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { FaChevronUp } from "react-icons/fa";
 
@@ -9,6 +10,7 @@ const ToTopButton = () => {
       behavior: "smooth",
     });
   };
+  const t = useTranslations("CategoriesList");
 
   return (
     <button
@@ -16,7 +18,9 @@ const ToTopButton = () => {
       onClick={scrollToTop}
     >
       <FaChevronUp />
-      <p className="font-medium text-sm xlg:font-semibold xlg:text-lg">To top</p>
+      <p className="font-medium text-sm xlg:font-semibold xlg:text-lg">
+        {t("toTop")}
+      </p>
     </button>
   );
 };

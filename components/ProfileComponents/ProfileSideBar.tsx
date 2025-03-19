@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,12 +13,6 @@ interface Balance {
   balance: number;
 }
 
-const links = [
-  { href: "/profile/orders", label: "Orders" },
-  { href: "/profile/info", label: "Profile" },
-  { href: "/profile/addressbook", label: "Address Book" },
-];
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const ProfileSideBar = () => {
@@ -25,6 +20,14 @@ const ProfileSideBar = () => {
   const pathname = usePathname(); // Get current route
   const [balance, setBalance] = useState<Balance | null>(null); // Initialize as null
   const [isLoading, setIsLoading] = useState(false); // Add loading state
+  const t = useTranslations("ProfileSidebar");
+  const locale = useLocale();
+
+  const links = [
+    { href: "/profile/orders", label: t("orders") },
+    { href: "/profile/info", label: t("profile") },
+    { href: "/profile/addressbook", label: t("addressBook") },
+  ];
 
   useEffect(() => {
     // Only fetch data if the user is authenticated, the token is available, and balance is not already set
@@ -58,16 +61,20 @@ const ProfileSideBar = () => {
         <div className="flex flex-col gap-1 xlg:gap-[6px]">
           {/* NavLinks map */}
           {links.map(({ href, label }) => {
-            const isActive = pathname.startsWith(href);
+            const isActive = pathname.startsWith(`/${locale}${href}`);
             return (
               <Link
                 key={href}
-                href={href}
+                href={`/${locale}${href}`} // Prepend the locale to the href
                 className={`h-[36px] font-semibold text-shadeBlack py-[9px] ps-4 pe-5 rounded-[26px] flex flex-col justify-center gap-1 xlg:gap-[6px] xlg:h-[54px] xlg:py-[13.5px] xlg:ps-[24px] xlg:pe-[30px] ${
                   isActive ? "bg-[#E0E7FF] text-[#4F46E5]" : ""
                 }`}
               >
-                <p className={`text-sm ${isActive ? "text-[#4F46E5]" : ""} xlg:text-[20px]`}>
+                <p
+                  className={`text-sm ${
+                    isActive ? "text-[#4F46E5]" : ""
+                  } xlg:text-[20px]`}
+                >
                   {label}
                 </p>
               </Link>

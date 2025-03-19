@@ -9,12 +9,16 @@ import { useBannerImage } from "@/hooks/useBannerImage";
 import { useSubCategoryData } from "@/hooks/useSubCategoryData";
 import ToTopButton from "@/components/SharedComponents/ToTopButton";
 import ContainerProductSidebar from "@/components/CategoriesComponents/ContainerProductSidebar";
+import { useLocale, useTranslations } from "next-intl";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export default function CategoryLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const segments = pathname.split("/");
   const categoryId = segments[3];
   const subCategoryId = segments[4];
+  const locale = useLocale();
+  const t = useTranslations("CategoriesList");
 
   // Fetch active category data (cached)
   const {
@@ -89,14 +93,13 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
       {/* Breadcrumbs */}
       <div className="flex items-center justify-between w-full mt-4 lg:mt-0">
         <div className="px-4 flex items-center gap-2 lg:px-12 lg:pt-6">
-          <p className="text-shadeBlack text-sm xlg:text-xl">Home</p>
-          <Image
-            src={"/cheveron-right.svg"}
-            alt="cheveron"
-            width={12}
-            height={12}
-            className="w-3 h-3 xlg:w-6 xlg:h-6"
-          />
+          <p className="text-shadeBlack text-sm xlg:text-xl">{t("home")}</p>
+          {locale === "ar" ? (
+            <FaChevronLeft className="w-3 h-3 xlg:w-6 xlg:h-6" />
+          ) : (
+            <FaChevronRight className="w-3 h-3 xlg:w-6 xlg:h-6" />
+          )}
+
           <p className="text-shadeGray text-sm flex items-center gap-2 xlg:text-xl">
             {activeCategory ? (
               activeCategory.categoryName
@@ -106,13 +109,11 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
           </p>
           {subCategory && subCategoryId && (
             <>
-              <Image
-                src={"/cheveron-right.svg"}
-                alt="cheveron"
-                width={12}
-                height={12}
-                className="w-3 h-3 xlg:w-6 xlg:h-6"
-              />
+              {locale === "ar" ? (
+                <FaChevronLeft className="w-3 h-3 xlg:w-6 xlg:h-6" />
+              ) : (
+                <FaChevronRight className="w-3 h-3 xlg:w-6 xlg:h-6" />
+              )}
               <p className="text-shadeGray text-sm flex items-center gap-2 xlg:text-xl">
                 {subCategory.subCategoryName}
               </p>

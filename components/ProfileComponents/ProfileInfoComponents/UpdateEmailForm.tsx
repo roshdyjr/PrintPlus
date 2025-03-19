@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import CustomButton from "@/components/SharedComponents/CustomButton";
 import InputField from "@/components/SharedComponents/InputField";
+import { useTranslations } from "next-intl";
 
 interface UpdateEmailFormData {
   currentEmail: string;
@@ -17,6 +18,8 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const UpdateEmailForm = () => {
   const { data: session } = useSession(); // Get the user session
+  const t = useTranslations("ProfilePersonalDetails");
+  const v = useTranslations("AuthValidationMessages");
   const {
     register,
     handleSubmit,
@@ -67,12 +70,12 @@ const UpdateEmailForm = () => {
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-      <p className="text-lg font-semibold">Mail</p>
+      <p className="text-lg font-semibold">{t("mail")}</p>
 
       {/* Current Mail Field (Disabled) */}
       <InputField
         id="currentEmail"
-        label="Current Mail"
+        label={t("currentMail")}
         value={currentUserEmail} // Set the current user's email
         disabled // Make the field disabled
       />
@@ -80,12 +83,12 @@ const UpdateEmailForm = () => {
       {/* New Mail Field */}
       <InputField
         id="newEmail"
-        label="New Mail"
+        label={t("newMail")}
         {...register("newEmail", {
-          required: "هذا الحقل مطلوب",
+          required: v("requiredEmail"),
           pattern: {
             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-            message: "البريد الإلكتروني غير صالح",
+            message: v("invalidEmailFormat"),
           },
         })}
         error={errors.newEmail?.message}
@@ -94,15 +97,15 @@ const UpdateEmailForm = () => {
       {/* Password Field */}
       <InputField
         id="password"
-        label="Password"
+        label={t("password")}
         type="password"
-        {...register("password", { required: "هذا الحقل مطلوب" })}
+        {...register("password", { required: v("requiredPassword") })}
         error={errors.password?.message}
       />
 
       {/* Save Button */}
       <CustomButton
-        label="Save"
+        label={t("save")}
         className="md:!h-[32px] md:!w-[113px] xlg:!w-[169.5px] xlg:!h-[48px]"
         type="submit"
         disabled={!isValid}

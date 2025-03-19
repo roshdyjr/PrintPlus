@@ -1,4 +1,28 @@
 {
+  "AuthValidationMessages": {
+    "requiredEmail": "البريد الإلكتروني مطلوب",
+    "invalidEmailFormat": "صيغة البريد الإلكتروني غير صالحة",
+    "requiredPassword": "كلمة المرور مطلوبة",
+    "minLengthPassword": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+    "maxLengthPassword": "يجب أن تتكون كلمة المرور من 64 حرفًا على الأكثر.",
+    "passwordUpperCase": "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل",
+    "passwordLowerCase": "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل",
+    "passwordDigit": "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل",
+    "passwordSpecialChar": "يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل",
+    "passwordSpace": "يجب ألا تحتوي كلمة المرور على مسافات",
+    "passwordCommon": "كلمة المرور شائعة جدًا وسهلة التخمين",
+    "confirmPasswordRequired": "هذا الحقل مطلوب",
+    "confirmPasswordMatch": "كلمات المرور غير متطابقة",
+    "fullNameRequired": "الاسم الكامل مطلوب",
+    "fullNameValid": "يجب أن يكون الاسم الكامل بالصيغة 'الاسم الأول الاسم الأخير' أو 'الاسم الأول الاسم الأوسط الاسم الأخير' ويحتوي على أحرف صالحة.",
+    "fullNameMinLength": "يجب أن يتكون كل جزء من الاسم الكامل من حرفين على الأقل.",
+    "cityRequired": "المدينة مطلوبة",
+    "vatNumberRequired": "رقم ضريبة القيمة المضافة (VAT) مطلوب",
+    "vatNameRequired": "اسم ضريبة القيمة المضافة (VAT) مطلوب",
+    "vatAddressRequired": "عنوان ضريبة القيمة المضافة (VAT) مطلوب",
+    "fieldRequired": "هذا الحقل مطلوب"
+  },
+
   "Navbar": {
     "freeShipping": "شحن مجاني للطلبات فوق 50 ريال",
     "profile": "الملف الشخصي",
@@ -42,6 +66,124 @@
     "and": "و",
     "terms": "شروط الخدمة",
     "submitting": "يتم الاشتراك..."
+  },
+
+  "ProfileSidebar": {
+    "orders": "الطلبات",
+    "profile": "الملف الشخصي",
+    "addressBook": "دفتر العناوين"
+  },
+
+  "ProfileOrders": {
+    "orders": "الطلبات",
+    "status": "الحالة",
+    "orderNumber": "رقم الطلب",
+    "total": "الإجمالي",
+    "details": "عرض التفاصيل",
+    "currency": "ريال سعودي",
+    "emptyOrders": "لا توجد طلبات سابقة",
+    "cancellationRequest": "تم طلب الإلغاء",
+    "cancellationMessage": "سنبذل قصارى جهدنا لإلغاء طلبك! ستتلقى بريدًا إلكترونيًا خلال حوالي 1-2 ساعة لإعلامك إذا كان الإلغاء ناجحًا.",
+    "delivered": "تم التوصيل في",
+    "estimatedDelivery": "التوصيل المتوقع",
+    "quantity": "الكمية",
+    "size": "المقاس",
+    "edges": "الحواف",
+    "foilColor": "لون الفويل"
+  },
+
+  "ProfileOrderDetails": {
+    "orders": "الطلبات",
+    "order": "طلب",
+    "shippingAddress": "عنوان الشحن",
+    "paymentMethod": "طريقة الدفع",
+    "subtotal": "المجموع الفرعي",
+    "vat": "ضريبة القيمة المضافة",
+    "delivery": "التوصيل",
+    "total": "الإجمالي",
+    "currency": "ريال سعودي",
+    "noOrder": "الطلب غير موجود",
+    "cancelOrder": "إلغاء الطلب",
+    "cancellationRequest": "تم طلب الإلغاء",
+    "cancellationMessage": "سنبذل قصارى جهدنا لإلغاء طلبك! ستتلقى بريدًا إلكترونيًا خلال حوالي 1-2 ساعة لإعلامك إذا كان الإلغاء ناجحًا.",
+    "quantity": "الكمية",
+    "size": "الحجم",
+    "edges": "الحواف",
+    "foilColor": "لون الفويل",
+    "ordered": "تم الطلب",
+    "delivered": "تم التوصيل",
+    "estimatedDelivery": "موعد التوصيل المتوقع"
+  },
+
+  "ProfileInfo": {
+    "profile": "الملف الشخصي",
+    "personalDetails": "التفاصيل الشخصية",
+    "edit": "تعديل",
+    "password": "كلمة المرور",
+    "changePassword": "تغيير كلمة المرور",
+    "address": "العنوان"
+  },
+
+  "ProfilePersonalDetails": {
+    "profileSm": "الملف الشخصي",
+    "profileLg": "الملف الشخصي",
+    "personalDetailsSm": "التفاصيل الشخصية",
+    "personalDetailsLg": "التفاصيل الشخصية",
+    "fullName": "الاسم الكامل*",
+    "mobileNumber": "رقم الجوال*",
+    "mail": "البريد الإلكتروني",
+    "currentMail": "البريد الإلكتروني الحالي",
+    "newMail": "البريد الإلكتروني الجديد",
+    "password": "كلمة المرور",
+    "save": "حفظ",
+    "submitting": "يتم الحفظ..."
+  },
+
+  "ProfileChangePassword": {
+    "profileSm": "الملف الشخصي",
+    "profileLg": "الملف الشخصي",
+    "passwordSm": "كلمة المرور",
+    "passwordLg": "كلمة المرور",
+    "oldPassword": "كلمة المرور القديمة",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
+    "save": "حفظ"
+  },
+
+  "ProfileAddressBook": {
+    "profile": "الملف الشخصي",
+    "addressBook": "دفتر العناوين",
+    "addAddress": "+ إضافة عنوان",
+    "edit": "تعديل",
+    "remove": "حذف"
+  },
+
+  "ProfileNewAddress": {
+    "profileSm": "الملف الشخصي",
+    "profileLg": "الملف الشخصي",
+    "addressSm": "العنوان",
+    "addressLg": "العنوان",
+    "fullName": "الاسم الكامل",
+    "address": "العنوان",
+    "mobileNumber": "رقم الجوال",
+    "additionalInfo": "معلومات إضافية (اختياري)",
+    "postCode": "الرمز البريدي",
+    "city": "المدينة",
+    "save": "حفظ"
+  },
+
+  "CategoriesList": {
+    "home": "الرئيسية",
+    "toTop": "للأعلى",
+    "products": "المنتجات",
+    "subCategoriesError": "تعذر تحميل الأقسام الفرعية. يرجى المحاولة مرة أخرى لاحقًا.",
+    "noSubCategories": "لا توجد أقسام فرعية متاحة في هذا القسم.",
+    "noProducts": "لا توجد منتجات متاحة في هذا القسم.",
+    "viewMore": "شاهد المزيد",
+    "startPrice": "يبدأ من",
+    "currency": "ريال سعودي",
+    "reset": "إعادة تعيين",
+    "viewResults": "شاهد النتائج"
   },
 
   "Footer": {

@@ -1,4 +1,28 @@
 {
+  "AuthValidationMessages": {
+    "requiredEmail": "Email is required",
+    "invalidEmailFormat": "Invalid email format",
+    "requiredPassword": "Password is required",
+    "minLengthPassword": "Password must be at least 8 characters.",
+    "maxLengthPassword": "Password must be at most 64 characters.",
+    "passwordUpperCase": "Password must contain at least one uppercase letter",
+    "passwordLowerCase": "Password must contain at least one lowercase letter",
+    "passwordDigit": "Password must contain at least one digit",
+    "passwordSpecialChar": "Password must contain at least one special character",
+    "passwordSpace": "Password must not contain spaces",
+    "passwordCommon": "Password is too common and easy to guess",
+    "confirmPasswordRequired": "This field is required",
+    "confirmPasswordMatch": "Passwords do not match",
+    "fullNameRequired": "Full name is required",
+    "fullNameValid": "Full name must be in the format 'First Last' or 'First Middle Last' and contain valid characters.",
+    "fullNameMinLength": "Each word in the full name must be at least 2 characters long.",
+    "cityRequired": "City is required",
+    "vatNumberRequired": "VAT number is required",
+    "vatNameRequired": "VAT name is required",
+    "vatAddressRequired": "VAT address is required",
+    "fieldRequired": "This field is required"
+  },
+
   "Navbar": {
     "freeShipping": "Free shipping for orders over 50SAR",
     "profile": "Profile",
@@ -45,6 +69,124 @@
     "and": "and",
     "terms": "Terms of Service",
     "submitting": "Signing up..."
+  },
+
+  "ProfileSidebar": {
+    "orders": "Orders",
+    "profile": "profile",
+    "addressBook": "Address Book"
+  },
+
+  "ProfileOrders": {
+    "orders": "Orders",
+    "status": "Status",
+    "orderNumber": "Order Number",
+    "total": "Total",
+    "details": "See details",
+    "currency": "SAR",
+    "emptyOrders": "No previous order history",
+    "cancellationRequest": "Cancellation requested",
+    "cancellationMessage": "We’ll do our best to cancel your order! You’ll get an email in about 1-2 hours letting you know if the cancellation was successful.",
+    "delivered": "Delivered on",
+    "estimatedDelivery": "Estimated delivery",
+    "quantity": "Qty",
+    "size": "Size",
+    "edges": "Edges",
+    "foilColor": "Foil Color"
+  },
+
+  "ProfileOrderDetails": {
+    "orders": "Orders",
+    "order": "order",
+    "shippingAddress": "Shipping address",
+    "paymentMethod": "Payment method",
+    "subtotal": "Subtotal",
+    "vat": "VAT",
+    "delivery": "Delivery",
+    "total": "total",
+    "currency": "SAR",
+    "noOrder": "Order not found",
+    "cancelOrder": "Cancel order",
+    "cancellationRequest": "Cancellation requested",
+    "cancellationMessage": "We’ll do our best to cancel your order! You’ll get an email in about 1-2 hours letting you know if the cancellation was successful.",
+    "quantity": "Qty",
+    "size": "Size",
+    "edges": "Edges",
+    "foilColor": "Foil Color",
+    "ordered": "ordered",
+    "delivered": "Delivered on",
+    "estimatedDelivery": "Estimated delivery"
+  },
+
+  "ProfileInfo": {
+    "profile": "Profile",
+    "personalDetails": "Personal details",
+    "edit": "edit",
+    "password": "password",
+    "changePassword": "Change password",
+    "address": "Address"
+  },
+
+  "ProfilePersonalDetails": {
+    "profileSm": "profile",
+    "profileLg": "Profile",
+    "personalDetailsSm": "personal details",
+    "personalDetailsLg": "Personal Details",
+    "fullName": "Full Name*",
+    "mobileNumber": "Mobile Number*",
+    "mail": "Mail",
+    "currentMail": "Current Mail",
+    "newMail": "New Mail",
+    "password": "Password",
+    "save": "Save",
+    "submitting": "Saving..."
+  },
+
+  "ProfileChangePassword": {
+    "profileSm": "profile",
+    "profileLg": "Profile",
+    "passwordSm": "password",
+    "passwordLg": "Password",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "save": "Save"
+  },
+
+  "ProfileAddressBook": {
+    "profile": "profile",
+    "addressBook": "Address Book",
+    "addAddress": "+ Add Address",
+    "edit": "edit",
+    "remove": "remove"
+  },
+
+  "ProfileNewAddress": {
+    "profileSm": "profile",
+    "profileLg": "Profile",
+    "addressSm": "address",
+    "addressLg": "Address",
+    "fullName": "Full Name",
+    "address": "Address",
+    "mobileNumber": "Mobile Number",
+    "additionalInfo": "Additional information (optional)",
+    "postCode": "Postcode",
+    "city": "City",
+    "save": "save"
+  },
+
+  "CategoriesList": {
+    "home": "Home",
+    "toTop": "To top",
+    "products": "Products",
+    "subCategoriesError": "Unable to load subcategories. Please try again later.",
+    "noSubCategories": "No subcategories available in this category.",
+    "noProducts": "No products available in this subcategory.",
+    "viewMore": "View More",
+    "startPrice": "starts from",
+    "currency": "SAR",
+    "reset": "Reset",
+    "viewResults": "View results"
   },
 
   "Footer": {
