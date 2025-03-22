@@ -36,9 +36,7 @@ const SubCategoryPage = () => {
     <>
       {/* Products Grid */}
       <div className="flex flex-col gap-4 xlg:gap-6">
-        <p className="text-shadeBlack font-semibold text-[20px] xlg:font-medium xlg:text-[32px]">
-          {subCategory?.subCategoryName}
-        </p>
+        
         {productsLoading ? (
           // Show skeleton placeholders while products are loading
           <ProductsSkeleton />

@@ -117,11 +117,14 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
               </p>
             </>
           )}
-        </div>
-
-      
-        <button
-          className="size-[48px] flex items-center justify-center lg:hidden"
+        </div> 
+      </div>
+      <div className="flex items-center justify-between w-full px-2 mt-1 lg:mt-0">
+      <p className="text-shadeBlack font-semibold text-[20px] xlg:font-medium xlg:text-[32px] pl-2">
+          {subCategory?.subCategoryName}
+        </p>
+      <button
+          className="size-[48px] flex  lg:hidden"
           onClick={() => setIsSidebarOpen(true)}
         >
           <Image
@@ -131,8 +134,7 @@ export default function CategoryLayout({ children }: { children: ReactNode }) {
             height={24}
           />
         </button>
-      </div>
-
+        </div>
       <ContainerProdectSidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}

@@ -26,6 +26,7 @@ export default function ProdectSidebar({ onClose }: ProdectSidebarProps) {
 
   const handleSubCategoryClick = (categoryId: number, subCategoryId: number) => {
     setSelectedSubCategory(`${categoryId}-${subCategoryId}`);
+    onClose();
   };
   const handleReset = () => {
     setSelectedSubCategory(null);
@@ -40,12 +41,9 @@ export default function ProdectSidebar({ onClose }: ProdectSidebarProps) {
           <h2 className="font-semibold">Products</h2>
         </div>
         <button className="text-blue-500" onClick={handleReset}>
-  Reset
-</button>
-
-
+          Reset
+        </button>
       </div>
-
       <hr />
 
       <div className="flex flex-col gap-2 px-1 mt-5">
@@ -60,13 +58,12 @@ export default function ProdectSidebar({ onClose }: ProdectSidebarProps) {
             >
               <Link
                 href={`/category/${cat.categoryId}`}
-                className={`text-categoryLink font-semibold text-[15px] ${
-                  pathname === `/category/${cat.categoryId}` ? "text-shadeBlack font-bold" : ""
-                }`}
+                className={`text-categoryLink font-semibold text-[15px] ${pathname === `/category/${cat.categoryId}` ? "text-shadeBlack font-bold" : ""
+                  }`}
               >
-                 <span>{cat.categoryName}</span>
+                <span>{cat.categoryName}</span>
               </Link>
-             
+
               <span className="text-xl">
                 {expanded === index ? <IoIosArrowDown /> : <IoIosArrowUp />}
               </span>
@@ -83,9 +80,8 @@ export default function ProdectSidebar({ onClose }: ProdectSidebarProps) {
                     <Link
                       key={sub.subCategoryId}
                       href={`/category/${cat.categoryId}/${sub.subCategoryId}`}
-                      className={`text-sm  block p-2 flex items-center gap-2 ${
-                        isActive ? "font-bold text-blue-500" : ""
-                      }`}
+                      className={`text-sm  block p-2 flex items-center gap-2 ${isActive ? "font-bold text-blue-500" : ""
+                        }`}
                       onClick={() => handleSubCategoryClick(cat.categoryId, sub.subCategoryId)}
                     >
                       {isActive && <span className="text-blue-500">•</span>}
@@ -97,10 +93,6 @@ export default function ProdectSidebar({ onClose }: ProdectSidebarProps) {
             )}
           </div>
         ))}
-      </div>
-
-      <div className="mt-36 w-[314px] mx-auto">
-        <CustomButton label="View results" className="" type="submit" onClick={onClose} />
       </div>
     </div>
   );
