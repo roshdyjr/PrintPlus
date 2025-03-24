@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 
 const locales = ["en", "ar"]; // Supported locales
-const defaultLocale = "en"; // Default locale
+const defaultLocale = "ar"; // Default locale
 
 // Next-Intl Middleware for locale detection
 const intlMiddleware = createMiddleware({
@@ -13,20 +13,19 @@ const intlMiddleware = createMiddleware({
 });
 
 export async function middleware(req: NextRequest) {
-  console.log("Middleware Triggered for Path:", req.nextUrl.pathname);
+  const { pathname } = req.nextUrl;
 
-  // Apply Next-Intl Middleware FIRST for locale detection
+  // Redirect root URL (`/`) to the default locale (`/ar`)
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL(`/${defaultLocale}`, req.url));
+  }
+
+  // Apply Next-Intl Middleware for locale detection
   const localeResponse = intlMiddleware(req);
   if (localeResponse) return localeResponse; // Redirect if missing locale
 
   // Get the token from the request
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
-  // Debug logs to verify token and expiry
-  console.log("Token:", token);
-  if (token && token.exp && typeof token.exp === "number") {
-    console.log("Token expiry time:", new Date(token.exp * 1000).toLocaleString());
-  }
 
   // Check if the token is invalid (e.g., expired or missing)
   const isTokenInvalid =
@@ -35,10 +34,7 @@ export async function middleware(req: NextRequest) {
     token.error === "RefreshAccessTokenError" ||
     token.error === "RefreshTokenExpiredError"; // Add check for refresh token expiration
 
-  console.log("Is token invalid?", isTokenInvalid);
-
-  // Extract the pathname and locale from the request URL
-  const { pathname } = req.nextUrl;
+  // Extract the locale from the request URL
   const locale = locales.find((loc) => pathname.startsWith(`/${loc}`)) || defaultLocale;
 
   // Define protected routes (routes that require authentication)
@@ -57,28 +53,24 @@ export async function middleware(req: NextRequest) {
 
   // Redirect authenticated users away from public routes
   if (isAuthenticated && publicRoutes.includes(pathname)) {
-    console.log("Redirecting authenticated user away from public route:", pathname);
     const homeUrl = new URL(`/${locale}`, req.url); // Ensure correct locale in redirect
     return NextResponse.redirect(homeUrl);
   }
 
   // Check if the route is public
   if (publicRoutes.includes(pathname)) {
-    console.log("Allowing access to public route:", pathname);
     return NextResponse.next();
   }
 
   // Check if the route is protected
   if (protectedRoutes.some((route) => pathname.startsWith(route))) {
     if (!isAuthenticated || isTokenInvalid) {
-      console.log("Redirecting unauthenticated or invalid token user to login:", pathname);
       // Redirect to locale-specific login page
       const loginUrl = new URL(`/${locale}/login`, req.url);
       return NextResponse.redirect(loginUrl);
     }
   }
 
-  console.log("Allowing access to route:", pathname);
   return NextResponse.next();
 }
 

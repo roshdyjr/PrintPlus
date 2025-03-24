@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -23,6 +24,7 @@ const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
   closeDropdown, // Add this line
 }) => {
   const { data: session, status } = useSession(); // Get the session and its status
+  const t = useTranslations("NavbarDropdown")
 
   const handleLogoutClick = async () => {
     try {
@@ -63,7 +65,7 @@ const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
           className="h-9 py-[9px] ps-[15px] pe-5 rounded-lg flex items-center text-shadeBlack font-normal text-sm hover:bg-gray-100 transition-colors duration-200"
           onClick={closeDropdown} // Add this line
         >
-          Orders
+          {t("orders")}
         </Link>
         {/* Profile Link */}
         <Link
@@ -71,7 +73,7 @@ const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
           className="h-9 py-[9px] ps-[15px] pe-5 rounded-lg flex items-center text-shadeBlack font-normal text-sm hover:bg-gray-100 transition-colors duration-200"
           onClick={closeDropdown} // Add this line
         >
-          Profile
+          {t("profile")}
         </Link>
         {/* Balance Amount */}
         {userData?.balance !== undefined && userData.balance > 0 && (
@@ -80,7 +82,7 @@ const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
             <div className="h-[36px] flex items-center gap-2 rounded-lg py-[9px] lg:ps-4 pe-5 xlg:h-[54px] hover:bg-gray-100 transition-colors duration-200">
               <Image src={"/dollar.svg"} alt="dollar" width={24} height={24} />
               <p className="font-semibold text-shadeBlack text-nowrap text-sm">
-                Balance: {userData.balance} SAR
+               {t("balance")}: {userData.balance} {t("currency")}
               </p>
             </div>
           </>
@@ -91,7 +93,7 @@ const NavbarDropDown: React.FC<NavbarDropDownProps> = ({
           onClick={handleLogoutClick}
           className="h-9 py-[9px] ps-[15px] pe-5 rounded-lg flex items-center text-shadeBlack font-normal text-sm hover:bg-gray-100 transition-colors duration-200"
         >
-          Log out
+          {t("logout")}
         </button>
       </div>
     </div>

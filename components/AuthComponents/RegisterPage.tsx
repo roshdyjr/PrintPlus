@@ -65,7 +65,7 @@ const RegisterPage = () => {
         <div className="flex flex-col justify-center items-center gap-8 mt-2">
           <div className="flex gap-2">
             <p className="text-shadeBlack">{t("alreadyRegisterd")}</p>
-            <Link href={"/login"} className="text-shadeBlack font-bold">
+            <Link href={`/${locale}/login`} className="text-shadeBlack font-bold">
               {t("login")}
             </Link>
           </div>

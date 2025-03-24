@@ -75,7 +75,7 @@ const InputField: React.FC<InputFieldProps> = ({
               value={value}
               {...register}
               {...rest}
-              className="border border-borderColor h-[48px] md:h-[36px] rounded-lg focus:outline-none placeholder:text-[#525252] w-full py-2 ps-2 xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px]"
+              className="border border-borderColor h-[48px] md:h-[36px] rounded-lg focus:outline-none placeholder:text-[#525252] w-full py-2 ps-2 bg-white xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px]"
             />
             {type === "password" && (
               <button

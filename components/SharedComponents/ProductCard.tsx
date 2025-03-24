@@ -84,10 +84,10 @@ const ProductCard = ({
         )}
       </div>
       <div className="flex flex-col">
-        <p className="font-semibold text-black text-sm xlg:text-[22px]">{title}</p>
-        <p className="text-sm xlg:text-lg">
+        <p className="font-semibold text-black text-sm xlg:text-[20px]">{title}</p>
+        <p className="text-sm flex items-center gap-[2px] xlg:text-[20px] xlg:h-[36px]">
           {t("startPrice")}{" "}
-          <span className="font-semibold text-[#6366F1] xlg:text-[21px]">{price}</span> {t("currency")}
+          <span className="font-semibold text-[#6366F1] xlg:text-[20px]">{" "} {price} {" "}</span> {t("currency")}
         </p>
       </div>
     </div>

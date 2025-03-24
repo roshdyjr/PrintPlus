@@ -2,8 +2,8 @@ import Image from "next/image";
 import React from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Order } from "@/types/Orders";
-import OrderStatusTimeline from "@/components/ProfileComponents/OrderStatusTimeline";
 import { useLocale, useTranslations } from "next-intl";
+import DaisyTimeline from "@/components/ProfileComponents/DaisyTimeline";
 
 // Metadata Page Title
 export const metadata = {
@@ -148,17 +148,16 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
       <div className="flex flex-col md:flex-row items-start gap-4 xlg:gap-6">
         <div className="flex flex-col gap-14 xlg:gap-[84px]">
           <div className="flex flex-col gap-6">
-            {/* Replace OrderTimeline with OrderStatusTimeline */}
-            <OrderStatusTimeline
-              status={order.status}
-              deliveryDate={order.deliveryDate}
-            />
+            {/* OrderTimeline */}
+            <DaisyTimeline />
           </div>
           <div className="flex flex-col gap-4 xlg:gap-6">
             <hr />
             {/* Shipping Address */}
             <div className="flex flex-col gap-2 xlg:gap-3">
-              <p className="font-semibold xlg:text-[24px]">{t("shippingAddress")}</p>
+              <p className="font-semibold xlg:text-[24px]">
+                {t("shippingAddress")}
+              </p>
               <div className="flex flex-col gap-4 xlg:gap-6">
                 <p className="xlg:text-[20px] xlg:max-w-[576px]">
                   Aisha Al-Fahad, 78 Al-Masjid Road, Jeddah, 21442, Kingdom of
@@ -169,7 +168,9 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
             </div>
             {/* Payment Method */}
             <div className="flex flex-col gap-2 xlg:gap-3">
-              <p className="font-semibold xlg:text-[24px]">{t("paymentMethod")}</p>
+              <p className="font-semibold xlg:text-[24px]">
+                {t("paymentMethod")}
+              </p>
               <p className="xlg:text-[20px]">Mastercard ending in 4242</p>
             </div>
             <hr />

@@ -34,6 +34,14 @@
     "help": "Help"
   },
 
+  "NavbarDropdown": {
+    "profile": "Profile",
+    "orders": "Orders",
+    "balance": "Balance",
+    "currency": "SAR",
+    "logout": "Log out"
+  },
+
   "SearchBar": {
     "placeholder": "Search"
   },
@@ -69,6 +77,44 @@
     "and": "and",
     "terms": "Terms of Service",
     "submitting": "Signing up..."
+  },
+
+  "ForgetPassword": {
+    "forgotPassword": "Forgot your password?",
+    "sentEmail": "We'll email you a link to recover your account.",
+    "login": "Log in",
+    "email": "Email*",
+    "resetLink": "Get a reset link"
+  },
+
+  "ResetPassword": {
+    "chooseNewPassword": "Choose a new password",
+    "createNewPassword": "Create a new password for your account.",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "changePassword": "Change my password",
+    "login": "Log in",
+    "passwordUpdated": "Password updated!",
+    "successfulUpdate": "Your password has been updated successfully!"
+  },
+
+  "CheckEmail": {
+    "checkEmail": "Check your email",
+    "sentEmail": "We have sent a password reset link to",
+    "backTo": "Back to",
+    "login": "Log in"
+  },
+
+  "VerifyEmail": {
+    "verifying": "Verifying your email...",
+    "verified": "Your email has been verified successfully!",
+    "notVerified": "Email verification failed. Please try again."
+  },
+
+  "ConfirmEmailChange": {
+    "confirm": "Confirming email change...",
+    "confirmed": "Your email change has been confirmed successfully!",
+    "notConfirmed": "Failed to confirm email change. Please try again."
   },
 
   "ProfileSidebar": {

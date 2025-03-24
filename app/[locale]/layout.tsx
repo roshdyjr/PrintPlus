@@ -45,7 +45,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={direction}>
-      <body suppressHydrationWarning className="font-inter overflow-x-hidden">
+      <body suppressHydrationWarning className="font-rubik overflow-x-hidden bg-white">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             <Navbar />

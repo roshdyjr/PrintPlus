@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
+import { useTranslations } from "use-intl";
 
 interface ForgetPasswordFormData {
   email: string;
@@ -22,6 +24,9 @@ const ForgetPasswordPage = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter(); // Initialize useRouter
+  const locale = useLocale();
+  const t = useTranslations("ForgetPassword");
+  const v = useTranslations("AuthValidationMessages");
 
   // Handle form submission
   const onSubmit = async (data: ForgetPasswordFormData) => {
@@ -34,7 +39,7 @@ const ForgetPasswordPage = () => {
         { email: data.email },
         {
           headers: {
-            "Accept-Language": "ar-SA",
+            "Accept-Language": locale === "ar" ? "ar-SA" : "en-US",
           },
         }
       );
@@ -77,11 +82,9 @@ const ForgetPasswordPage = () => {
       >
         <div className="flex flex-col justify-center items-center gap-6 w-full">
           <h2 className="text-3xl text-shadeBlack font-bold">
-            Forgot your password?
+            {t("forgotPassword")}
           </h2>
-          <p className="text-sm text-shadeBlack">
-            We'll email you a link to recover your account.
-          </p>
+          <p className="text-sm text-shadeBlack">{t("sentEmail")}</p>
         </div>
 
         {showMessage && (
@@ -92,27 +95,30 @@ const ForgetPasswordPage = () => {
 
         <InputField
           id="email"
-          label="Email*"
+          label={t("email")}
           type="email"
           {...register("email", {
-            required: "Email is required.",
+            required: v("requiredEmail"),
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: "Invalid email format.",
+              message: v("invalidEmailFormat"),
             },
           })}
           error={errors.email?.message}
         />
 
         <CustomButton
-          label="Get a reset link"
+          label={t("resetLink")}
           type="submit"
           disabled={!isValid}
           isLoading={loading}
         />
 
-        <Link href={"/login"} className="font-bold text-shadeBlack mt-2">
-          Log in
+        <Link
+          href={`/${locale}/login`}
+          className="font-bold text-shadeBlack mt-2"
+        >
+          {t("login")}
         </Link>
       </form>
     </div>

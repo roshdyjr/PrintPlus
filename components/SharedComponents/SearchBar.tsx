@@ -25,7 +25,7 @@ const SearchBar = () => {
         <input
           type="text"
           placeholder={t("placeholder")} // Translated placeholder text
-          className="w-full outline-none xlg:placeholder:text-[20px]"
+          className="w-full outline-none xlg:placeholder:text-[20px] bg-white"
         />
       </div>
     </div>

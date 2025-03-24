@@ -30,7 +30,7 @@ const CustomButton: React.FC<ButtonProps> = ({
           } 
           ${className}`}
     >
-      {icon && <Image src={icon} alt="icon" width={10} height={10}/>}
+      {icon && <Image src={icon} alt="icon" width={10} height={10} className="w-[20px] h-[20px] xlg:w-[30px] xlg:h-[30px]"/> }
       {label}
       {isLoading && (
         <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>

@@ -95,14 +95,17 @@ const MobileNavbar = () => {
   // Language toggler function
   const handleLanguageSwitch = () => {
     const newLocale = locale === "en" ? "ar" : "en"; // Toggle between "en" and "ar"
-
+  
     // Get the current path without the locale segment
-    const currentPath = window.location.pathname; // e.g., "/en/category/1"
-    const pathWithoutLocale = currentPath.split("/").slice(2).join("/"); // e.g., "category/1"
-
-    // Construct the new URL with the updated locale
-    const newPath = `/${newLocale}/${pathWithoutLocale}`; // e.g., "/ar/category/1"
-
+    const currentPath = window.location.pathname; // e.g., "/en/resetpassword"
+    const pathWithoutLocale = currentPath.split("/").slice(2).join("/"); // e.g., "resetpassword"
+  
+    // Get the current search parameters (e.g., "?token=...&email=...")
+    const searchParams = new URLSearchParams(window.location.search);
+  
+    // Construct the new URL with the updated locale and preserved search parameters
+    const newPath = `/${newLocale}/${pathWithoutLocale}?${searchParams.toString()}`; // e.g., "/ar/resetpassword?token=...&email=..."
+  
     // Redirect to the new URL
     router.push(newPath);
   };

@@ -107,7 +107,7 @@ const LoginPage = () => {
           />
 
           <Link
-            href={"/forgetpassword"}
+            href={`/${locale}/forgetpassword`}
             className="text-xs text-shadeBlack self-end"
           >
             {t("forgotpassword")}
@@ -124,7 +124,10 @@ const LoginPage = () => {
         {/* Register Redirect Section */}
         <div className="w-full flex justify-center items-center gap-2 mt-2">
           <p className="text-shadeBlack">{t("unregisterd")}</p>
-          <Link href="/register" className="font-bold text-shadeBlack">
+          <Link
+            href={`/${locale}/register`}
+            className="font-bold text-shadeBlack"
+          >
             {t("signup")}
           </Link>
         </div>

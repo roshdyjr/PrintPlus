@@ -82,11 +82,14 @@ const Navbar = () => {
     const newLocale = locale === "en" ? "ar" : "en"; // Toggle between "en" and "ar"
 
     // Get the current path without the locale segment
-    const currentPath = window.location.pathname; // e.g., "/en/category/1"
-    const pathWithoutLocale = currentPath.split("/").slice(2).join("/"); // e.g., "category/1"
+    const currentPath = window.location.pathname; // e.g., "/en/resetpassword"
+    const pathWithoutLocale = currentPath.split("/").slice(2).join("/"); // e.g., "resetpassword"
 
-    // Construct the new URL with the updated locale
-    const newPath = `/${newLocale}/${pathWithoutLocale}`; // e.g., "/ar/category/1"
+    // Get the current search parameters (e.g., "?token=...&email=...")
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Construct the new URL with the updated locale and preserved search parameters
+    const newPath = `/${newLocale}/${pathWithoutLocale}?${searchParams.toString()}`; // e.g., "/ar/resetpassword?token=...&email=..."
 
     // Redirect to the new URL
     router.push(newPath);
@@ -169,7 +172,7 @@ const Navbar = () => {
                     alt="globe"
                     width={24}
                     height={24}
-                    className= "w- h-4 xlg:w-6 xlg:h-6"
+                    className="w- h-4 xlg:w-6 xlg:h-6"
                   />
                   <p className="font-semibold text-base xlg:text-[20px]">
                     {locale === "en" ? "ع" : "E"}{" "}

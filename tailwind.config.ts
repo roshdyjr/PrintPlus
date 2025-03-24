@@ -18,7 +18,7 @@ export default {
         categoryLink: "#334155",
       },
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
+        rubik : ["Rubik", "sans-serif"]
       },
       backgroundImage: {
         heroBg2: "url('/herobg.png')",
@@ -38,5 +38,6 @@ export default {
       },
     },
   },
-  plugins: [],
+
+  
 } satisfies Config;
