@@ -48,6 +48,7 @@ const SubCategoryGrid = ({
         {products.map((product) => (
           <ProductCard
             key={product.productId}
+            id={product.productId}
             mainFileId={product.mainFileId}
             alt={product.name}
             newBadge={false}

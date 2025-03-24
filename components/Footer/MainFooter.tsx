@@ -18,7 +18,7 @@ const MainFooter = () => {
           {/* Logo Section Content */}
           <div className="flex flex-col gap-[11px] xlg:gap-[16.5px]">
             {/* Logo div */}
-            <Link href={"/"}>
+            <Link href={`/${locale}`}>
               <Image
                 src={"/logo.svg"}
                 alt="logo"

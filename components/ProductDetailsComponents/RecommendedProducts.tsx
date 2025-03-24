@@ -5,29 +5,33 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import Link from "next/link";
 import ProductCard from "../SharedComponents/ProductCard";
 import { products } from "./data";
+import { useLocale } from "next-intl";
+import { useTranslations } from "use-intl";
 
 const RecommendedProducts = () => {
   // Filter products with the "recommendation" category
   const recommendedProducts = products.filter(
     (p) => p.category === "recommendation"
   );
+  const locale = useLocale();
+  const t = useTranslations("ProductDetails");
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {/* Section Heading */}
       <h2 className="text-[20px] font-semibold xlg:text-[30px]">
-        Our Recommendations
+        {t("recommendations")}
       </h2>
 
       {/* Grid Layout for Larger Screens (lg and above) */}
       <div className="hidden lg:grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {recommendedProducts.map((product) => (
-          <Link href="/" key={product.id}>
+          <div key={product.id}>
             <ProductCard
               mainFileId={product.mainFileId}
+              id= {product.id}
               alt={product.alt}
               title={product.title}
               price={product.price}
@@ -35,7 +39,7 @@ const RecommendedProducts = () => {
               saleBadge={product.saleBadge}
               saleAmount={product.saleAmount}
             />
-          </Link>
+          </div>
         ))}
       </div>
 
@@ -54,9 +58,9 @@ const RecommendedProducts = () => {
         >
           {recommendedProducts.map((product) => (
             <SwiperSlide key={product.id}>
-              <Link href="/">
                 <ProductCard
                   mainFileId={product.mainFileId}
+                  id= {product.id}
                   alt={product.alt}
                   title={product.title}
                   price={product.price}
@@ -64,7 +68,6 @@ const RecommendedProducts = () => {
                   saleBadge={product.saleBadge}
                   saleAmount={product.saleAmount}
                 />
-              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

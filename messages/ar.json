@@ -46,7 +46,6 @@
     "placeholder": "بحث"
   },
 
-  
   "Login": {
     "signin": "تسجيل الدخول",
     "email": "البريد الالكتروني*",
@@ -233,6 +232,29 @@
     "currency": "ريال سعودي",
     "reset": "إعادة تعيين",
     "viewResults": "شاهد النتائج"
+  },
+
+  "ProductDetails": {
+    "home": "الرئيسية",
+    "products": "المنتجات",
+    "productDetails": "تفاصيل المنتج",
+    "reviews": "التقييمات",
+    "questionsAndAnswers": "الأسئلة والأجوبة",
+    "expressDelivery": "توصيل سريع",
+    "days": "أيام",
+    "hours": "ساعات",
+    "installationDes": "نقوم بالتركيب بدقة واحترافية لما تم شراؤه.",
+    "deliveryDes": "• التوصيل والتركيب متوقعان في",
+    "city": "الرياض",
+    "designDes": "نراجع أبعاد تصميمك ونقوم بالتعديلات لضمان جودة ودقة الطباعة.",
+    "fileUploader": "أو اسحب الملفات هنا",
+    "upload": "رفع",
+    "addToCart": "أضف إلى السلة",
+    "currency": "ريال",
+    "productFaqs": "الأسئلة الشائعة للمنتج",
+    "similar": "منتجات مشابهة",
+    "recommendations": "منتجات نوصي بها",
+    "installationService": "خدمة التركيب"
   },
 
   "Footer": {

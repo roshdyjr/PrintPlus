@@ -50,6 +50,7 @@ const SubCategoryPage = () => {
             {products.map((product) => (
               <ProductCard
                 key={product.productId}
+                id= {product.productId}
                 mainFileId={product.mainFileId}
                 alt={product.name}
                 title={product.name}

@@ -121,7 +121,7 @@ const Navbar = () => {
         {/* Main Navbar Items */}
         <div className="px-12 flex items-center gap-14 w-full 2xl:max-w-[1927px] 2xl:self-center xlg:px-[72px] xlg:gap-[84px]">
           {/* Logo */}
-          <Link href={"/"} className="flex items-center justify-center">
+          <Link href={`/${locale}`} className="flex items-center justify-center">
             <Image
               src={"/logo.svg"}
               alt="logo"

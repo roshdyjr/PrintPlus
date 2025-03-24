@@ -235,6 +235,29 @@
     "viewResults": "View results"
   },
 
+  "ProductDetails": {
+    "home": "Home",
+    "products": "Products",
+    "productDetails": "Product details",
+    "reviews": "Reviews",
+    "questionsAndAnswers": "Questions and answers",
+    "expressDelivery": "ExpressDelivery",
+    "days": "Days",
+    "hours": "Hours",
+    "installationDes": "We install what has been purchased accurately and professionally.",
+    "deliveryDes": "• Delivery and installation are estimated for",
+    "city":"Riyadh",
+    "designDes": "We review the dimensions of your design and make adjustments to ensure print quality and accuracy.",
+    "fileUploader": "or Drag files here",
+    "upload": "Upload",
+    "addToCart": "Add to cart",
+    "currency": "SAR",
+    "productFaqs": "Product FAQs",
+    "similar": "Similar Products",
+    "recommendations": "Our Recommendations",
+    "installationService": "Installation Service"
+  },
+
   "Footer": {
     "address": "Al-Sadhan Center, Mousa Bin Nasser Street, Al-Sulaimaniya District, Riyadh.",
     "phone": "+966 59 913 9318",

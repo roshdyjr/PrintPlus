@@ -8,16 +8,19 @@ import "swiper/css/navigation";
 import ProductCard from "../SharedComponents/ProductCard";
 import { products } from "./data";
 import RecommendedProducts from "./RecommendedProducts";
+import { useLocale } from "next-intl";
+import { useTranslations } from "use-intl";
 
 const ProductsSection = () => {
   // Filter products with the "similar" category
   const similarProducts = products.filter((p) => p.category === "similar");
+  const t = useTranslations("ProductDetails");
 
   return (
-    <div className="mx-auto max-w-[1920px] w-full flex flex-col py-4 px-4 my-0 gap-4 lg:px-[71.55px] lg:my-[71.55px] xlg:gap-6">
+    <div className="mx-auto max-w-[1920px] w-full flex flex-col py-4 px-4 my-0 gap-4 lg:px-[71.55px] lg:mb-[71.55px] xlg:mt-[71.55px] xlg:gap-6">
       {/* Section Heading */}
       <h2 className="text-[20px] font-semibold xlg:text-[30px]">
-        Similar Products
+        {t("similar")}
       </h2>
 
       {/* Grid Layout for Larger Screens (lg and above) */}
@@ -25,6 +28,7 @@ const ProductsSection = () => {
         {similarProducts.map((product) => (
           <ProductCard
             key={product.id}
+            id= {product.id}
             mainFileId={product.mainFileId}
             alt={product.alt}
             title={product.title}
@@ -53,6 +57,7 @@ const ProductsSection = () => {
             <SwiperSlide key={product.id}>
               <ProductCard
                 mainFileId={product.mainFileId}
+                id={product.id}
                 alt={product.alt}
                 title={product.title}
                 price={product.price}
