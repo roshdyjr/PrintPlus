@@ -1,12 +1,14 @@
 "use client"; // Ensure this is a client component
 
 import { useSession } from "next-auth/react";
-import BussinessCards from "@/components/HomeComponents/BussinessCards";
-import Hero from "@/components/HomeComponents/Hero";
-import { MostSold } from "@/components/HomeComponents/MostSold";
-import Popular from "@/components/HomeComponents/Popular";
+import Hero from "@/components/Home/Hero";
+import Marketing_Card from "@/components/Home/Marketing_Card";
+import Bannar_marketing from "@/components/Home/Bannar_marketing";
+import TOP_Selling_products from "@/components/Home/TOP_Selling_products";
+import Printing_services from "@/components/Home/Printing_services";
+
 import Services from "@/components/HomeComponents/Services";
-import Tail from "@/components/HomeComponents/Tail";
+import RecommendedProducts from "@/components/Products/RecommendedProducts";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -26,12 +28,17 @@ export default function Home() {
     <>
       <div className="overflow-x-hidden">
         <Hero />
+        <Printing_services />
+        <Marketing_Card />
+        <div className="py-10 md:px-20 3xl:px-40 px-[16px]">
+          <RecommendedProducts />
+        </div>
+        <Bannar_marketing />
+        <TOP_Selling_products />
         <Services />
-        <Popular />
-        <MostSold />
-        <BussinessCards />
-        <MostSold />
-        <Tail />
+        <div className="py-10 md:px-20 3xl:px-40 px-[16px]">
+          <RecommendedProducts />
+        </div>
       </div>
     </>
   );
