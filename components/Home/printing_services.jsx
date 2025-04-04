@@ -1,15 +1,15 @@
-"use client";  
+"use client";
 
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";  
+import { Pagination, Autoplay } from "swiper/modules";
 import printing_services_1 from "../../public/Home/printing_services_1.svg";
 import printing_services_2 from "../../public/Home/printing_services_2.svg";
 import printing_services_3 from "../../public/Home/printing_services_3.svg";
 import printing_services_4 from "../../public/Home/printing_services_4.svg";
 import printing_services_5 from "../../public/Home/printing_services_5.svg";
 
- const services = [
+const services = [
   { id: 1, title: "Large Products and Boards", img: printing_services_1 },
   { id: 2, title: "Clothing and Fabrics", img: printing_services_2 },
   { id: 3, title: "Packaging and Labels", img: printing_services_3 },
@@ -20,26 +20,29 @@ import printing_services_5 from "../../public/Home/printing_services_5.svg";
 const Printing_services = () => {
   return (
     <section className="px-6 py-12 text-center">
-       <h2 className="text-[#000000] font-[600] text-[28px]">
-        We offer you the best printing services.
-      </h2>
-      <p className="mt-2 text-[#000000] font-[400] text-[16px]">
-        You can choose any of the available secure and fast payment methods on the platform.
-      </p>
+      <div className="">
+        <h2 className="text-[#000000] font-[600] text-[28px]">
+          We offer you the best printing services.
+        </h2>
+        <p className="mt-2 text-[#000000] font-[400] text-[16px]">
+          You can choose any of the available secure and fast payment methods on
+          the platform.
+        </p>
+      </div>
 
-       <div className="mt-8 ">
+      <div className="mt-8 ">
         <Swiper
-          slidesPerView={2}  
+          slidesPerView={2}
           spaceBetween={20}
           pagination={{ clickable: true }}
-          modules={[Pagination, Autoplay]}  
+          modules={[Pagination, Autoplay]}
           autoplay={{
-            delay: 3000,  
-            disableOnInteraction: false,  
+            delay: 3000,
+            disableOnInteraction: false,
           }}
-          loop={true}  
+          loop={true}
           breakpoints={{
-             768: {
+            768: {
               slidesPerView: 5,
               spaceBetween: 20,
             },
@@ -58,7 +61,9 @@ const Printing_services = () => {
                     className="rounded-full"
                   />
                 </div>
-                <p className="mt-2 text-[14px] font-[500] text-gray-700 w-[122px]   mx-auto">{service.title}</p>
+                <p className="mt-2 text-[14px] font-[500] text-gray-700 w-[122px]   mx-auto">
+                  {service.title}
+                </p>
               </div>
             </SwiperSlide>
           ))}
