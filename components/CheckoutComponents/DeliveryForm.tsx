@@ -2,69 +2,87 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
+import InputField from "../SharedComponents/InputField";
+import { useTranslations } from "next-intl";
 
 export default function DeliveryForm() {
-   const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
+  const t = useTranslations("DeliveryForm");
+
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [formData, setFormData] = useState({
+    fullName: "",
+    address: "",
+    postcode: "",
+    city: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   return (
     <div className="md:p-6 rounded-lg">
-      <h2 className="text-[27px] font-[700] mb-6">Delivery</h2>
-      <h2 className="text-[20px] font-[600] mb-6">Shipping address</h2>
+      <h2 className="text-[27px] font-[700] mb-6">{t("Delivery")}</h2>
+      <h2 className="text-[20px] font-[600] mb-6">{t("Shippingaddress")}</h2>
 
       <div className="space-y-4 border-t border-b border-[#E2E8F0] py-4">
         {/* Full name */}
-        <div>
-          <label className="block mb-1 font-medium">Full name</label>
-          <input
-            type="text"
-            className="w-full border-2 border-[#94A3B8] rounded-[12px] px-3 py-2"
-            placeholder="Enter your full name"
-          />
-        </div>
+        <InputField
+          id="fullName"
+          label={t("FullName")}
+          name="fullName"
+          type="text"
+          placeholder={t("FullNamePlaceholder")}
+          value={formData.fullName}
+          onChange={handleInputChange}
+        />
 
         {/* Address */}
-        <div>
-          <label className="block mb-1 font-medium">Address</label>
-          <input
-            type="text"
-            className="w-full border-2 border-[#94A3B8] rounded-[12px] px-3 py-2"
-            placeholder="Enter your address"
-          />
-        </div>
+        <InputField
+          id="address"
+          label={t("Address")}
+          name="address"
+          type="text"
+          placeholder={t("AddressPlaceholder")}
+          value={formData.address}
+          onChange={handleInputChange}
+        />
 
         {/* Phone Number */}
-        <div className="relative">
-          <PhoneInput
-            international
-            defaultCountry="SA"
-            value={phoneNumber}
-            onChange={setPhoneNumber}
-            placeholder="Enter phone number"
-            className=" [&>input]:!w-full [&>input]:!border-[3px] [&>input]:!border-t [&>input]:!border-b [&>input]:!border-r [&>input]:!rounded-[8px] [&>input]:!rounded-l [&>input]:!px-2 [&>input]:!py-[6px] w-full border-2 border-[#94A3B8]  rounded-[10px]    pl-2"
-            countrySelectProps={{
-              className: "!pe-2 !me-2 !border-e !border-[#94A3B8]",
-            }}
-          />
-        </div>
+        <InputField
+          id="phone"
+          label={t("PhoneNumber")}
+          isPhoneInput={true}
+          value={phoneNumber}
+          onPhoneChange={(phone) => setPhoneNumber(phone)}
+        />
 
         {/* Postcode & City */}
         <div className="flex gap-4">
           <div className="flex-1">
-            <label className="block mb-1 font-medium">Postcode</label>
-            <input
+            <InputField
+              id="postcode"
+              label={t("Postcode")}
+              name="postcode"
               type="text"
-              className="w-full border-2 border-[#94A3B8] rounded-[12px] px-3 py-2"
-              placeholder="Enter postcode"
+              placeholder={t("PostcodePlaceholder")}
+              value={formData.postcode}
+              onChange={handleInputChange}
             />
           </div>
           <div className="flex-1">
-            <label className="block mb-1 font-medium">City</label>
-            <input
+            <InputField
+              id="city"
+              label={t("City")}
+              name="city"
               type="text"
-              className="w-full border-2 border-[#94A3B8] rounded-[12px] px-3 py-2"
-              placeholder="Enter city"
+              placeholder={t("CityPlaceholder")}
+              value={formData.city}
+              onChange={handleInputChange}
             />
           </div>
         </div>
@@ -74,26 +92,26 @@ export default function DeliveryForm() {
           <input
             type="checkbox"
             id="saveAddress"
-            className="h-[18px] w-[18px] rounded-[4px] border border-gray-300 accent-[#6366F1]   focus:ring-[#6366F1]   "
+            className="h-[18px] w-[18px] rounded-[4px] border border-gray-300 accent-[#6366F1] focus:ring-[#6366F1]"
           />
           <label htmlFor="saveAddress" className="text-sm">
-            Save for Future orders
+            {t("SaveAddress")}
           </label>
         </div>
       </div>
 
       {/* Billing Address */}
       <div className="mt-6">
-        <h3 className="text-md font-semibold mb-3">Billing Address</h3>
+        <h3 className="text-md font-semibold mb-3">{t("BillingAddress")}</h3>
         <div className="flex items-center space-x-2">
           <input
             type="checkbox"
             id="sameAsBilling"
             defaultChecked
-            className="h-[18px] w-[18px] rounded-[4px] border border-gray-300 accent-[#6366F1]   focus:ring-[#6366F1]   "
+            className="h-[18px] w-[18px] rounded-[4px] border border-gray-300 accent-[#6366F1] focus:ring-[#6366F1]"
           />
           <label htmlFor="sameAsBilling" className="text-sm text-gray-700">
-            Same as billing address
+            {t("SameAsBilling")}
           </label>
         </div>
       </div>
@@ -103,7 +121,7 @@ export default function DeliveryForm() {
         href="/checkout/payment"
         className="inline-block mt-6 px-20 bg-[#0F172A] text-white py-3 rounded-[48px] font-medium text-center"
       >
-        Continue to payment
+        {t("ContinueToPayment")}
       </Link>
 
       {/* Footer Logos */}

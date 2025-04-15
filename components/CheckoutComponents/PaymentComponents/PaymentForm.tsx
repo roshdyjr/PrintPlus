@@ -3,7 +3,9 @@ import { FaLock } from "react-icons/fa6";
 import { useState } from "react";
 import Image from "next/image";
 import OrderConfirmation from "./OrderConfirmation";
- 
+import InputField from "@/components/SharedComponents/InputField";
+import { useTranslations } from "next-intl";
+
 interface CardDetails {
   holderName: string;
   cardNumber: string;
@@ -18,6 +20,7 @@ interface OrderDetails {
 }
 
 const PaymentForm = () => {
+  const t = useTranslations();
   const [paymentMethod, setPaymentMethod] = useState<string>("credit-card");
   const [cardDetails, setCardDetails] = useState<CardDetails>({
     holderName: "",
@@ -44,7 +47,7 @@ const PaymentForm = () => {
       setOrderDetails({
         orderNumber: "2TB4591YF123",
         email: "emailexample@gmail.com",
-        address: "Ai-Majigid Ai-Haram, Makkah, T2345, Saudi Arabia",
+        address: t("Checkout.sampleAddress"),
       });
       setOrderSuccess(true);
       setError(false);
@@ -63,25 +66,26 @@ const PaymentForm = () => {
 
   return (
     <div className="md:p-6 bg-white">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">Payment</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4">
+        {t("Checkout.payment")}
+      </h2>
 
       <div className="mb-4">
         <h3 className="text-base font-semibold text-gray-900">
-          Payment method
+          {t("Checkout.paymentMethod")}
         </h3>
         <p className="text-sm text-gray-500">
-          Choose your preferred payment method
+          {t("Checkout.choosePaymentMethod")}
         </p>
       </div>
 
       {error && (
         <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
           <p className="font-medium">
-            The payment has failed. Please check your card details.
+            {t("Checkout.paymentFailed")}
           </p>
           <p>
-            Try to re-enter your credit card information, use another credit
-            card or choose another payment method.
+            {t("Checkout.paymentFailedInstructions")}
           </p>
         </div>
       )}
@@ -93,7 +97,7 @@ const PaymentForm = () => {
           onClick={toggleCreditCard}
         >
           <span className="text-[16px] font-[600] text-[#0F172A] mr-2 flex items-center gap-2">
-            Credit card
+            {t("Checkout.creditCard")}
             <FaLock className="text-[#94A3B8]" />
           </span>
 
@@ -101,19 +105,19 @@ const PaymentForm = () => {
             <div className="flex items-center gap-[32px] justify-center">
               <Image
                 src="/checkout/icon_mastercard_d.svg"
-                alt="Mastercard"
+                alt={t("Checkout.mastercard")}
                 width={35}
                 height={24}
               />
               <Image
                 src="/checkout/icon_visa_d.svg"
-                alt="Visa"
+                alt={t("Checkout.visa")}
                 width={35}
                 height={24}
               />
               <Image
                 src="/checkout/icon_mada_d.svg"
-                alt="Card Icon"
+                alt={t("Checkout.cardIcon")}
                 width={35}
                 height={24}
               />
@@ -123,57 +127,51 @@ const PaymentForm = () => {
 
         {paymentMethod === "credit-card" && (
           <div className="space-y-4 pt-3">
-            <div>
-              <label className="block text-sm text-gray-700 font-medium mb-1">
-                Card holder name
-              </label>
-              <input
-                type="text"
-                name="holderName"
-                value={cardDetails.holderName}
-                onChange={handleInputChange}
-                placeholder="Full name"
-                className="w-full p-2 border-2 border-[#94A3B8] rounded-[8px]  "
-              />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-700 font-medium mb-1">
-                Card number
-              </label>
-              <input
-                type="text"
-                name="cardNumber"
-                value={cardDetails.cardNumber}
-                onChange={handleInputChange}
-                placeholder="1234 5678 9012 3456"
-                className="w-full p-2 border-2 border-[#94A3B8] rounded-[8px]  "
-              />
-            </div>
+            <InputField
+              id="holderName"
+              name="holderName"
+              type="text"
+              placeholder={t("Checkout.fullNamePlaceholder")}
+              value={cardDetails.holderName}
+              onChange={handleInputChange}
+              className="[&>div>input]:w-full [&>div>input]:border-2 [&>div>input]:border-[#94A3B8] [&>div>input]:rounded-[8px] [&>div>input]:p-2 [&>div>input]:focus:outline-none"
+              label={t("Checkout.cardHolderName")}
+            />
+
+            <InputField
+              id="cardNumber"
+              name="cardNumber"
+              type="text"
+              placeholder={t("Checkout.cardNumberPlaceholder")}
+              value={cardDetails.cardNumber}
+              onChange={handleInputChange}
+              className="[&>div>input]:w-full [&>div>input]:border-2 [&>div>input]:border-[#94A3B8] [&>div>input]:rounded-[8px] [&>div>input]:p-2 [&>div>input]:focus:outline-none"
+              label={t("Checkout.cardNumber")}
+            />
+
             <div className="flex gap-4">
               <div className="flex-1">
-                <label className="block text-sm text-gray-700 font-medium mb-1">
-                  Expiration date
-                </label>
-                <input
-                  type="text"
+                <InputField
+                  id="expiryDate"
                   name="expiryDate"
+                  type="text"
+                  placeholder={t("Checkout.expiryDatePlaceholder")}
                   value={cardDetails.expiryDate}
                   onChange={handleInputChange}
-                  placeholder="MM/YY"
-                  className="w-full p-2 border-2 border-[#94A3B8] rounded-[8px]   "
+                  className="[&>div>input]:w-full [&>div>input]:border-2 [&>div>input]:border-[#94A3B8] [&>div>input]:rounded-[8px] [&>div>input]:p-2 [&>div>input]:focus:outline-none"
+                  label={t("Checkout.expiryDate")}
                 />
               </div>
               <div className="flex-1">
-                <label className="block text-sm text-gray-700 font-medium mb-1">
-                  CVV
-                </label>
-                <input
-                  type="text"
+                <InputField
+                  id="cvv"
                   name="cvv"
+                  type="text"
+                  placeholder={t("Checkout.cvvPlaceholder")}
                   value={cardDetails.cvv}
                   onChange={handleInputChange}
-                  placeholder="123"
-                  className="w-full p-2 border-2 border-[#94A3B8] rounded-[8px]  "
+                  className="[&>div>input]:w-full [&>div>input]:border-2 [&>div>input]:border-[#94A3B8] [&>div>input]:rounded-[8px] [&>div>input]:p-2 [&>div>input]:focus:outline-none"
+                  label={t("Checkout.cvv")}
                 />
               </div>
             </div>
@@ -181,19 +179,19 @@ const PaymentForm = () => {
             <div className="flex items-center gap-[32px] pt-2 justify-center">
               <Image
                 src="/checkout/icon_mastercard_d.svg"
-                alt="Mastercard"
+                alt={t("Checkout.mastercard")}
                 width={40}
                 height={24}
               />
               <Image
                 src="/checkout/icon_visa_d.svg"
-                alt="Visa"
+                alt={t("Checkout.visa")}
                 width={40}
                 height={24}
               />
               <Image
                 src="/checkout/icon_mada_d.svg"
-                alt="Card Icon"
+                alt={t("Checkout.cardIcon")}
                 width={40}
                 height={24}
               />
@@ -211,12 +209,12 @@ const PaymentForm = () => {
       >
         <div className="flex items-center">
           <span className="text-[16px] font-[600] text-[#0F172A] mr-2">
-            Apple Pay
+            {t("Checkout.applePay")}
           </span>
         </div>
         <Image
           src="/checkout/icon_Pay.svg"
-          alt="Apple Pay"
+          alt={t("Checkout.applePay")}
           width={50}
           height={27}
         />
@@ -225,9 +223,9 @@ const PaymentForm = () => {
       {/* Place Order Button */}
       <button
         onClick={handlePlaceOrder}
-        className="bg-black text-white font-medium py-2 px-20 rounded-[32px] flex items-center justify-center hover:bg-gray-800 transition  "
+        className="bg-black text-white font-medium py-2 px-20 rounded-[32px] flex items-center justify-center hover:bg-gray-800 transition w-full md:w-auto"
       >
-        Place order
+        {t("Checkout.placeOrder")}
       </button>
     </div>
   );

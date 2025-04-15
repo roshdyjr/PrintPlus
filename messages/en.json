@@ -273,5 +273,79 @@
     "copyRight": "© 2025 print plus",
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms & Conditions"
-  }
+  },
+ "Checkout": {
+  "payment": "Payment",
+  "paymentMethod": "Payment method",
+  "choosePaymentMethod": "Choose your preferred payment method",
+  "creditCard": "Credit card",
+  "applePay": "Apple Pay",
+  "placeOrder": "Place order",
+  "cardHolderName": "Card holder name",
+  "cardNumber": "Card number",
+  "expiryDate": "Expiration date",
+  "cvv": "CVV",
+  "fullNamePlaceholder": "Full name",
+  "cardNumberPlaceholder": "1234 5678 9012 3456",
+  "expiryDatePlaceholder": "MM/YY",
+  "cvvPlaceholder": "123",
+  "paymentFailed": "The payment has failed. Please check your card details.",
+  "paymentFailedInstructions": "Try to re-enter your credit card information, use another credit card or choose another payment method.",
+  "mastercard": "Mastercard",
+  "visa": "Visa",
+  "cardIcon": "Card Icon",
+  "sampleAddress": "Ai-Majigid Ai-Haram, Makkah, T2345, Saudi Arabia"
+},
+ 
+ 
+  "DeliveryForm": {
+    "Delivery": "Delivery",
+    "Shippingaddress": "Shipping address",
+    "FullName": "Full name",
+    "FullNamePlaceholder": "Enter your full name",
+    "Address": "Address",
+    "AddressPlaceholder": "Enter your address",
+    "PhoneNumber": "Phone Number",
+    "Postcode": "Postcode",
+    "PostcodePlaceholder": "Enter postcode",
+    "City": "City",
+    "CityPlaceholder": "Enter city",
+    "SaveAddress": "Save for future orders",
+    "BillingAddress": "Billing Address",
+    "SameAsBilling": "Same as billing address",
+    "ContinueToPayment": "Continue to payment"
+  },
+  
+    "OrderSummary": {
+      "217SAR": "217 SAR",
+      "ShowOrderSummary": "Show order summary",
+      "HideOrderSummary": "Hide order summary",
+      "OrderSummaryTitle": "Order summary",
+      "AddPromoCode": "Add a promo code",
+      "EnterPromoCode": "Enter your promo code",
+      "Apply": "Apply",
+      "Total": "Total"
+    },
+    "ProductItem": {
+      "ProductImageAlt": "Product Image",
+      "Quantity": "Quantity",
+      "Size": "Size",
+      "Edges": "Edges",
+      "FoilColor": "Foil Color",
+      "Installation": "Installation",
+      "InstallationAlt": "Installation",
+      "SAR": "SAR",
+      "AdjustmentAlt": "Adjustment",
+      "SizeAdjustment": "Size Adjustment",
+      "ExpressDeliveryAlt": "Express Delivery",
+      "ExpressDelivery": "Express Delivery",
+      "FileIconAlt": "File icon",
+      "Total": "Total"
+    }
+   
+ 
+
+
+ 
+
 }

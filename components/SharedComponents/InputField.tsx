@@ -32,6 +32,7 @@ const InputField: React.FC<InputFieldProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const locale = useLocale();
+  const isRTL = locale === "ar";
 
   return (
     <div className="flex flex-col justify-start items-start w-full gap-1 xlg:gap-[6px]">
@@ -43,9 +44,12 @@ const InputField: React.FC<InputFieldProps> = ({
       </label>
       <div className="relative w-full">
         {isPhoneInput ? (
-          <div className="flex flex-row-reverse border border-borderColor rounded-lg h-[48px] md:h-auto">
+          <div 
+            className="w-full border-2 border-[#94A3B8] rounded-[10px]"
+            dir="ltr" 
+          >
             <PhoneInput
-              country={"sa"} // Default country (Saudi Arabia)
+              country={"sa"} 
               enableSearch={true}
               enableAreaCodes={false}
               value={phoneNumber}
@@ -59,11 +63,12 @@ const InputField: React.FC<InputFieldProps> = ({
               dropdownClass="!bg-white !border !border-[#E3E3E3] !rounded-md"
               dropdownStyle={{
                 position: "absolute",
-                top: "auto", // Adjust based on available space
-                bottom: "100%", // Open upwards
+                top: "auto",
+                bottom: "100%",
                 left: 0,
                 zIndex: 9999,
               }}
+               localization={undefined}
             />
           </div>
         ) : (
@@ -75,7 +80,10 @@ const InputField: React.FC<InputFieldProps> = ({
               value={value}
               {...register}
               {...rest}
-              className="border border-borderColor h-[48px] md:h-[36px] rounded-lg focus:outline-none placeholder:text-[#525252] w-full py-2 ps-2 bg-white xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px]"
+              className={`w-full border-2 border-[#94A3B8] rounded-[12px] px-3 py-2 ${
+                isRTL ? "text-right" : "text-left"
+              }`}
+              dir={isRTL ? "rtl" : "ltr"}
             />
             {type === "password" && (
               <button
@@ -83,7 +91,7 @@ const InputField: React.FC<InputFieldProps> = ({
                 onClick={() => setShowPassword(!showPassword)}
                 className={`absolute flex items-center text-gray-500 ${
                   error ? "top-2" : "inset-y-0"
-                } ${locale === "ar" ? "left-3" : "right-3"}`}
+                } ${isRTL ? "left-3" : "right-3"}`}
               >
                 {showPassword ? (
                   <AiOutlineEyeInvisible size={22} />
@@ -92,7 +100,14 @@ const InputField: React.FC<InputFieldProps> = ({
                 )}
               </button>
             )}
-            {error && <p className="text-red-500">{error}</p>}
+            {error && (
+              <p 
+                className="text-red-500" 
+                dir={isRTL ? "rtl" : "ltr"}
+              >
+                {error}
+              </p>
+            )}
           </>
         )}
       </div>

@@ -5,8 +5,11 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import ProductItem from "./ProductItem";
 import icon_Add_a_promo from "../../public/cart/icon_Add_a_promo.svg";
+import { useTranslations } from "next-intl";
 
 export default function OrderSummary() {
+  const t = useTranslations("OrderSummary");
+
   const [isOpen, setIsOpen] = useState(false);
   const [showPromo, setShowPromo] = useState(false);
 
@@ -54,14 +57,14 @@ export default function OrderSummary() {
             ) : (
               <ChevronDown className="w-4 h-4" />
             )}
-            {isOpen ? "Hide order summary" : "Show order summary"}
+            {isOpen ? t("HideOrderSummary") : t("ShowOrderSummary")}
           </div>
-          <span className="text-[16px] font-bold text-[#0F172A]">217 SAR</span>
+          <span className="text-[16px] font-bold text-[#0F172A]"> {t("217SAR")} </span>
         </div>
 
         <div className="hidden md:flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Order summary</h2>
-          <span className="font-semibold">217 SAR</span>
+          <h2 className="text-xl font-semibold">{t("OrderSummaryTitle")}</h2>
+          <span className="font-semibold">{t("217SAR")}</span>
         </div>
 
         {isOpen && (
@@ -74,6 +77,9 @@ export default function OrderSummary() {
               foilColor="Gold"
               pdfLink="my personal card front design.pdf"
               total={114}
+              installation={10}
+              adjustment={5}
+              delivery={15}
               express
             />
 
@@ -85,6 +91,9 @@ export default function OrderSummary() {
               foilColor="Gold"
               pdfLink="my personal card front design.pdf"
               total={114}
+              installation={10}
+              adjustment={5}
+              delivery={15}
             />
 
             {/* Promo Code Toggle */}
@@ -96,11 +105,11 @@ export default function OrderSummary() {
                 <div className="flex items-center gap-2">
                   <Image
                     src={icon_Add_a_promo}
-                    alt="Promo icon"
+                    alt={t("AddPromoCode")}
                     width={24}
                     height={24}
                   />
-                  Add a promo code
+                  {t("AddPromoCode")}
                 </div>
                 {showPromo ? (
                   <ChevronUp className="w-5 h-5 text-gray-600" />
@@ -113,11 +122,11 @@ export default function OrderSummary() {
                 <div className="flex gap-2">
                   <input
                     type="text"
-                    placeholder="Enter your promo code"
+                    placeholder={t("EnterPromoCode")}
                     className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
                   />
                   <button className="bg-[#0F172A] text-white px-4 py-2 rounded text-sm font-medium hover:bg-[#1E293B] transition">
-                    Apply
+                    {t("Apply")}
                   </button>
                 </div>
               )}
@@ -125,8 +134,8 @@ export default function OrderSummary() {
 
             {/* Total */}
             <div className="mt-4 flex justify-between text-lg font-semibold">
-              <span>Total</span>
-              <span>217 SAR</span>
+              <span>{t("Total")}</span>
+              <span>{t("217SAR")}</span>
             </div>
           </div>
         )}
