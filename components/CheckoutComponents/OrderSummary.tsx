@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import ProductItem from "./ProductItem";
-import icon_Add_a_promo from "../../../public/cart/icon_Add_a_promo.svg";
+import icon_Add_a_promo from "../../public/cart/icon_Add_a_promo.svg";
 
 export default function OrderSummary() {
   const [isOpen, setIsOpen] = useState(false);

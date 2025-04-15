@@ -6,7 +6,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
 export default function DeliveryForm() {
-  const [phoneNumber, setPhoneNumber] = useState("");
+   const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
 
   return (
     <div className="md:p-6 rounded-lg">

@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
-import icon_Installation from "../../../public/cart/icon_Installation.svg";
-import icon_Express from "../../../public/cart/icon_Express.svg";
-import icon_personal from "../../../public/cart/icon_personal.svg";
-import Product_image from "../../../public/cart/Product_image.svg";
-import icon_Size_Adjustment from "../../../public/cart/icon_Size_Adjustment.svg";
+import icon_Installation from "../../public/cart/icon_Installation.svg";
+import icon_Express from "../../public/cart/icon_Express.svg";
+import icon_personal from "../../public/cart/icon_personal.svg";
+import Product_image from "../../public/cart/Product_image.svg";
+import icon_Size_Adjustment from "../../public/cart/icon_Size_Adjustment.svg";
 
 type ProductProps = {
   title: string;

@@ -1,6 +1,6 @@
-import DeliveryForm from "./DeliveryForm";
-import OrderSummary from "./OrderSummary";
-
+import DeliveryForm from "@/components/CheckoutComponents/DeliveryForm";
+import OrderSummary from "@/components/CheckoutComponents/OrderSummary";
+  
  
 
 export default function checkout() {

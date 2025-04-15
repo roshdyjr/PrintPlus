@@ -1,6 +1,7 @@
+import OrderSummary from '@/components/CheckoutComponents/OrderSummary'
+import PaymentForm from '@/components/CheckoutComponents/PaymentComponents/PaymentForm'
 import React from 'react'
-import OrderSummary from '../OrderSummary'
- import PaymentForm from './PaymentForm'
+ 
 
 function Payment() {
   return (

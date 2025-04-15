@@ -3,7 +3,7 @@ import { FaLock } from "react-icons/fa6";
 import { useState } from "react";
 import Image from "next/image";
 import OrderConfirmation from "./OrderConfirmation";
-
+ 
 interface CardDetails {
   holderName: string;
   cardNumber: string;
