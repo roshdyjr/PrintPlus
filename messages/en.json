@@ -341,6 +341,13 @@
       "ExpressDelivery": "Express Delivery",
       "FileIconAlt": "File icon",
       "Total": "Total"
+    },
+    "OrderConfirmation": {
+      "thankYou": "Thank you for your order!",
+      "confirmationSent": "An order confirmation has been sent to",
+      "orderNumber": "Your order number is",
+      "trackOrder": "Keep track of your order",
+      "delivery": "Delivery"
     }
    
  

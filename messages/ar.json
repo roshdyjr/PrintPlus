@@ -274,28 +274,28 @@
     "terms": "الشروط والأحكام"
   },
   "Checkout": {
-  "payment": "الدفع",
-  "paymentMethod": "طريقة الدفع",
-  "choosePaymentMethod": "اختر طريقة الدفع المفضلة لديك",
-  "creditCard": "بطاقة ائتمان",
-  "applePay": "آبل باي",
-  "placeOrder": "تقديم الطلب",
-  "cardHolderName": "اسم حامل البطاقة",
-  "cardNumber": "رقم البطاقة",
-  "expiryDate": "تاريخ الانتهاء",
-  "cvv": "CVV",
-  "fullNamePlaceholder": "الاسم الكامل",
-  "cardNumberPlaceholder": "1234 5678 9012 3456",
-  "expiryDatePlaceholder": "شهر/سنة",
-  "cvvPlaceholder": "123",
-  "paymentFailed": "فشلت عملية الدفع. يرجى التحقق من تفاصيل بطاقتك.",
-  "paymentFailedInstructions": "حاول إعادة إدخال معلومات بطاقة الائتمان الخاصة بك، أو استخدم بطاقة ائتمان أخرى أو اختر طريقة دفع أخرى.",
-  "mastercard": "ماستركارد",
-  "visa": "فيزا",
-  "cardIcon": "أيقونة بطاقة",
-  "sampleAddress": "العيجة الماجد، مكة، 2345، المملكة العربية السعودية"
-},
- 
+    "payment": "الدفع",
+    "paymentMethod": "طريقة الدفع",
+    "choosePaymentMethod": "اختر طريقة الدفع المفضلة لديك",
+    "creditCard": "بطاقة ائتمان",
+    "applePay": "آبل باي",
+    "placeOrder": "تقديم الطلب",
+    "cardHolderName": "اسم حامل البطاقة",
+    "cardNumber": "رقم البطاقة",
+    "expiryDate": "تاريخ الانتهاء",
+    "cvv": "CVV",
+    "fullNamePlaceholder": "الاسم الكامل",
+    "cardNumberPlaceholder": "1234 5678 9012 3456",
+    "expiryDatePlaceholder": "شهر/سنة",
+    "cvvPlaceholder": "123",
+    "paymentFailed": "فشلت عملية الدفع. يرجى التحقق من تفاصيل بطاقتك.",
+    "paymentFailedInstructions": "حاول إعادة إدخال معلومات بطاقة الائتمان الخاصة بك، أو استخدم بطاقة ائتمان أخرى أو اختر طريقة دفع أخرى.",
+    "mastercard": "ماستركارد",
+    "visa": "فيزا",
+    "cardIcon": "أيقونة بطاقة",
+    "sampleAddress": "العيجة الماجد، مكة، 2345، المملكة العربية السعودية"
+  },
+
   "DeliveryForm": {
     "Delivery": "التوصيل",
     "Shippingaddress": "عنوان الشحن",
@@ -313,35 +313,38 @@
     "SameAsBilling": "نفس عنوان الفاتورة",
     "ContinueToPayment": "الانتقال إلى الدفع"
   },
- 
-    "OrderSummary": {
-      "217SAR": "217 ريال سعودي",
-      "ShowOrderSummary": "عرض ملخص الطلب",
-      "HideOrderSummary": "إخفاء ملخص الطلب",
-      "OrderSummaryTitle": "ملخص الطلب",
-      "AddPromoCode": "إضافة كود خصم",
-      "EnterPromoCode": "أدخل كود الخصم",
-      "Apply": "تطبيق",
-      "Total": "الإجمالي"
-    },
-    "ProductItem": {
-      "ProductImageAlt": "صورة المنتج",
-      "Quantity": "الكمية",
-      "Size": "الحجم",
-      "Edges": "الحواف",
-      "FoilColor": "لون الفويل",
-      "Installation": "التثبيت",
-      "InstallationAlt": "أيقونة التثبيت",
-      "SAR": "ريال سعودي",
-      "AdjustmentAlt": "أيقونة تعديل المقاس",
-      "SizeAdjustment": "تعديل المقاس",
-      "ExpressDeliveryAlt": "أيقونة التوصيل السريع",
-      "ExpressDelivery": "توصيل سريع",
-      "FileIconAlt": "أيقونة الملف",
-      "Total": "الإجمالي"
-    }
-  
 
-
-
+  "OrderSummary": {
+    "217SAR": "217 ريال سعودي",
+    "ShowOrderSummary": "عرض ملخص الطلب",
+    "HideOrderSummary": "إخفاء ملخص الطلب",
+    "OrderSummaryTitle": "ملخص الطلب",
+    "AddPromoCode": "إضافة كود خصم",
+    "EnterPromoCode": "أدخل كود الخصم",
+    "Apply": "تطبيق",
+    "Total": "الإجمالي"
+  },
+  "ProductItem": {
+    "ProductImageAlt": "صورة المنتج",
+    "Quantity": "الكمية",
+    "Size": "الحجم",
+    "Edges": "الحواف",
+    "FoilColor": "لون الفويل",
+    "Installation": "التثبيت",
+    "InstallationAlt": "أيقونة التثبيت",
+    "SAR": "ريال سعودي",
+    "AdjustmentAlt": "أيقونة تعديل المقاس",
+    "SizeAdjustment": "تعديل المقاس",
+    "ExpressDeliveryAlt": "أيقونة التوصيل السريع",
+    "ExpressDelivery": "توصيل سريع",
+    "FileIconAlt": "أيقونة الملف",
+    "Total": "الإجمالي"
+  },
+  "OrderConfirmation": {
+    "thankYou": "شكرًا لك على طلبك!",
+    "confirmationSent": "تم إرسال تأكيد الطلب إلى",
+    "orderNumber": "رقم طلبك هو",
+    "trackOrder": "تتبع حالة طلبك",
+    "delivery": "التوصيل"
+  }
 }

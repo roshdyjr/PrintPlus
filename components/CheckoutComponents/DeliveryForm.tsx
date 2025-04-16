@@ -1,31 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import InputField from "../SharedComponents/InputField";
 import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import PhoneInput from "../SharedComponents/IntlTelInputField";
+
+interface FormFields {
+  fullName: string;
+  address: string;
+  postcode: string;
+  city: string;
+  mobileNo: string;
+  mobileCode: string;
+  mobileIso: string;
+}
 
 export default function DeliveryForm() {
   const t = useTranslations("DeliveryForm");
 
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [formData, setFormData] = useState({
-    fullName: "",
-    address: "",
-    postcode: "",
-    city: "",
+  const {
+    control,
+    register,
+    setValue,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormFields>({
+    defaultValues: {
+      fullName: "",
+      address: "",
+      postcode: "",
+      city: "",
+      mobileNo: "",
+      mobileCode: "",
+      mobileIso: "",
+    },
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const onSubmit = (data: FormFields) => {
+    console.log("Submitted data:", data);
   };
 
   return (
-    <div className="md:p-6 rounded-lg">
+    <form onSubmit={handleSubmit(onSubmit)} className="md:p-6 rounded-lg">
       <h2 className="text-[27px] font-[700] mb-6">{t("Delivery")}</h2>
       <h2 className="text-[20px] font-[600] mb-6">{t("Shippingaddress")}</h2>
 
@@ -34,31 +53,26 @@ export default function DeliveryForm() {
         <InputField
           id="fullName"
           label={t("FullName")}
-          name="fullName"
           type="text"
           placeholder={t("FullNamePlaceholder")}
-          value={formData.fullName}
-          onChange={handleInputChange}
+          {...register("fullName", { required: true })}
         />
 
         {/* Address */}
         <InputField
           id="address"
           label={t("Address")}
-          name="address"
           type="text"
           placeholder={t("AddressPlaceholder")}
-          value={formData.address}
-          onChange={handleInputChange}
+          {...register("address", { required: true })}
         />
 
-        {/* Phone Number */}
-        <InputField
-          id="phone"
+        {/* Phone Number using PhoneInput */}
+        <PhoneInput<FormFields>
+          control={control}
+          setValue={setValue}
           label={t("PhoneNumber")}
-          isPhoneInput={true}
-          value={phoneNumber}
-          onPhoneChange={(phone) => setPhoneNumber(phone)}
+          name="mobileNo"
         />
 
         {/* Postcode & City */}
@@ -67,22 +81,18 @@ export default function DeliveryForm() {
             <InputField
               id="postcode"
               label={t("Postcode")}
-              name="postcode"
               type="text"
               placeholder={t("PostcodePlaceholder")}
-              value={formData.postcode}
-              onChange={handleInputChange}
+              {...register("postcode", { required: true })}
             />
           </div>
           <div className="flex-1">
             <InputField
               id="city"
               label={t("City")}
-              name="city"
               type="text"
               placeholder={t("CityPlaceholder")}
-              value={formData.city}
-              onChange={handleInputChange}
+              {...register("city", { required: true })}
             />
           </div>
         </div>
@@ -117,11 +127,13 @@ export default function DeliveryForm() {
       </div>
 
       {/* Continue Button */}
-      <Link
-        href="/checkout/payment"
-        className="inline-block mt-6 px-20 bg-[#0F172A] text-white py-3 rounded-[48px] font-medium text-center"
-      >
-        {t("ContinueToPayment")}
+      <Link href="/checkout/payment">
+        <button
+          type="submit"
+          className="inline-block mt-6 px-20 bg-[#0F172A] text-white py-3 rounded-[48px] font-medium text-center"
+        >
+          {t("ContinueToPayment")}
+        </button>
       </Link>
 
       {/* Footer Logos */}
@@ -130,6 +142,6 @@ export default function DeliveryForm() {
         <img src="/Footer2.svg" className="w-10" alt="Visa" />
         <img src="/Footer1.svg" className="w-10" alt="Mada" />
       </div>
-    </div>
+    </form>
   );
 }

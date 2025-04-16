@@ -98,9 +98,9 @@ const PhoneInput = <T extends PhoneFields>({
             </label>
             <div className="relative w-full">
               <div
-                className={`flex items-center border xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px] ${
+                className={`flex items-center border-2 xlg:text-[20px] xlg:rounded-[12px] xlg:border-[1.5px] xlg:h-[54px] xlg:ps-[15px] xlg:py-[9px] xlg:placeholder:text-[20px] ${
                   showError ? "border-[#FB7185]" : "border-borderColor"
-                } rounded-lg h-[40px] ${
+                } rounded-[10px] h-[43px] ${
                   locale === "ar" ? "flex-row" : "flex-row"
                 }`}
               >
@@ -163,7 +163,7 @@ const PhoneInput = <T extends PhoneFields>({
                     inputProps={{
                       id: "phone-input",
                       onBlur: field.onBlur,
-                      className: `border-none h-[40px] self-center ms-2 w-full focus:outline-none placeholder:text-[#525252] bg-transparent ${
+                      className: `border-none h-[43px] self-center ms-2 w-full focus:outline-none placeholder:text-[#525252] bg-transparent ${
                         locale === "ar" ? "text-right" : "text-left"
                       }`,
                     }}
