@@ -346,5 +346,27 @@
     "orderNumber": "رقم طلبك هو",
     "trackOrder": "تتبع حالة طلبك",
     "delivery": "التوصيل"
-  }
+  },
+   
+    "Contact": {
+      "contact": "اتصل بنا",
+      "weLoveToHear": "نود أن نسمع منك",
+      "needSomethingCleared": "هل تحتاج إلى توضيح شيء ما؟ إليك أكثر الأسئلة شيوعًا.",
+      "email": "البريد الإلكتروني",
+      "ourFriendlyTeam": "فريقنا الودود هنا لمساعدتك.",
+      "office": "المكتب",
+      "comeSayHello": "تعال لتحية فريقنا في المكتب الرئيسي.",
+      "phone": "الهاتف",
+      "monFriHours": "من الاثنين إلى الجمعة من 8 صباحًا حتى 5 مساءً.",
+      "getInTouch": "ابقى على تواصل",
+      "weLoveToHearForm": "نود أن نسمع منك. يرجى ملء هذا النموذج.",
+      "firstName": "الاسم الأول",
+      "firstNamePlaceholder": "أدخل اسمك الأول",
+      "lastName": "اسم العائلة",
+      "lastNamePlaceholder": "أدخل اسم العائلة",
+      "message": "الرسالة",
+      "leaveMessage": "اترك لنا رسالة...",
+      "sendMessage": "إرسال الرسالة"
+    }
+  
 }

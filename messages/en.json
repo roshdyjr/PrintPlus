@@ -348,7 +348,29 @@
       "orderNumber": "Your order number is",
       "trackOrder": "Keep track of your order",
       "delivery": "Delivery"
-    }
+    },
+    
+      "Contact": {
+        "contact": "Contact",
+        "weLoveToHear": "We'd love to hear from you",
+        "needSomethingCleared": "Need something cleared up? Here are our most frequently asked questions.",
+        "email": "Email",
+        "ourFriendlyTeam": "Our friendly team is here to help.",
+        "office": "Office",
+        "comeSayHello": "Come say hello at our office HQ.",
+        "phone": "Phone",
+        "monFriHours": "Mon-Fri from 8am to 5pm.",
+        "getInTouch": "Get in touch",
+        "weLoveToHearForm": "We'd love to hear from you. Please fill out this form.",
+        "firstName": "First name",
+        "firstNamePlaceholder": "Enter your first name",
+        "lastName": "Last name",
+        "lastNamePlaceholder": "Enter your last name",
+        "message": "Message",
+        "leaveMessage": "Leave us a message...",
+        "sendMessage": "Send Message"
+      }
+     
    
  
 
