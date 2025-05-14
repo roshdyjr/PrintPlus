@@ -31,18 +31,18 @@ export default function Sidebar({ activeSection, setActiveSection }) {
   ];
 
   return (
-    <aside className="w-full sm:w-64 bg-[#6366F10F] p-4 space-y-6 rounded-lg">
+    <aside className="w-full sm:w-64 bg-[#6366F10F] p-4 space-y-6 rounded-[24px] ">
       {menuSections.map((section) => (
         <div key={section.title}>
-          <h2 className="font-semibold text-gray-800 mb-2">{section.title}</h2>
-          <ul className="space-y-1 text-sm text-gray-600">
+          <h2 className="font-[500] text-gray-800 mb-2 text-[22px]">{section.title}</h2>
+          <ul className="space-y-1 text-[18px] text-gray-600 font-[300] ">
             {section.items.map((item) => (
               <li key={item.id}>
                 <button
                   onClick={() => setActiveSection(item.id)}
-                  className={`w-full text-left hover:text-black ${
+                  className={`w-full text-left hover:text-black py-1 ${
                     activeSection === item.id
-                      ? "text-indigo-600 font-medium"
+                      ? "text-[#6366F1] font-medium"
                       : ""
                   }`}
                 >

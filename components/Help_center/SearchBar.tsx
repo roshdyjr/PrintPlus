@@ -1,7 +1,7 @@
 // components/HelpCenter/SearchBar.tsx
 export default function SearchBar() {
   return (
-    <div className="py-10 bg-[#6366F10F]">
+    <div className="py-10 bg-[#6366F10F] px-4">
       <div className="">
         <h1 className="text-[32px] sm:text-xl font-[500] text-center text-[#6366F1]">
           Hello, how can we help?
@@ -27,7 +27,9 @@ export default function SearchBar() {
           placeholder="Q Search"
         />
       </div>
-      <p className="  text-center font-[400] text-[#2F2B3DB2] text-[20px]">Common troubleshooting topics: eCommerce , payment ect....</p>
+      <p className="  text-center font-[400] text-[#2F2B3DB2] text-[20px]">
+        Common troubleshooting topics: eCommerce , payment ect....
+      </p>
     </div>
   );
 }

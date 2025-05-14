@@ -147,12 +147,12 @@ const MainFooter = () => {
             {t("copyRight")}
           </p>
           <div className="flex items-center gap-4 mb-8 order-1 lg:order-2 lg:mb-0 xlg:gap-6">
-            <button className="underline text-sm xlg:text-[21px]">
+            <Link href="/privacy_Policy" className="underline text-sm xlg:text-[21px]">
               {t("privacyPolicy")}
-            </button>
-            <button className="underline text-sm xlg:text-[21px]">
+            </Link>
+            <Link href="/terms_Conditions" className="underline text-sm xlg:text-[21px]">
               {t("terms")}
-            </button>
+            </Link>
           </div>
         </div>
       </div>

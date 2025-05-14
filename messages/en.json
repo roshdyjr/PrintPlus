@@ -369,7 +369,147 @@
         "message": "Message",
         "leaveMessage": "Leave us a message...",
         "sendMessage": "Send Message"
-      }
+      },
+     
+  "TermsConditions": {
+    "home": "Home",
+    "pageTitle": "Terms & Conditions",
+    "introduction": {
+      "title": "Introduction",
+      "content": "Welcome to Print Plus, your trusted platform for print-on-demand services. By accessing or using our website, you agree to be bound by these Terms and Conditions. Please read them carefully before proceeding."
+    },
+    "definitions": {
+      "title": "Definitions",
+      "printPlus": "\"Print Plus\", \"we\", \"us\", or \"our\"",
+      "printPlusText": "refers to the company operating the print-on-demand platform.",
+      "user": "\"User\", \"you\" or \"your\"",
+      "userText": "refers to any individual or entity using our services.",
+      "product": "\"Product\"",
+      "productText": "refers to customized printed items offered through our website."
+    },
+    "accountRegistration": {
+      "title": "Account Registration",
+      "features": "To access certain features, you may need to create an account.",
+      "credentials": "You are responsible for maintaining the confidentiality of your login credentials.",
+      "information": "You agree to provide accurate and up-to-date information during registration."
+    },
+    "orderPlacement": {
+      "title": "Order Placement and Fulfillment",
+      "processed": "Orders are processed upon successful payment confirmation.",
+      "rightToRefuse": "Print Plus reserves the right to refuse or cancel any order due to unforeseen circumstances, including but not limited to pricing errors, stock unavailability, or violation of our policies.",
+      "productionTimes": "Production and shipping times may vary based on location and demand."
+    },
+    "customDesigns": {
+      "title": "Custom Designs and Intellectual Property",
+      "infringe": "Users must ensure that any uploaded designs do not infringe on third-party intellectual property rights.",
+      "grantRights": "By submitting designs, you grant Print Plus the right to use, reproduce, and distribute them solely for the purpose of fulfilling orders.",
+      "rejectContent": "We reserve the right to reject and deny that contains offensive, illegal, or inappropriate content."
+    },
+    "pricing": {
+      "title": "Pricing and Payment",
+      "displayed": "Prices are displayed on our website and may change without prior notice.",
+      "paymentMethods": "Payments must be made through the approved payment methods listed on our platform.",
+      "taxes": "Any applicable taxes or fees will be clearly stated at checkout."
+    },
+    "shipping": {
+      "title": "Shipping and Delivery",
+      "costs": "Shipping costs and estimated delivery times will be provided at checkout.",
+      "delays": "Print Plus is not responsible for delays caused by shipping providers or customs processing.",
+      "information": "It is the customer's duty to provide accurate shipping information."
+    },
+    "returns": {
+      "title": "Returns and Refunds",
+      "accepted": "Due to the customized nature of our products, returns are only accepted for defective or incorrect items.",
+      "requests": "Return requests must be submitted within 7 days of delivery, along with photographic evidence.",
+      "refunds": "Refunds are subject to inspection of items and will be issued appropriately on a case-by-case basis."
+    },
+    "userConduct": {
+      "title": "User Conduct",
+      "permitted": "Users are not permitted to conduct fraudulent, abusive, or illegal activities on our platform.",
+      "attempts": "Any attempts to disrupt the functionality of Print Plus may result in account suspension or legal action."
+    },
+    "liability": {
+      "title": "Limitation of Liability",
+      "damages": "Print Plus shall not be held liable for indirect, incidental, or consequential damages arising from the use of our services.",
+      "maximum": "Our maximum liability is limited to the amount paid for the specific order in question."
+    },
+    "changes": {
+      "title": "Changes to Terms and Conditions",
+      "modify": "Print Plus reserves the right to modify these terms at any time.",
+      "notified": "Users will be notified of significant changes via email or website announcements."
+    },
+    "governingLaw": {
+      "title": "Governing Law",
+      "country": "These Terms and Conditions shall be governed by the laws of [Your Country/State].",
+      "disputes": "Any disputes arising will be subject to the courts of [Jurisdiction]."
+    },
+    "contact": {
+      "title": "Contact Information",
+      "inquiries": "For any inquiries or concerns, please contact us at"
+    }
+  
+},
+ 
+  "PrivacyPolicy": {
+    "home": "Home",
+    "pageTitle": "Privacy Policy",
+    "introduction": {
+      "title": "Introduction",
+      "content": "At Print Plus, your privacy and the protection of your personal information are among our top priorities. We are committed to safeguarding your data and ensuring transparency in how we handle your information. By using our website, you agree to the terms outlined in this Privacy Policy."
+    },
+    "informationWeCollect": {
+      "title": "Information We Collect",
+      "description": "To provide and improve our services, we collect the following types of information:",
+      "accountInfo": "Account Information",
+      "accountInfoDetails": "Email address, password, and any details you provide during account registration.",
+      "orderInfo": "Order Information",
+      "orderInfoDetails": "Name, phone number, billing and shipping address, payment details (such as credit card information), and order history.",
+      "uploadedContent": "Uploaded Content",
+      "uploadedContentDetails": "Any designs, files, or documents submitted for print production.",
+      "communicationData": "Communication Data",
+      "communicationDataDetails": "Information exchanged with our customer support team."
+    },
+    "howWeUseInfo": {
+      "title": "How We Use Your Information",
+      "description": "The information collected is used to:",
+      "point1": "Process and fulfill your orders, including confirming order status and providing delivery updates.",
+      "point2": "Improve our services and customer experience.",
+      "point3": "Communicate with you regarding your account, orders, or inquiries.",
+      "point4": "Ensure compliance with our Terms and Conditions.",
+      "point5": "Prevent fraud and enhance security."
+    },
+    "protectionInfo": {
+      "title": "Protection of Your Information",
+      "content": "We utilize Secure Layer technology to encrypt and protect your personal information during transmission. Our security measures include server authentication and data encryption to ensure that your data remains confidential and accessible only to you."
+    },
+    "sharingInfo": {
+      "title": "Sharing of Information",
+      "description": "Print Plus does not sell, rent, or share your personal information with third parties except in the following cases:",
+      "serviceProviders": "Service Providers",
+      "serviceProvidersDetails": "We may share necessary information (such as your postal address and phone number) with delivery partners to complete your order.",
+      "legalRequirements": "Legal Requirements",
+      "legalRequirementsDetails": "We may be required by law to disclose information if mandated by law, court orders, or to comply with law enforcement requests.",
+      "policyViolations": "Policy Violations",
+      "policyViolationsDetails": "If you violate our Terms and Conditions or engage in illegal activities, we may disclose relevant information to authorities."
+    },
+    "uploadedContent": {
+      "title": "Uploaded Content and Intellectual Property",
+      "content": "Any files or designs uploaded to Print Plus are used strictly for print production and order fulfillment. We do not share, sell, or distribute your uploaded content beyond what is necessary to complete your order. All printed materials are handled per your instructions and kept confidential."
+    },
+    "updatingInfo": {
+      "title": "Updating Your Information",
+      "content": "You can update or modify your personal information via your account settings or by contacting our customer service team."
+    },
+    "policyChanges": {
+      "title": "Changes to This Policy",
+      "content": "Print Plus reserves the right to update this Privacy Policy at any time. Significant changes will be communicated via email or website announcements."
+    },
+    "contactInfo": {
+      "title": "Contact Information",
+      "description": "For any questions regarding this Privacy Policy or our services, please contact us at"
+    }
+  }
+ 
      
    
  

@@ -7,8 +7,7 @@ import PrintedProducts from "@/components/Help_center/sections/PrintedProducts";
 import Sidebar from "@/components/Help_center/Sidebar";
 import { useState } from "react";
  
-// ... استورد باقي الأقسام
-
+ 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("printed-products");
 
@@ -22,13 +21,12 @@ export default function Home() {
       component: <Custom_Merchandise />,
       name: "Custom Merchandise",
     },
-    // اضف باقي الأقسام هنا
-  };
+   };
 
   const current = sectionMap[activeSection] || sectionMap["printed-products"];
 
   return (
-    <div className="min-h-screen  ">
+    <div className="min-h-screen pb-10 ">
       <SearchBar/>
       <div className="flex flex-col sm:flex-row max-w-7xl mx-auto mt-6 px-4 gap-6">
         <Sidebar
