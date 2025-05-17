@@ -1,145 +1,77 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { FaChevronRight } from "react-icons/fa";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
+import { fetchTermsAndConditions } from "./api";
 
 export default function Terms_Conditions() {
-  const t = useTranslations("TermsConditions");
   const locale = useLocale();
+  const [termsHtml, setTermsHtml] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadTerms = async () => {
+      try {
+        setLoading(true);
+        const html = await fetchTermsAndConditions(locale);
+        if (html) {
+          setTermsHtml(html);
+        } else {
+          setError("Failed to load terms and conditions");
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTerms();
+  }, [locale]);
+
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 mt-8 mb-8 text-gray-800">
+        <div className="flex justify-center items-center min-h-[300px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 mt-8 mb-8 text-gray-800">
+        <div className="text-red-500 text-center">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 mt-8 mb-8 text-gray-800">
       <nav className="text-sm text-gray-500 mb-4">
         <ol className="list-reset flex items-center">
-          <li className="text-black font-semibold">{t("home")}</li>
+          <li className="text-black font-semibold">
+            {locale === "ar" ? "الصفحة الرئيسية" : "Home"}
+          </li>
           <li className="mx-2 flex items-center text-gray-400">
             <FaChevronRight size={16} />
           </li>
-          <li>{t("pageTitle")}</li>
+          <li>
+            {locale === "ar" ? "الشروط والأحكام" : "Terms & Conditions"}
+          </li>
         </ol>
       </nav>
       <h1 className="text-2xl md:text-[40px] font-bold mb-6">
-        {t("pageTitle")}
+        {locale === "ar" ? "الشروط والأحكام" : "Terms & Conditions"}
       </h1>
       
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">1. {t("introduction.title")}</h2>
-        <p>{t("introduction.content")}</p>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">2. {t("definitions.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>
-            <b>{t("definitions.printPlus")}</b> {t("definitions.printPlusText")}
-          </li>
-          <li>
-            <b>{t("definitions.user")}</b> {t("definitions.userText")}
-          </li>
-          <li>
-            <b>{t("definitions.product")}</b> {t("definitions.productText")}
-          </li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">3. {t("accountRegistration.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("accountRegistration.features")}</li>
-          <li>{t("accountRegistration.credentials")}</li>
-          <li>{t("accountRegistration.information")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">4. {t("orderPlacement.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("orderPlacement.processed")}</li>
-          <li>{t("orderPlacement.rightToRefuse")}</li>
-          <li>{t("orderPlacement.productionTimes")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">5. {t("customDesigns.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("customDesigns.infringe")}</li>
-          <li>{t("customDesigns.grantRights")}</li>
-          <li>{t("customDesigns.rejectContent")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">6. {t("pricing.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("pricing.displayed")}</li>
-          <li>{t("pricing.paymentMethods")}</li>
-          <li>{t("pricing.taxes")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">7. {t("shipping.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("shipping.costs")}</li>
-          <li>{t("shipping.delays")}</li>
-          <li>{t("shipping.information")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">8. {t("returns.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("returns.accepted")}</li>
-          <li>{t("returns.requests")}</li>
-          <li>{t("returns.refunds")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">9. {t("userConduct.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("userConduct.permitted")}</li>
-          <li>{t("userConduct.attempts")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">10. {t("liability.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("liability.damages")}</li>
-          <li>{t("liability.maximum")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">11. {t("changes.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("changes.modify")}</li>
-          <li>{t("changes.notified")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">12. {t("governingLaw.title")}</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>{t("governingLaw.country")}</li>
-          <li>{t("governingLaw.disputes")}</li>
-        </ul>
-      </section>
-      
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">13. {t("contact.title")}</h2>
-        <p>
-          {t("contact.inquiries")}{" "}
-          <a
-            href="mailto:support@printplus.com"
-            className="text-blue-600 underline"
-          >
-            support@printplus.com
-          </a>
-          .
-        </p>
-      </section>
+      <div 
+        className="prose max-w-none" 
+        dangerouslySetInnerHTML={{ __html: termsHtml }} 
+        dir={locale === "ar" ? "rtl" : "ltr"}
+      />
     </div>
   );
 }

@@ -1,107 +1,91 @@
-import React from "react";
+
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 export default function Privacy_Policy() {
-  const t = useTranslations("PrivacyPolicy");
   const locale = useLocale();
+  const [privacyPolicy, setPrivacyPolicy] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPrivacyPolicy = async () => {
+      try {
+        const response = await fetch(
+          "https://printplus.print-dev.com/user-api/public/privacy",
+          {
+            headers: {
+              "Accept-Language": locale,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch privacy policy");
+        }
+
+        const data = await response.json();
+        setPrivacyPolicy(data.data.privacyPolicy);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPrivacyPolicy();
+  }, [locale]);
+
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 text-gray-800">
+        <div className="animate-pulse">
+          <div className="h-6 bg-gray-200 rounded w-1/4 mb-4"></div>
+          <div className="h-8 bg-gray-200 rounded w-1/2 mb-6"></div>
+          {[...Array(9)].map((_, i) => (
+            <div key={i} className="mb-6">
+              <div className="h-6 bg-gray-200 rounded w-1/3 mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-full mb-1"></div>
+              <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 py-8 text-gray-800">
+        <div className="text-red-500">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 text-gray-800">
       <nav className="text-sm text-gray-500 mb-4">
         <ol className="list-reset flex items-center">
-          <li className="text-black font-semibold">{t("home")}</li>
+          <li className="text-black font-semibold">
+            {locale === "ar" ? "الرئيسية" : "Home"}
+          </li>
           <li className="mx-2 flex items-center text-gray-400">
             <FaChevronRight size={16} />
           </li>
-          <li>{t("pageTitle")}</li>
+          <li>{locale === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}</li>
         </ol>
       </nav>
-      <h1 className="text-2xl md:text-[40px] font-bold mb-6">{t("pageTitle")}</h1>
+      <h1 className="text-2xl md:text-[40px] font-bold mb-6">
+        {locale === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}
+      </h1>
 
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">1. {t("introduction.title")}</h2>
-        <p className="mb-2">{t("introduction.content")}</p>
-      </section>
-
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">2. {t("informationWeCollect.title")}</h2>
-        <p className="mb-2">{t("informationWeCollect.description")}</p>
-        <ul className="list-disc list-inside mb-2">
-          <li>
-            <span className="font-semibold">{t("informationWeCollect.accountInfo")}:</span> {t("informationWeCollect.accountInfoDetails")}
-          </li>
-          <li>
-            <span className="font-semibold">{t("informationWeCollect.orderInfo")}:</span> {t("informationWeCollect.orderInfoDetails")}
-          </li>
-        </ul>
-        <p className="font-semibold mb-1">{t("informationWeCollect.uploadedContent")}:</p>
-        <p className="mb-2">{t("informationWeCollect.uploadedContentDetails")}</p>
-        <p className="font-semibold mb-1">{t("informationWeCollect.communicationData")}:</p>
-        <p>{t("informationWeCollect.communicationDataDetails")}</p>
-      </section>
-
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">3. {t("howWeUseInfo.title")}</h2>
-        <p className="mb-2 font-semibold">{t("howWeUseInfo.description")}</p>
-        <ul className="list-disc list-inside mb-2">
-          <li>{t("howWeUseInfo.point1")}</li>
-          <li>{t("howWeUseInfo.point2")}</li>
-          <li>{t("howWeUseInfo.point3")}</li>
-          <li>{t("howWeUseInfo.point4")}</li>
-          <li>{t("howWeUseInfo.point5")}</li>
-        </ul>
-      </section>
-
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">4. {t("protectionInfo.title")}</h2>
-        <p>{t("protectionInfo.content")}</p>
-      </section>
-
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">5. {t("sharingInfo.title")}</h2>
-        <p className="mb-2">{t("sharingInfo.description")}</p>
-        <ul className="list-disc list-inside mb-2">
-          <li>
-            <span className="font-semibold">{t("sharingInfo.serviceProviders")}:</span> {t("sharingInfo.serviceProvidersDetails")}
-          </li>
-          <li>
-            <span className="font-semibold">{t("sharingInfo.legalRequirements")}:</span> {t("sharingInfo.legalRequirementsDetails")}
-          </li>
-          <li>
-            <span className="font-semibold">{t("sharingInfo.policyViolations")}:</span> {t("sharingInfo.policyViolationsDetails")}
-          </li>
-        </ul>
-      </section>
-
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">6. {t("uploadedContent.title")}</h2>
-        <p>{t("uploadedContent.content")}</p>
-      </section>
-
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">7. {t("updatingInfo.title")}</h2>
-        <p>{t("updatingInfo.content")}</p>
-      </section>
-
-      <section className="mb-6">
-        <h2 className="font-[600] text-[28px] mb-2">8. {t("policyChanges.title")}</h2>
-        <p>{t("policyChanges.content")}</p>
-      </section>
-
-      <section>
-        <h2 className="font-[600] text-[28px] mb-2">9. {t("contactInfo.title")}</h2>
-        <p>
-          {t("contactInfo.description")}{" "}
-          <a
-            href="mailto:support@printplus.com"
-            className="text-blue-600 underline"
-          >
-            support@printplus.com
-          </a>
-          .
-        </p>
-      </section>
+      <div
+        className="prose max-w-none"
+        dangerouslySetInnerHTML={{ __html: privacyPolicy }}
+      />
     </div>
   );
 }

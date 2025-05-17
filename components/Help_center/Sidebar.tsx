@@ -1,52 +1,42 @@
 "use client";
 import React from "react";
+import { useLocale } from "next-intl";
+import { HelpCategory } from "./types";
 
-export default function Sidebar({ activeSection, setActiveSection }) {
-  const menuSections = [
-    {
-      title: "PrintPlus Products",
-      items: [
-        { id: "business-cards", name: "Business Cards" },
-        { id: "printed-products", name: "Printed Products" },
-        { id: "accessories", name: "Accessories" },
-        { id: "custom-merchandise", name: "Custom Merchandise" },
-      ],
-    },
-    {
-      title: "Order and Shipping",
-      items: [
-        { id: "shipping-info", name: "Shipping Information" },
-        { id: "delivery-times", name: "Delivery Times" },
-        { id: "tracking", name: "Order Tracking" },
-      ],
-    },
-    {
-      title: "Returns",
-      items: [
-        { id: "return-policy", name: "Return Policy" },
-        { id: "refund-process", name: "Refund Process" },
-        { id: "contact-support", name: "Contact Support" },
-      ],
-    },
-  ];
+const Sidebar = ({ 
+  activeSection, 
+  setActiveSection,
+  categories 
+}: { 
+  activeSection: string, 
+  setActiveSection: (id: string) => void,
+  categories: HelpCategory[]
+}) => {
+  const locale = useLocale();
+  const isRTL = locale === "ar";
 
   return (
-    <aside className="w-full sm:w-64 bg-[#6366F10F] p-4 space-y-6 rounded-[24px] ">
-      {menuSections.map((section) => (
-        <div key={section.title}>
-          <h2 className="font-[500] text-gray-800 mb-2 text-[22px]">{section.title}</h2>
-          <ul className="space-y-1 text-[18px] text-gray-600 font-[300] ">
-            {section.items.map((item) => (
+    <aside 
+      className="w-full sm:w-64 bg-[#6366F10F] p-4 space-y-6 rounded-[24px]"
+      dir={isRTL ? "rtl" : "ltr"}
+    >
+      {categories.map((category) => (
+        <div key={category.id}>
+          <h2 className="font-[500] text-gray-800 mb-2 text-[22px]">
+            {category.name}
+          </h2>
+          <ul className="space-y-1 text-[18px] text-gray-600 font-[300]">
+            {category.helpItems.map((item) => (
               <li key={item.id}>
                 <button
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => setActiveSection(item.id.toString())}
                   className={`w-full text-left hover:text-black py-1 ${
-                    activeSection === item.id
+                    activeSection === item.id.toString()
                       ? "text-[#6366F1] font-medium"
                       : ""
                   }`}
                 >
-                  {item.name}
+                  {item.title}
                 </button>
               </li>
             ))}
@@ -55,4 +45,6 @@ export default function Sidebar({ activeSection, setActiveSection }) {
       ))}
     </aside>
   );
-}
+};
+
+export default Sidebar;

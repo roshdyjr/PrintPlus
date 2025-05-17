@@ -246,7 +246,7 @@
     "hours": "Hours",
     "installationDes": "We install what has been purchased accurately and professionally.",
     "deliveryDes": "• Delivery and installation are estimated for",
-    "city":"Riyadh",
+    "city": "Riyadh",
     "designDes": "We review the dimensions of your design and make adjustments to ensure print quality and accuracy.",
     "fileUploader": "or Drag files here",
     "upload": "Upload",
@@ -274,30 +274,29 @@
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms & Conditions"
   },
- "Checkout": {
-  "payment": "Payment",
-  "paymentMethod": "Payment method",
-  "choosePaymentMethod": "Choose your preferred payment method",
-  "creditCard": "Credit card",
-  "applePay": "Apple Pay",
-  "placeOrder": "Place order",
-  "cardHolderName": "Card holder name",
-  "cardNumber": "Card number",
-  "expiryDate": "Expiration date",
-  "cvv": "CVV",
-  "fullNamePlaceholder": "Full name",
-  "cardNumberPlaceholder": "1234 5678 9012 3456",
-  "expiryDatePlaceholder": "MM/YY",
-  "cvvPlaceholder": "123",
-  "paymentFailed": "The payment has failed. Please check your card details.",
-  "paymentFailedInstructions": "Try to re-enter your credit card information, use another credit card or choose another payment method.",
-  "mastercard": "Mastercard",
-  "visa": "Visa",
-  "cardIcon": "Card Icon",
-  "sampleAddress": "Ai-Majigid Ai-Haram, Makkah, T2345, Saudi Arabia"
-},
- 
- 
+  "Checkout": {
+    "payment": "Payment",
+    "paymentMethod": "Payment method",
+    "choosePaymentMethod": "Choose your preferred payment method",
+    "creditCard": "Credit card",
+    "applePay": "Apple Pay",
+    "placeOrder": "Place order",
+    "cardHolderName": "Card holder name",
+    "cardNumber": "Card number",
+    "expiryDate": "Expiration date",
+    "cvv": "CVV",
+    "fullNamePlaceholder": "Full name",
+    "cardNumberPlaceholder": "1234 5678 9012 3456",
+    "expiryDatePlaceholder": "MM/YY",
+    "cvvPlaceholder": "123",
+    "paymentFailed": "The payment has failed. Please check your card details.",
+    "paymentFailedInstructions": "Try to re-enter your credit card information, use another credit card or choose another payment method.",
+    "mastercard": "Mastercard",
+    "visa": "Visa",
+    "cardIcon": "Card Icon",
+    "sampleAddress": "Ai-Majigid Ai-Haram, Makkah, T2345, Saudi Arabia"
+  },
+
   "DeliveryForm": {
     "Delivery": "Delivery",
     "Shippingaddress": "Shipping address",
@@ -315,62 +314,62 @@
     "SameAsBilling": "Same as billing address",
     "ContinueToPayment": "Continue to payment"
   },
-  
-    "OrderSummary": {
-      "217SAR": "217 SAR",
-      "ShowOrderSummary": "Show order summary",
-      "HideOrderSummary": "Hide order summary",
-      "OrderSummaryTitle": "Order summary",
-      "AddPromoCode": "Add a promo code",
-      "EnterPromoCode": "Enter your promo code",
-      "Apply": "Apply",
-      "Total": "Total"
-    },
-    "ProductItem": {
-      "ProductImageAlt": "Product Image",
-      "Quantity": "Quantity",
-      "Size": "Size",
-      "Edges": "Edges",
-      "FoilColor": "Foil Color",
-      "Installation": "Installation",
-      "InstallationAlt": "Installation",
-      "SAR": "SAR",
-      "AdjustmentAlt": "Adjustment",
-      "SizeAdjustment": "Size Adjustment",
-      "ExpressDeliveryAlt": "Express Delivery",
-      "ExpressDelivery": "Express Delivery",
-      "FileIconAlt": "File icon",
-      "Total": "Total"
-    },
-    "OrderConfirmation": {
-      "thankYou": "Thank you for your order!",
-      "confirmationSent": "An order confirmation has been sent to",
-      "orderNumber": "Your order number is",
-      "trackOrder": "Keep track of your order",
-      "delivery": "Delivery"
-    },
-    
-      "Contact": {
-        "contact": "Contact",
-        "weLoveToHear": "We'd love to hear from you",
-        "needSomethingCleared": "Need something cleared up? Here are our most frequently asked questions.",
-        "email": "Email",
-        "ourFriendlyTeam": "Our friendly team is here to help.",
-        "office": "Office",
-        "comeSayHello": "Come say hello at our office HQ.",
-        "phone": "Phone",
-        "monFriHours": "Mon-Fri from 8am to 5pm.",
-        "getInTouch": "Get in touch",
-        "weLoveToHearForm": "We'd love to hear from you. Please fill out this form.",
-        "firstName": "First name",
-        "firstNamePlaceholder": "Enter your first name",
-        "lastName": "Last name",
-        "lastNamePlaceholder": "Enter your last name",
-        "message": "Message",
-        "leaveMessage": "Leave us a message...",
-        "sendMessage": "Send Message"
-      },
-     
+
+  "OrderSummary": {
+    "217SAR": "217 SAR",
+    "ShowOrderSummary": "Show order summary",
+    "HideOrderSummary": "Hide order summary",
+    "OrderSummaryTitle": "Order summary",
+    "AddPromoCode": "Add a promo code",
+    "EnterPromoCode": "Enter your promo code",
+    "Apply": "Apply",
+    "Total": "Total"
+  },
+  "ProductItem": {
+    "ProductImageAlt": "Product Image",
+    "Quantity": "Quantity",
+    "Size": "Size",
+    "Edges": "Edges",
+    "FoilColor": "Foil Color",
+    "Installation": "Installation",
+    "InstallationAlt": "Installation",
+    "SAR": "SAR",
+    "AdjustmentAlt": "Adjustment",
+    "SizeAdjustment": "Size Adjustment",
+    "ExpressDeliveryAlt": "Express Delivery",
+    "ExpressDelivery": "Express Delivery",
+    "FileIconAlt": "File icon",
+    "Total": "Total"
+  },
+  "OrderConfirmation": {
+    "thankYou": "Thank you for your order!",
+    "confirmationSent": "An order confirmation has been sent to",
+    "orderNumber": "Your order number is",
+    "trackOrder": "Keep track of your order",
+    "delivery": "Delivery"
+  },
+
+  "Contact": {
+    "contact": "Contact",
+    "weLoveToHear": "We'd love to hear from you",
+    "needSomethingCleared": "Need something cleared up? Here are our most frequently asked questions.",
+    "email": "Email",
+    "ourFriendlyTeam": "Our friendly team is here to help.",
+    "office": "Office",
+    "comeSayHello": "Come say hello at our office HQ.",
+    "phone": "Phone",
+    "monFriHours": "Mon-Fri from 8am to 5pm.",
+    "getInTouch": "Get in touch",
+    "weLoveToHearForm": "We'd love to hear from you. Please fill out this form.",
+    "firstName": "First name",
+    "firstNamePlaceholder": "Enter your first name",
+    "lastName": "Last name",
+    "lastNamePlaceholder": "Enter your last name",
+    "message": "Message",
+    "leaveMessage": "Leave us a message...",
+    "sendMessage": "Send Message"
+  },
+
   "TermsConditions": {
     "home": "Home",
     "pageTitle": "Terms & Conditions",
@@ -447,74 +446,7 @@
       "title": "Contact Information",
       "inquiries": "For any inquiries or concerns, please contact us at"
     }
-  
-},
- 
-  "PrivacyPolicy": {
-    "home": "Home",
-    "pageTitle": "Privacy Policy",
-    "introduction": {
-      "title": "Introduction",
-      "content": "At Print Plus, your privacy and the protection of your personal information are among our top priorities. We are committed to safeguarding your data and ensuring transparency in how we handle your information. By using our website, you agree to the terms outlined in this Privacy Policy."
-    },
-    "informationWeCollect": {
-      "title": "Information We Collect",
-      "description": "To provide and improve our services, we collect the following types of information:",
-      "accountInfo": "Account Information",
-      "accountInfoDetails": "Email address, password, and any details you provide during account registration.",
-      "orderInfo": "Order Information",
-      "orderInfoDetails": "Name, phone number, billing and shipping address, payment details (such as credit card information), and order history.",
-      "uploadedContent": "Uploaded Content",
-      "uploadedContentDetails": "Any designs, files, or documents submitted for print production.",
-      "communicationData": "Communication Data",
-      "communicationDataDetails": "Information exchanged with our customer support team."
-    },
-    "howWeUseInfo": {
-      "title": "How We Use Your Information",
-      "description": "The information collected is used to:",
-      "point1": "Process and fulfill your orders, including confirming order status and providing delivery updates.",
-      "point2": "Improve our services and customer experience.",
-      "point3": "Communicate with you regarding your account, orders, or inquiries.",
-      "point4": "Ensure compliance with our Terms and Conditions.",
-      "point5": "Prevent fraud and enhance security."
-    },
-    "protectionInfo": {
-      "title": "Protection of Your Information",
-      "content": "We utilize Secure Layer technology to encrypt and protect your personal information during transmission. Our security measures include server authentication and data encryption to ensure that your data remains confidential and accessible only to you."
-    },
-    "sharingInfo": {
-      "title": "Sharing of Information",
-      "description": "Print Plus does not sell, rent, or share your personal information with third parties except in the following cases:",
-      "serviceProviders": "Service Providers",
-      "serviceProvidersDetails": "We may share necessary information (such as your postal address and phone number) with delivery partners to complete your order.",
-      "legalRequirements": "Legal Requirements",
-      "legalRequirementsDetails": "We may be required by law to disclose information if mandated by law, court orders, or to comply with law enforcement requests.",
-      "policyViolations": "Policy Violations",
-      "policyViolationsDetails": "If you violate our Terms and Conditions or engage in illegal activities, we may disclose relevant information to authorities."
-    },
-    "uploadedContent": {
-      "title": "Uploaded Content and Intellectual Property",
-      "content": "Any files or designs uploaded to Print Plus are used strictly for print production and order fulfillment. We do not share, sell, or distribute your uploaded content beyond what is necessary to complete your order. All printed materials are handled per your instructions and kept confidential."
-    },
-    "updatingInfo": {
-      "title": "Updating Your Information",
-      "content": "You can update or modify your personal information via your account settings or by contacting our customer service team."
-    },
-    "policyChanges": {
-      "title": "Changes to This Policy",
-      "content": "Print Plus reserves the right to update this Privacy Policy at any time. Significant changes will be communicated via email or website announcements."
-    },
-    "contactInfo": {
-      "title": "Contact Information",
-      "description": "For any questions regarding this Privacy Policy or our services, please contact us at"
-    }
   }
- 
-     
-   
- 
-
 
  
-
 }
